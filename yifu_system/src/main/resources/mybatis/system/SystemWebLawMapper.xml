@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemSysWebLawMapper">
+
+	<resultMap type="SysWebLaw" id="SysWebLawResult">
+		<id     property="id"       column="id"        />
+		<result property="content"     column="content"      />
+		<result property="ctime"   column="ctime"  />
+	</resultMap>
+
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysWebLawResult">
+		select * from sys_web_law
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND id = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectWebLawAll" resultMap="SysWebLawResult">
+		SELECT * FROM sys_web_law
+	</select>
+
+
+	<select id="selectSysWebLawById" parameterType="int" resultMap="SysWebLawResult">
+		select *
+		from sys_web_law u
+		where u.id = #{id}
+	</select>
+
+
+	<update id="updateSysWebLaw" parameterType="SysWebLaw">
+		update sys_web_law
+		<set>
+			<if test="content != null and content != ''">content = #{content},</if>
+			ctime = sysdate()
+		</set>
+		where 1=1
+		<if test="id != 0">and  id = #{id}</if>
+	</update>
+
+
+</mapper> 

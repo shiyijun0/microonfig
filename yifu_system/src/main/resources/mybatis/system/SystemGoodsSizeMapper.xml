@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemGoodsSizeMapper">
+
+	<resultMap type="JeansSize" id="JeansSizeResult">
+		<result property="id"     column="id"      />
+		<result property="nzId"     column="nz_id"      />
+		<result property="size"     column="size"      />
+		<result property="des"     column="des"      />
+	</resultMap>
+	
+	
+	<select id="selectJeansSizeBynzId" parameterType="Long" resultMap="JeansSizeResult">
+		select *
+		from sys_jeans_size u
+		where u.nz_id = #{nzId}
+	</select>
+	
+
+	<delete id="deleteJeansSizeByjeansId">
+		delete from sys_jeans_size where nz_id=#{nzId}
+	</delete>
+	
+	<delete id="batchDeleteJeansSizeByjeansId" parameterType="String">
+ 		delete from sys_jeans_size where nz_id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+	
+	<insert id="batchJeansSize">
+		insert into sys_jeans_size(nz_id, size,des) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(#{item.nzId},#{item.size},#{item.des})
+		</foreach>
+	</insert>
+	
+	<insert id="insertJeansSize" parameterType="JeansSize" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_jeans_size(
+ 		    <if test="id != null and id != ''">id,</if>
+ 			<if test="nzId != null and nzId != ''">nz_id,</if>
+ 			<if test="size != null and size != ''">size,</if>
+ 			<if test="des != null and des != ''">des,</if>
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="nzId != null and nzId != ''">#{nzId},</if>
+ 			<if test="size != null and size != ''">#{size},</if>
+ 			<if test="des != null and des != ''">#{des},</if>
+ 			
+ 		)
+	</insert>
+	
+</mapper> 

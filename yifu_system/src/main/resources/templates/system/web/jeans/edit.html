@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-jeans-edit"  method="post">
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">素裤模型名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="name" id="name" th:value="${webJeans?.name}"/>
+					<input class="form-control" type="hidden" name="washId" id="washId" th:value="${webJeans?.id}"  />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">标题描述：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="title" id="title" th:value="${webJeans?.title}"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">图片编码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="code" id="code" th:value="${webJeans?.code}"/>
+				</div>
+			</div>
+			
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">3D模型：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="file" name="file3" id="file3"/>
+				</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">价格：</label>
+				<div class="col-sm-8">
+			<input class="form-control" type="text" name="price" id="price" th:value="${webJeans?.price}"/>	
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">标签：</label>
+				<div class="col-sm-8">
+					<select name="webJeansId" id="webJeansId" >
+
+					</select>
+
+				</div>
+			</div>
+			
+			<div class="form-group"  id="iDBody1" >
+				<label class="col-sm-3 control-label">请选择图片区域：</label>
+				<div class="col-sm-8" >
+					<!--<label class="control-label" th:each="member:${webPartsList}">
+                                <input name="region" type="checkbox"  th:text="${member?.name}" th:value="${member?.id}"  th:id="${member?.id}+'region'"/>&nbsp;&nbsp;
+                            </label>-->
+
+					<label class="control-success"  id="partId">
+
+					</label>
+					
+				</div>
+			</div>
+			
+			
+			<div class="form-group"  id="iDBody3" >
+				<label class="col-sm-3 control-label">请选择图片颜色：</label>
+				<div class="col-sm-8" >
+					<!--<label class="control-label" th:each="member:${webColorList}">
+                                <input name="color" type="checkbox"  th:text="${member?.name}" th:value="${member?.id}"  th:id="${member?.id}+'color'"/>&nbsp;&nbsp;
+                            </label>-->
+					<label class="control-label"  id="colorId">
+
+					</label>
+					
+				</div>
+			</div>
+			
+			<div class="form-group"  id="iDBody4" >
+				<label class="col-sm-3 control-label">请选择图片边线：</label>
+				<div class="col-sm-8" >
+					<!--<label class="control-label" th:each="member:${webThreadList}">
+                                <input name="thread" type="checkbox"  th:text="${member?.name}" th:value="${member?.id}"  th:id="${member?.id}+'thread'"/>&nbsp;&nbsp;
+                            </label>-->
+					<label class="control-label"  id="threadId">
+
+					</label>
+					
+				</div>
+			</div>
+			
+			<div class="form-group"  id="iDBody7"  th:if="${not #lists.isEmpty(webWashList)}">
+				<label class="col-sm-3 control-label">请选择图片破洞：</label>
+				<div class="col-sm-8" >
+					<label class="control-label" th:each="member:${webWashList}">
+                                <input name="wash" type="checkbox"  th:text="${member?.name}" th:value="${member?.id}"  th:id="${member?.id}+'wash'"/>&nbsp;&nbsp;
+                            </label>
+					
+				</div>
+			</div>
+			
+			<div class="form-group"  id="iDBody5" >
+				<label class="col-sm-3 control-label">请选择图片尺码：</label>
+				<div class="col-sm-8" >
+					<label class="control-label" th:each="member:${webSizesList}">
+                                <input name="size" type="checkbox"  th:text="${member?.size}" th:value="${member?.id}"  th:id="${member?.id}+'size'"/>&nbsp;&nbsp;
+                            </label>
+					
+				</div>
+			</div>
+			
+			
+			<div class="form-group" id="iDBody6"  >
+				<label class="col-sm-3 control-label">请选择图片纽扣：</label>
+				<div class="col-sm-8" >
+					<!--<label class="control-label" th:each="member:${webButtonList}">
+                                <input name="buttons" type="checkbox"  th:text="${member?.name}" th:value="${member?.id}" th:id="${member?.id}+'buttons'"/>&nbsp;&nbsp;
+                            </label>-->
+
+					<label class="control-label"  id="buttonId">
+
+					</label>
+					
+				</div>
+			</div>
+			
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label">素裤图片位置：</label>
+				<div class="col-sm-8">
+					<p>X:&nbsp;&nbsp;<input name="fixeX" type="hidden" th:value="${webJeans?.fixeX}" /></p> 
+					<p>Y:&nbsp;&nbsp;<input name="fixeY" type="hidden"  th:value="${webJeans?.fixeY}"/></p> 
+				</div>
+			</div>
+			
+			
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label ">是否可以购买：</label>
+				<div class="col-sm-8" th:switch="${webJeans?.isTobuy}">
+		    <p th:case="1">	<label ><input name="isTobuy" type="radio" value="1"  checked="checked" />可以 </label> 
+            <label><input name="isTobuy" type="radio" value="0"   />不可以</label>
+             </p>
+            <p th:case="0">	<label ><input name="isTobuy" type="radio" value="1"   />可以</label> 
+            <label><input name="isTobuy" type="radio" value="0" checked="checked"  />不可以 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label ">状态：</label>
+				<div class="col-sm-8" th:switch="${webJeans?.status}">
+				<p th:case="0">	 <label><input name="status" type="radio" value="0" checked="checked"  />未上架 </label>
+		    <label ><input name="status" type="radio" value="1"   />正常 </label> 
+            <label><input name="status" type="radio" value="2"   />删除 </label>
+             </p>
+				
+		    <p th:case="1">	 <label><input name="status" type="radio" value="0"   />未上架 </label>
+		    <label ><input name="status" type="radio" value="1"  checked="checked" />正常 </label> 
+            <label><input name="status" type="radio" value="2"   />删除 </label>
+             </p>
+            <p th:case="2">	<label><input name="status" type="radio" value="0"   />未上架 </label>
+            <label ><input name="status" type="radio" value="1"   />正常 </label> 
+            <label><input name="status" type="radio" value="2" checked="checked"  />删除 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/jwk/system/web/jeans/edit.js">
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	<script>
+		//初始化fileinput
+		var oFileInput = new FileInput();		
+		oFileInput.Init("file3");
+		
+	</script>
+	
+	<script th:inline="javascript">
+	//str.indexOf("test") 是否包含某个字符串
+	window.onload=function(){
+		
+		
+		//尺寸
+		var fixe_size = [[${webJeans?.sizesId}]]
+		console.log(fixe_size);
+		var checksize = document.getElementsByName("size");      
+        for(i=0;i<checksize.length;i++){ 
+        	   /*  if(fixe_size.indexOf(checksize[i].value+"")>0){ 
+                
+        	    	$("#"+checksize[i].value+"size").attr('checked',true);
+            }  */
+        	 
+        	var s=fixe_size.split(',');       	    	
+	    	for(var j = 0;j<s.length;j++){	    	   
+	    	    if(s[j]==checksize[i].value){
+	    	    	$("#"+checksize[i].value+"size").attr('checked',true);
+	    	    }
+	    	}
+         } 
+        
+        //区域
+        var fixe_region = [[${webJeans?.partsId}]]	
+		var checkregion = document.getElementsByName("region");      
+        for(i=0;i<checkregion.length;i++){ 
+        	   /*  if(fixe_region.indexOf(checkregion[i].value+"")>0){ 
+                
+        	    	$("#"+checkregion[i].value+"region").attr('checked',true);
+            } 
+        	  */
+        	  
+        	var s=fixe_region.split(',');       	    	
+	    	for(var j = 0;j<s.length;j++){	    	   
+	    	    if(s[j]==checkregion[i].value){
+	    	    	$("#"+checkregion[i].value+"region").attr('checked',true);
+	    	    }
+	    	}
+         } 
+        
+        //颜色
+        var fixe_color = [[${webJeans?.colorsId}]]	
+		var checkcolor = document.getElementsByName("color");      
+         for(i=0;i<checkcolor.length;i++){ 
+        	 /* if(fixe_color.indexOf(checkcolor[i].value+"")>0){ 
+                
+        	    	$("#"+checkcolor[i].value+"color").attr('checked',true);
+            }  */
+            
+        var s=fixe_color.split(',');       	    	
+    	for(var j = 0;j<s.length;j++){	    	   
+    	    if(s[j]==checkcolor[i].value){
+    	    	$("#"+checkcolor[i].value+"color").attr('checked',true);
+    	    }
+    	}
+        	 
+         } 
+        
+        
+        //边线
+        var fixe_thread = [[${webJeans?.threadsId}]]	
+		var checkthread = document.getElementsByName("thread");      
+        for(i=0;i<checkthread.length;i++){ 
+        	   /*  if(fixe_thread.indexOf(checkthread[i].value+"")>0){ 
+                
+        	    	$("#"+checkthread[i].value+"thread").attr('checked',true);
+            }  */
+            
+        	 var s=fixe_thread.split(',');       	    	
+         	for(var j = 0;j<s.length;j++){	    	   
+         	    if(s[j]==checkthread[i].value){
+         	    	$("#"+checkthread[i].value+"thread").attr('checked',true);
+         	    }
+         	}
+        	 
+         } 
+        
+        
+        //破洞
+        var fixe_wash = [[${webJeans?.washId}]]	
+		var checkwash = document.getElementsByName("wash");      
+        for(i=0;i<checkwash.length;i++){ 
+        	   // if(fixe_wash.indexOf(checkwash[i].value+"")>0){                 
+        	    	var s=fixe_wash.split(',');       	    	
+        	    	for(var j = 0;j<s.length;j++){
+        	    	 
+        	    	    if(s[j]==checkwash[i].value){
+        	    	    	$("#"+checkwash[i].value+"wash").attr('checked',true);
+        	    	    }
+        	    	}
+        	    	
+        	    	
+           // } 
+        	 
+         } 
+        
+        
+        //纽扣
+        var fixe_buttons = [[${webJeans?.buttonsId}]]	
+		var checkbuttons = document.getElementsByName("buttons");      
+       for(i=0;i<checkbuttons.length;i++){ 
+    	   /*  if(fixe_buttons.indexOf(checkbuttons[i].value+"")>0){ 
+                
+        	    	$("#"+checkbuttons[i].value+"buttons").attr('checked',true);
+            }  */
+            
+        var s=fixe_buttons.split(',');       	    	
+     	for(var j = 0;j<s.length;j++){	    	   
+     	    if(s[j]==checkbuttons[i].value){
+     	    	$("#"+checkbuttons[i].value+"buttons").attr('checked',true);
+     	    }
+     	}
+        	 
+         } 
+		
+	}//用window的onload事件，窗体加载完毕的时候
+
+	
+	</script>
+
+
+	<script th:inline="javascript">
+
+        $(function() {// 初始化内容
+            var e = $('select[name="webJeansId"]');
+             var colorsId=[[${webJeans?.colorsId}]]
+            var buttonsId=[[${webJeans?.buttonsId}]]
+            var threadsId=[[${webJeans?.threadsId}]]
+            var partsId=[[${webJeans?.partsId}]]
+            var label=[[${webJeans?.label}]];
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/system/label/labelList",
+                data: {
+                },
+                async: false,
+                error: function (request) {
+                    $.modalMsg("系统出问题了");
+                },
+                success: function (data) {
+                    if (data) {
+                        $.each(data, function(i, v) {
+                            //alert(label+"****"+v.id)
+                            if(label==v.id){
+                                e.append('<option value="' + v.id + '" selected="selected" >' + v.label + '</option>');
+							}else{
+                                e.append('<option value="' + v.id + '">' + v.label + '</option>');
+							}
+
+                        });
+
+                        var e1 = $('#colorId');
+                        e1.empty();
+
+                        var e2 = $('#threadId');
+                        e2.empty();
+
+                        var e3 = $('#partId');
+                        e3.empty();
+
+                        var e4 = $('#buttonId');
+                        e4.empty();
+                        var labelId=e.find("option:selected").val();
+                        $.ajax({
+                            cache: true,
+                            type: "POST",
+                            url: "/system/jeans/labelList",
+                            data: {
+                                "label": labelId
+                            },
+                            async: false,
+                            error: function (request) {
+                                $.modalMsg("系统出问题了");
+                            },
+                            success: function (data) {
+                                if (data.webColorList) {
+                                    $.each(data.webColorList, function(i, v) {
+                                        if(colorsId.indexOf(v.id)!=-1){
+                                            e1.append('<input name="color" type="checkbox"  checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+										}else{
+                                            e1.append('<input name="color" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+										}
+
+                                    });
+                                    // loadInfo(e.val());
+                                }
+
+                                if (data.webThreadList) {
+                                    $.each(data.webThreadList, function(i, v) {
+                                        if(threadsId.indexOf(v.id)!=-1){
+                                            e2.append('<input name="thread" type="checkbox" checked="checked"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e2.append('<input name="thread" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+										}
+
+                                    });
+                                    // loadInfo(e.val());
+                                }
+
+                                if (data.webPartsList) {
+                                    var a1=0;var a3=0; var a2=0; var a4=0;var a5=0; var a6=0; var a7=0;var a8=0;
+                                    var b1=0;var b3=0; var b2=0; var b4=0;var b5=0; var b6=0; var b7=0;var b8=0;
+                                    $.each(data.webPartsList, function(i, v) {
+                                        if(partsId.indexOf(v.id)!=-1){
+                                            if(v.region==1){
+                                                e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                            }else if(v.region==2){
+                                                a2++;
+                                                if(a2==1 && b2==0){
+                                                    e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==3){
+                                                a3++;
+                                                if(a3==1 && b3==0){
+                                                    e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==4){
+                                                a4++;
+                                                if(a4==1 && b4==0){
+                                                    e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==5){
+                                                a5++;
+                                                if(a5==1 && b5==0){
+                                                    e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==6){
+                                                a6++;
+                                                if(a6==1 && b6==0){
+                                                    e3.append('</br><input name="region" type="checkbox" checked="checked"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==7){
+                                                a7++;
+                                                if(a7==1 && b7==0){
+                                                    e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==8){
+                                                a8++;
+                                                if(a8==1 && b8==0){
+                                                    e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }
+
+                                          //  e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+
+                                            if(v.region==1){
+                                                e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                            }else if(v.region==2){
+                                                b2++;
+                                                if(b2==1 && a2==0){
+                                                    e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==3){
+                                                b3++;
+                                                if(b3==1 && a3==0){
+                                                    e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==4){
+                                                b4++;
+                                                if(b4==1 && a4==0){
+                                                    e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==5){
+                                                b5++;
+                                                if(b5==1 && a5==0){
+                                                    e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==6){
+                                                b6++;
+                                                if(b6==1 && a6==0){
+                                                    e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==7){
+                                                b7++;
+                                                if(b7==1 && a7==0){
+                                                    e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }else if(v.region==8){
+                                                b8++;
+                                                if(b8==1 && a8==0){
+                                                    e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }else{
+                                                    e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                                }
+                                            }
+                                            // e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+
+                                    });
+                                    // loadInfo(e.val());
+                                }
+
+                                if (data.webButtonList) {
+                                    $.each(data.webButtonList, function(i, v) {
+                                        if(buttonsId.indexOf(v.id)!=-1){
+                                            e4.append('<input name="buttons"  type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e4.append('<input name="buttons"  type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+										}
+
+                                    });
+                                    // loadInfo(e.val());
+                                }
+
+                            }
+                        });////
+                    }
+
+                }
+            });
+
+
+            e.change(function() {
+                // alert(e.find("option:selected").val());
+                loadInfo(e.find("option:selected").val());
+
+            });
+
+            var loadInfo = function(jeansId) {
+                /*  var e = $('#colorId');
+                  e.empty();*/
+                var e1 = $('#colorId');
+                e1.empty();
+
+                var e2 = $('#threadId');
+                e2.empty();
+
+                var e3 = $('#partId');
+                e3.empty();
+
+                var e4 = $('#buttonId');
+                e4.empty();
+                var label=jeansId;
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    url: "/system/jeans/labelList",
+                    data: {
+                        "label": label
+                    },
+                    async: false,
+                    error: function (request) {
+                        $.modalMsg("系统出问题了");
+                    },
+                    success: function (data) {
+                        if (data.webColorList) {
+                            $.each(data.webColorList, function(i, v) {
+                                if(colorsId.indexOf(v.id)!=-1){
+                                    e1.append('<input name="color" type="checkbox"  checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }else{
+                                    e1.append('<input name="color" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }
+
+                            });
+                            // loadInfo(e.val());
+                        }
+
+                        if (data.webThreadList) {
+                            $.each(data.webThreadList, function(i, v) {
+                                if(threadsId.indexOf(v.id)!=-1){
+                                    e2.append('<input name="thread" type="checkbox" checked="checked"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }else{
+                                    e2.append('<input name="thread" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }
+
+                            });
+                            // loadInfo(e.val());
+                        }
+
+                      /*  if (data.webPartsList) {
+                            $.each(data.webPartsList, function(i, v) {
+                                if(partsId.indexOf(v.id)!=-1){
+                                    e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }else{
+                                    e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }
+
+                            });
+                            // loadInfo(e.val());
+                        }*/
+                        if (data.webPartsList) {
+                            var a1=0;var a3=0; var a2=0; var a4=0;var a5=0; var a6=0; var a7=0;var a8=0;
+                            var b1=0;var b3=0; var b2=0; var b4=0;var b5=0; var b6=0; var b7=0;var b8=0;
+                            $.each(data.webPartsList, function(i, v) {
+                                if(partsId.indexOf(v.id)!=-1){
+                                    if(v.region==1){
+                                        e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                    }else if(v.region==2){
+                                        a2++;
+                                        if(a2==1 && b2==0){
+                                            e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==3){
+                                        a3++;
+                                        if(a3==1 && b3==0){
+                                            e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==4){
+                                        a4++;
+                                        if(a4==1 && b4==0){
+                                            e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==5){
+                                        a5++;
+                                        if(a5==1 && b5==0){
+                                            e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==6){
+                                        a6++;
+                                        if(a6==1 && b6==0){
+                                            e3.append('</br><input name="region" type="checkbox" checked="checked"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==7){
+                                        a7++;
+                                        if(a7==1 && b7==0){
+                                            e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==8){
+                                        a8++;
+                                        if(a8==1 && b8==0){
+                                            e3.append('</br><input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }
+                                    //  e3.append('<input name="region" type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }else{
+
+                                    if(v.region==1){
+                                        e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                    }else if(v.region==2){
+                                        b2++;
+                                        if(b2==1 && a2==0){
+                                            e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==3){
+                                        b3++;
+                                        if(b3==1 && a3==0){
+                                            e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==4){
+                                        b4++;
+                                        if(b4==1 && a4==0){
+                                            e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==5){
+                                        b5++;
+                                        if(b5==1 && a5==0){
+                                            e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==6){
+                                        b6++;
+                                        if(b6==1 && a6==0){
+                                            e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==7){
+                                        b7++;
+                                        if(b7==1 && a7==0){
+                                            e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }else if(v.region==8){
+                                        b8++;
+                                        if(b8==1 && a8==0){
+                                            e3.append('</br><input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }else{
+                                            e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                        }
+                                    }
+                                    // e3.append('<input name="region" type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }
+
+                            });
+                            // loadInfo(e.val());
+                        }
+
+                        if (data.webButtonList) {
+                            $.each(data.webButtonList, function(i, v) {
+                                if(buttonsId.indexOf(v.id)!=-1){
+                                    e4.append('<input name="buttons"  type="checkbox" checked="checked" value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }else{
+                                    e4.append('<input name="buttons"  type="checkbox"  value="' + v.id + '">' + v.name + '</input>&nbsp;&nbsp;');
+                                }
+
+                            });
+                            // loadInfo(e.val());
+                        }
+                    }
+                });
+
+            }
+
+        });
+
+
+
+	</script>
+
+</body>
+</html>
+

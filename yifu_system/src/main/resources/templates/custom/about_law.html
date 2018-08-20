@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>法律</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/integral.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="/custom/index"><span></span></a>
+    法律
+</header>
+</div>
+<div class="integral_con" th:utext="${webLaw.content}">
+</div>
+	
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+</body>
+</html>

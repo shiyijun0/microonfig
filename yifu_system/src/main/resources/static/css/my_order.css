@@ -1,0 +1,93 @@
+.my_order{
+	padding-top: 4rem;
+}
+.my_order_menu{
+	display: flex;
+	background-color: #eceef1;
+	line-height: 2.5rem;
+	font-size: .9rem;
+	text-align: center;
+	border-radius: 5px;
+}
+.my_order_menu a{
+	flex: 1;
+}
+.my_order_menu a span{
+	display: inline-block;
+	padding: 0 .5rem;
+}
+.my_order_menu a.active span{
+	border-bottom: 1px solid #11294f;
+}
+.my_order_list_tit{
+	line-height: 2.5rem;
+	background-color: #eceef1;
+	color: #707f95;
+	padding: 0 1rem;
+	font-size: .8rem;
+	margin-top: .3rem;
+	border-radius: 5px;
+
+}
+.my_order_list_tit span{
+	display: inline-block;
+	float: right;
+}
+.my_order_container{
+	padding: 0 1rem 4rem 1rem;
+}
+.my_order_list_tit a{
+	text-align: center;
+	display: inline-block;
+	line-height: 2rem;
+	margin-left: .5rem;
+	width: 6rem;
+	background-color: #11294f;
+	color: #fff;
+	border-radius: 5px;
+}
+
+.my_order_list_tit span a{
+	text-align: center;
+	display: inline-block;
+	line-height: 2rem;
+	margin-left: .5rem;
+	width: 6rem;
+	background-color: #11294f;
+	color: #fff;
+	border-radius: 5px;
+}
+
+.center{
+	text-align: right;
+}
+.my_order_list_box{
+	display: flex;
+	line-height: 1.2rem;
+	font-size: .8rem;
+	padding: .5rem 1rem;
+	color: #707f95;
+	background-color: #f8f9f9;
+}
+.my_order_list_left{
+	width: 6rem;
+}
+.my_order_list_left img{
+	width: 100%;
+}
+.my_order_list_cen{
+	flex: 1;
+}
+.my_order_list_rit{
+	text-align: right;
+}
+.my_order_list_rit span.new{
+	color: #11294f;
+	font-weight: 800;
+}
+.my_order_list_rit span.through{
+	text-decoration: line-through;
+}
+.my_order_list_tit a.active{
+	background-color: #707f95;
+}

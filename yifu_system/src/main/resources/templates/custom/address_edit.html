@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>定制牛仔</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/city.js"></script>
+	<script type="text/javascript" src="/js/picker.min.js"></script>
+	<script th:inline="javascript">
+        var jeansId = [[${jeansId}]];
+        var userId = [[${userId}]];
+        var orderType = [[${orderType}]];
+        var cartOrder = [[${cartOrder}]];
+        var cartId = [[${cartId}]];
+	</script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"><span></span></a>
+	修改地址
+</header>
+</div>
+<div class="add_container">
+	<input type="hidden" id="addrId" th:value="${addr.addrId}">
+	<div class="add_box">收货人<input type="text" value=""  name="linkman" th:value="${addr.linkman}"></div>
+	<div class="add_box">联系电话<input type="text" value="" name="mobile"  th:value="${addr.mobile}"></div>
+	<div class="add_box">所在地区<input type="text" placeholder="地区" id="sel_city" name="area"  th:value="${addr.area}"/>
+
+	</div>
+	<div class="add_box">详细地址<textarea placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元室等" id="textarea"  th:text="${addr.addr}"></textarea></div>
+	<label class="add_box add_box_initial">设置默认地址 <input type="radio" class="add_box_radio" name="defaultFlag"  th:checked="${addr.defaultFlag == 1 ? true : false}"></label>
+	<input type="submit" value="确定" class="add_submit" onclick="sub()"> <!-- <a href="address.html"></a> -->
+</div>
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+
+
+  });
+</script>
+<script type="text/javascript">
+
+    var nameEl = document.getElementById('sel_city');
+
+    var first = []; /* 省，直辖市 */
+    var second = []; /* 市 */
+    var third = []; /* 镇 */
+
+    var selectedIndex = [0, 0, 0]; /* 默认选中的地区 */
+
+    var checked = [0, 0, 0]; /* 已选选项 */
+
+    function creatList(obj, list){
+        obj.forEach(function(item, index, arr){
+            var temp = new Object();
+            temp.text = item.name;
+            temp.value = index;
+            list.push(temp);
+        })
+    }
+
+    creatList(city, first);
+
+    if (city[selectedIndex[0]].hasOwnProperty('sub')) {
+        creatList(city[selectedIndex[0]].sub, second);
+    } else {
+        second = [{text: '', value: 0}];
+    }
+
+    if (city[selectedIndex[0]].sub[selectedIndex[1]].hasOwnProperty('sub')) {
+        creatList(city[selectedIndex[0]].sub[selectedIndex[1]].sub, third);
+    } else {
+        third = [{text: '', value: 0}];
+    }
+
+    var picker = new Picker({
+        data: [first, second, third],
+        selectedIndex: selectedIndex,
+        title: '地址选择'
+    });
+
+    picker.on('picker.select', function (selectedVal, selectedIndex) {
+        var text1 = first[selectedIndex[0]].text;
+        var text2 = second[selectedIndex[1]].text;
+        var text3 = third[selectedIndex[2]] ? third[selectedIndex[2]].text : '';
+
+        nameEl.value= text1 + ' ' + text2 + ' ' + text3;
+
+    });
+
+    picker.on('picker.change', function (index, selectedIndex) {
+        if (index === 0){
+            firstChange();
+        } else if (index === 1) {
+            secondChange();
+        }
+
+        function firstChange() {
+            second = [];
+            third = [];
+            checked[0] = selectedIndex;
+            var firstCity = city[selectedIndex];
+            if (firstCity.hasOwnProperty('sub')) {
+                creatList(firstCity.sub, second);
+
+                var secondCity = city[selectedIndex].sub[0]
+                if (secondCity.hasOwnProperty('sub')) {
+                    creatList(secondCity.sub, third);
+                } else {
+                    third = [{text: '', value: 0}];
+                    checked[2] = 0;
+                }
+            } else {
+                second = [{text: '', value: 0}];
+                third = [{text: '', value: 0}];
+                checked[1] = 0;
+                checked[2] = 0;
+            }
+
+            picker.refillColumn(1, second);
+            picker.refillColumn(2, third);
+            picker.scrollColumn(1, 0)
+            picker.scrollColumn(2, 0)
+        }
+
+        function secondChange() {
+            third = [];
+            checked[1] = selectedIndex;
+            var first_index = checked[0];
+            if (city[first_index].sub[selectedIndex].hasOwnProperty('sub')) {
+                var secondCity = city[first_index].sub[selectedIndex];
+                creatList(secondCity.sub, third);
+                picker.refillColumn(2, third);
+                picker.scrollColumn(2, 0)
+            } else {
+                third = [{text: '', value: 0}];
+                checked[2] = 0;
+                picker.refillColumn(2, third);
+                picker.scrollColumn(2, 0)
+            }
+        }
+
+    });
+
+    picker.on('picker.valuechange', function (selectedVal, selectedIndex) {
+        console.log(selectedVal);
+        console.log(selectedIndex);
+    });
+
+    nameEl.addEventListener('click', function () {
+        picker.show();
+    });
+
+</script>
+
+
+<script th:inline="javascript">
+	function sub(){
+		var linkman = $("input[name='linkman']").val();
+		var mobile = $("input[name='mobile']").val();
+		var area = $("input[name='area']").val();
+		var textarea = $("#textarea").val();
+		var regex=/^1[3|5|7|8]\d{9}$/;
+		var result=regex.test(mobile);
+        var defaultFlag = $("input[name='defaultFlag']:checked").val()==1?1:0;
+        var addrId=$("#addrId").val();
+		if(linkman!="" && mobile!=""  &&area!="" && textarea!="") {
+            if(!result){
+                alert("手机格式不正确，请重新输入");
+            }else {
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    dataType: "json",
+                    url: "/custom/addAddr",
+                    data: {
+                        "addrId" : addrId,
+                        "linkman": linkman,
+                        "mobile": mobile,
+                        "addr": textarea,
+                        "area": area,
+                        "defaultFlag": defaultFlag,
+                    },
+                    async: false,
+                    error: function (request) {
+                        alert("系统发生错误")
+                    },
+                    success: function (data) {
+                        if (data.code == 0) {
+                            window.location.href = "/custom/address?jeansId="+jeansId+"&orderType="+orderType+"&cartOrder="+cartOrder+"&cartId="+cartId;
+                        } else {
+                            alert("错误理由：" + data.msg);
+                        }
+
+                    }
+                });
+            }
+        }else{
+		    alert("必填字段不能为空！");
+		}
+	}
+</script>
+
+
+</body>
+</html>

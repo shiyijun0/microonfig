@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemWordSizeMapper">
+
+	<resultMap type="WordSize" id="WordSizeResult">
+		<id     property="sizeId"       column="id"        />
+		<result property="sizeName"     column="size"      />
+		<result property="sizePrice"   column="sizeprice"  />
+		<result property="createTime"   column="ctime"  />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="WordSizeResult">
+		select * from sys_word_size
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND size = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectWordSizeById" parameterType="Long" resultMap="WordSizeResult">
+		select *
+		from sys_word_size u
+		where u.id = #{sizeId}
+	</select>
+
+
+
+	<delete id="deleteWordSizeById" parameterType="Long">
+		delete from sys_word_size where id = #{sizeId}
+	</delete>
+
+	<delete id="batchDeleteWordSize" parameterType="String">
+		delete from sys_word_size where id in
+		<foreach collection="array" item="sizeId" open="(" separator="," close=")">
+			#{sizeId}
+		</foreach>
+	</delete>
+
+	<update id="updateWordSize" parameterType="WordSize">
+		update sys_word_size
+		<set>
+			<if test="sizeName != null and sizeName != ''">size = #{sizeName},</if>
+			<if test="sizePrice != null and sizePrice != ''">sizeprice = #{sizePrice},</if>
+		</set>
+		where 1=1
+		<if test="sizeId != null">and  id = #{sizeId}</if>
+	</update>
+
+	<insert id="insertWordSize" parameterType="WordSize" useGeneratedKeys="true" keyProperty="sizeId">
+		insert into sys_word_size(
+		<if test="sizeId != null and sizeId != 0">id,</if>
+		<if test="sizeName != null and sizeName != ''">size,</if>
+		<if test="sizePrice != null and sizePrice != ''" >sizeprice,</if>
+		ctime
+		)values(
+		<if test="sizeId != null and sizeId != 0">#{sizeId},</if>
+		<if test="sizeName != null and sizeName != ''">#{sizeName},</if>
+		<if test="sizePrice != null and sizePrice != ''" >#{sizePrice},</if>
+		sysdate()
+		)
+	</insert>
+
+</mapper> 

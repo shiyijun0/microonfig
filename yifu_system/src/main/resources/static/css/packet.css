@@ -1,0 +1,74 @@
+.red_packet{
+	width: 90%;
+	margin: 0 auto;
+	padding-top: 4rem;
+}
+.red_packet .packet_box{
+	width: 100%;
+	height: 6rem;
+	background: url(../images/packet.png) no-repeat;
+	background-size: 100%;
+	color: #fff;
+	margin-bottom: .5rem;
+	border-radius: 1rem;
+}
+.packet_fl{
+	float: left;
+	width:66%;
+
+}
+.packet_fr{
+	float: left;
+	width:34%;
+	line-height: 6rem;
+	font-size: 1.3rem;
+	text-align: center;
+}
+
+.packet_fr span{
+	font-size: 1rem;
+}
+.packet_fl p{
+	padding-left: 1rem;;
+}
+.packet_big{
+	padding-top:1.2rem; 
+	font-size: 1.4rem;
+	color: #11294f;
+}
+.packet_sm{
+	font-size: .9rem;
+	color: #707f95;
+}
+
+/*优惠卷*/
+.packet_volume{
+	text-align: center;
+	line-height: 2rem;
+	background-color: #eceef1;
+	padding: 1.5rem 0;
+	margin-bottom: 1rem;
+	border-radius: 1rem;
+	display: flex;
+	justify-content: center;
+}
+.packet_volume input{
+	display: inline-block;
+	line-height: 2.5rem;
+}
+.volume_input{
+	width: 50%;
+	background-color: #f8f9f9;
+	border:none;
+	padding-left: 1rem;
+	border-radius:10px 0 0  10px;	
+}
+.volume_sub{
+	line-height: 2.5rem;
+	height: 2.5rem;
+	padding: 0 1rem;
+	border: none;
+	background-color: #11294f;
+	color: #fff;
+	border-radius:0 10px 10px 0;
+}

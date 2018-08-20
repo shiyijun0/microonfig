@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>个人信息</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/user.css">
+	<link rel="stylesheet" type="text/css" href="/css/date.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/user.js"></script>
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+	<script src="/jwk/js/ry-ui.js"></script>
+	<script th:inline="javascript">
+		var reqLeftUrl = [[${session.reqLeftUrl}]];
+		$(function(){
+			if(reqLeftUrl!="" && reqLeftUrl != null){
+				$("#returnLeft").attr("href",reqLeftUrl);
+			}
+		});
+	</script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.go(-1)" id="returnLeft"><span></span></a>
+    个人信息
+    <a href="#"><span class="back_right set"></span></a>
+</header>
+</div>
+
+<!-- 左边栏 -->
+<th:block th:replace="custom/left"/>
+
+<form id="form1" method="post" enctype="multipart/form-data">
+<div class="add_container">
+	<div class="add_box uesr_add uesr_add_tit">
+		<div class="user_add_tit_fl">
+			<p class="big" id="nick" th:text="${registerUser?.nickname}">Allen007</p>
+			<p class="sm"><span class="type" th:text="${registerUser?.type}==1?'普通用户':'设计师'">蓝钻会员</span>  <span class="integral" th:text="|积分 ${registerUser?.integral}|">积分1200</span></p>
+		</div>
+		<div class="user_add_tit_fr">
+			<input type="file" accept="image/*" id="file0" name="file" />
+			<label for="file0">
+				<img src="" alt="" id="img0" th:src="${registerUser?.portraiturl}">
+			</label>
+		</div>
+		
+	</div>
+	<input type="hidden" id="id" name="id" th:value="${registerUser?.id}" >
+	<div class="add_box uesr_add" >昵称<input type="text" value="ALLEN007" id="nickname" name="nickname" th:value="${registerUser?.nickname}"></div>
+	<div class="add_box uesr_add" >
+		性别
+		<select id="sex" name="sex">
+		    <option value="1" th:selected="${registerUser?.sex==1}">男</option>
+		    <option value="2" th:selected="${registerUser?.sex==2}">女</option>
+		</select>
+	</div>
+	<div class="add_box uesr_add">生日<input type="text" value="2018-01-1" placeholder="2018-04-23" name="birthday"  class="tbtn" id="birthday" th:value="${registerUser?.birthday}"></div>
+	<div class="add_box uesr_add">手机号<input type="text" value="18050930965" id="mobile" name="mobile"  th:value="${registerUser?.mobile}"  readonly ></div>
+	<div class="add_box uesr_add">微信<input type="text" value="未绑定" id="wechat" name="wechat" th:value="${registerUser?.wechat}==0?'':'已绑定'" readonly></div>
+	<div class="add_box uesr_add">微博<input type="text" value="已绑定" id="weibo" name="weibo" th:value="${registerUser?.weibo}==0?'':'已绑定'"  readonly></div>
+	<input type="button" value="修改账户" class="add_submit"   onclick="sub()"   >
+</div>
+</form>
+<div id="datePlugin"></div> 
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/date.js"></script>
+<script type="text/javascript" src="/js/iscroll.js"></script>
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+//  $(function() {
+//    FastClick.attach(document.body);
+//  });
+</script>
+<script type="text/javascript">
+	$("#birthday").date();
+</script>
+<script type="text/javascript">
+	$(".back_right").click(function() {
+        $("body").animate({"left": "55%"},50);
+        $(".nav_bg").fadeIn();      
+    });
+    $(".nav_bg").click(function() {
+        $("body").animate({"left": "0"}, 50);
+        $(".nav_bg").fadeOut();
+    });
+
+
+</script>
+</body>
+</html>

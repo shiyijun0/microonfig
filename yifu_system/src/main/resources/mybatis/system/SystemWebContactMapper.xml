@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemSysWebContactMapper">
+
+	<resultMap type="SysWebContact" id="SysWebContactResult">
+		<id     property="id"       column="id"     />
+		<result property="content"     column="content"      />
+		<result property="ctime"   column="ctime"  />
+	</resultMap>
+
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysWebContactResult">
+		select * from sys_web_contact
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND id = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectWebContactAll" resultMap="SysWebContactResult">
+		SELECT * FROM sys_web_contact
+	</select>
+
+
+	<select id="selectSysWebContactById" parameterType="int" resultMap="SysWebContactResult">
+		select *
+		from sys_web_contact u
+		where u.id = #{id}
+	</select>
+
+
+	<update id="updateSysWebContact" parameterType="SysWebContact">
+		update sys_web_contact
+		<set>
+			<if test="content != null and content != ''">content = #{content},</if>
+			ctime = sysdate()
+		</set>
+		where 1=1
+		<if test="id != 0">and  id = #{id}</if>
+	</update>
+
+
+</mapper> 

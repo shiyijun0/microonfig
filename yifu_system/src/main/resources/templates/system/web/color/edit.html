@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-color-edit"  method="post">
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">颜色名称：</label>
+				<div class="col-sm-8">				
+					<input class="form-control" type="text" name="name" id="name" th:value="${webColor?.name}"/>
+					<input class="form-control" type="hidden" name="colorId" id="colorId" th:value="${webColor?.id}"  />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">正面图片：</label>
+				<div class="col-sm-8">
+				  <img th:src="@{${qiniuUrl}+${webColor?.cover}}" width="142" height="122" alt="正面图片" id="fileimg"/>
+					<input class="form-control" type="file" name="file1" id="file1" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">背景颜色图片：</label>
+				<div class="col-sm-8">
+				<img th:src="@{${qiniuUrl}+${webColor?.coverBack}}" width="142" height="122" alt="背景颜色图片" id="coverBack"/>
+					<input class="form-control" type="file" name="file2" id="file2"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">颜色小图片：</label>
+				<div class="col-sm-8">
+				<img th:src="@{${qiniuUrl}+${webColor?.coverTitle}}" width="142" height="122" alt="颜色小图片" id="coverTitle"/>
+					<input class="form-control" type="file" name="file3" id="file3" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">背景颜色深浅：</label>
+				<div class="col-sm-8" th:switch="${webColor?.depth}">
+		    <p th:case="1">	<label ><input name="depth" type="radio" value="1"  checked="checked" />浅 </label> 
+            <label><input name="depth" type="radio" value="0"   />深</label>
+             </p>
+            <p th:case="0">	<label ><input name="depth" type="radio" value="1"   />浅 </label> 
+            <label><input name="depth" type="radio" value="0" checked="checked"  />深 </label> 
+            </p>	
+				</div>
+		
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">选择标签：</label>
+				<div class="col-sm-8">
+					<select  name="labelId" id="labelId">
+
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">价格：</label>
+				<div class="col-sm-8">
+			<input class="form-control" type="text" name="price" id="price" th:value="${webColor?.price}"/>	
+				</div>
+			</div>
+			
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label">颜色位置：</label>
+				<div class="col-sm-8">
+					<p>X:&nbsp;&nbsp;<input name="fixeX" type="text"  th:value="${webColor?.fixeX}" /></p> 
+					<p>Y:&nbsp;&nbsp;<input name="fixeY" type="text"  th:value="${webColor?.fixeY}" /></p> 
+				</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">正左上：</label>
+				<div class="col-sm-8" th:switch="${webColor?.part1}">
+		    <p th:case="1">	<label ><input name="part1" type="radio" value="1"  checked="checked" />不可以放图片 </label> 
+            <label><input name="part1" type="radio" value="0"   />可以放图片 </label>
+             </p>
+            <p th:case="0">	<label ><input name="part1" type="radio" value="1"   />不可以放图片 </label> 
+            <label><input name="part1" type="radio" value="0" checked="checked"  />可以放图片 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">正左下：</label>
+				<div class="col-sm-8" th:switch="${webColor?.part2}">
+		    <p th:case="1">	<label ><input name="part2" type="radio" value="1"  checked="checked" />不可以放图片 </label> 
+            <label><input name="part2" type="radio" value="0"   />可以放图片 </label>
+             </p>
+            <p th:case="0">	<label ><input name="part2" type="radio" value="1"   />不可以放图片 </label> 
+            <label><input name="part2" type="radio" value="0" checked="checked"  />可以放图片 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">正右上：</label>
+				<div class="col-sm-8" th:switch="${webColor?.part3}">
+		    <p th:case="1">	<label ><input name="part3" type="radio" value="1"  checked="checked" />不可以放图片 </label> 
+            <label><input name="part3" type="radio" value="0"   />可以放图片 </label>
+             </p>
+            <p th:case="0">	<label ><input name="part3" type="radio" value="1"   />不可以放图片 </label> 
+            <label><input name="part3" type="radio" value="0" checked="checked"  />可以放图片 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">正右下：</label>
+				<div class="col-sm-8" th:switch="${webColor?.part4}">
+		    <p th:case="1">	<label ><input name="part4" type="radio" value="1"  checked="checked" />不可以放图片 </label> 
+            <label><input name="part4" type="radio" value="0"   />可以放图片 </label>
+             </p>
+            <p th:case="0">	<label ><input name="part4" type="radio" value="1"   />不可以放图片 </label> 
+            <label><input name="part4" type="radio" value="0" checked="checked"  />可以放图片 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">后左口袋：</label>
+				<div class="col-sm-8" th:switch="${webColor?.part5}">
+		    <p th:case="1">	<label ><input name="part5" type="radio" value="1"  checked="checked" />不可以放图片 </label> 
+            <label><input name="part5" type="radio" value="0"   />可以放图片 </label>
+             </p>
+            <p th:case="0">	<label ><input name="part5" type="radio" value="1"   />不可以放图片 </label> 
+            <label><input name="part5" type="radio" value="0" checked="checked"  />可以放图片 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">后右口袋：</label>
+				<div class="col-sm-8" th:switch="${webColor?.part6}">
+		    <p th:case="1">	<label ><input name="part6" type="radio" value="1"  checked="checked" />不可以放图片 </label> 
+            <label><input name="part6" type="radio" value="0"   />可以放图片 </label>
+             </p>
+            <p th:case="0">	<label ><input name="part6" type="radio" value="1"   />不可以放图片 </label> 
+            <label><input name="part6" type="radio" value="0" checked="checked"  />可以放图片 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">后左下：</label>
+				<div class="col-sm-8" th:switch="${webColor?.part7}">
+		    <p th:case="1">	<label ><input name="part7" type="radio" value="1"  checked="checked" />不可以放图片 </label> 
+            <label><input name="part7" type="radio" value="0"   />可以放图片 </label>
+             </p>
+            <p th:case="0">	<label ><input name="part7" type="radio" value="1"   />不可以放图片 </label> 
+            <label><input name="part7" type="radio" value="0" checked="checked"  />可以放图片 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">后右下：</label>
+				<div class="col-sm-8" th:switch="${webColor?.part8}">
+		    <p th:case="1">	<label ><input name="part8" type="radio" value="1"  checked="checked" />不可以放图片 </label> 
+            <label><input name="part8" type="radio" value="0"   />可以放图片 </label>
+             </p>
+            <p th:case="0">	<label ><input name="part8" type="radio" value="1"   />不可以放图片 </label> 
+            <label><input name="part8" type="radio" value="0" checked="checked"  />可以放图片 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label ">状态：</label>
+				<div class="col-sm-8" th:switch="${webColor?.status}">
+		    <p th:case="1">	<label ><input name="status" type="radio" value="1"  checked="checked" />正常 </label> 
+            <label><input name="status" type="radio" value="0"   />删除 </label>
+             </p>
+            <p th:case="0">	<label ><input name="status" type="radio" value="1"   />正常 </label> 
+            <label><input name="status" type="radio" value="0" checked="checked"  />删除 </label> 
+            </p>	
+				</div>
+				
+			</div>
+			
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label ">是否默认颜色：</label>
+				<div class="col-sm-8" th:switch="${webColor?.isDefault}">
+		    <p th:case="1">	<label ><input name="isDefault" type="radio" value="1"  checked="checked" />默认 </label> 
+            <label><input name="isDefault" type="radio" value="0"   />非默认 </label>
+             </p>
+            <p th:case="0">	<label ><input name="isDefault" type="radio" value="1"   />默认 </label> 
+            <label><input name="isDefault" type="radio" value="0" checked="checked"  />非默认 </label> 
+            </p>	
+				</div>
+		
+			</div>
+			
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/jwk/system/web/color/edit.js">
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	<script>
+		//初始化fileinput
+		var oFileInput = new FileInput();
+		oFileInput.Init("file1");
+		oFileInput.Init("file2");
+		oFileInput.Init("file3");
+		
+		
+	</script>
+	
+	<script type="text/javascript" >
+	 $("#file1").change(function () {
+	        $('#fileimg').hide();
+	    });
+	    
+	    $("#file2").change(function () {     
+	        $('#coverBack').hide();	     
+	    });
+	    $("#file3").change(function () {
+	        $('#coverTitle').hide();
+	    });
+	    
+	   
+		
+	</script>
+
+	<script type="text/javascript">
+
+        $(function() {// 初始化内容
+            var e = $('select[name="labelId"]');
+			var label=[[${webColor?.label}]];
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/system/label/labelList",
+                data: {
+                   /* "label":label*/
+				},
+                async: false,
+                error: function (request) {
+                    $.modalMsg("系统出问题了");
+                },
+                success: function (data) {
+                    if (data) {
+                        $.each(data, function (i, v) {
+                            //alert(v.id+"*****"+label)
+                            if(v.id==label){
+                                e.append('<option value="' + v.id + '" selected="selected">' + v.label + '</option>');
+							}else{
+                                e.append('<option value="' + v.id + '">' + v.label + '</option>');
+							}
+
+                        });
+
+
+                    }
+
+                }
+            });
+        })
+
+	</script>
+</body>
+</html>
+

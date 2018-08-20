@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-jeans-edit"  method="post">
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">设计师成品名称：</label>
+				<div class="col-sm-8" th:switch="${webDesigner?.type}">
+					
+					<p><label style="color: red">名称： </label><label th:text="${webDesigner?.name}"></label> </p>
+					<p><label style="color: red">商家编码： </label><label th:text="${webDesigner?.code}"></label> </p>
+					<p th:case="1"><label style="color: red">衣服类型: </label> 上衣</p>
+					<p th:case="0"><label style="color: red">衣服类型: </label> 裤子</p>
+					<p><label style="color: red">备注： </label><label th:text="${webDesigner?.remark}"></label> </p>	
+					<input class="form-control" type="hidden" name="washId" id="washId" th:value="${webDesigner?.id}"  />
+				</div>
+			</div>
+			
+			
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label ">文字信息：</label>
+				<div class="col-sm-8"> 
+			
+			
+			<p><label style="color: red">文字字体： </label><label th:text="${webDesigner?.wordFont}"></label> </p>
+					<p><label style="color: red">文字内容： </label><label th:text="${webDesigner?.wordContent}"></label> </p>
+					<p><label style="color: red">字体颜色： </label><label th:text="${webDesigner?.wordColor}"></label> </p>
+					<p><label style="color: red">字体大小： </label><label th:text="${webDesigner?.wordSize}"></label> </p>
+					<p><label style="color: red">备注： </label><label th:text="${webDesigner?.remark}"></label> </p>	
+			
+				</div>
+			</div>
+			
+			
+			
+			<div class="form-group"  id="iDBody1" >
+				<label class="col-sm-3 control-label">请选择区域位置：</label>
+				<div class="col-sm-8" >
+					      
+                   <table>		
+		<tr th:each="member:${webPartsList}">
+			<td th:text="${member?.name}"/>		
+		</tr>
+	</table>         
+                            
+					
+				</div>
+			</div>
+			
+			
+			<div class="form-group"  id="iDBody3" >
+				<label class="col-sm-3 control-label">请选择图片颜色：</label>
+				<div class="col-sm-8" >
+					
+                            <table>		
+		<tr th:each="member:${webColorList}">
+			<td th:text="${member?.name}"/>		
+		</tr>
+	</table>  
+					
+				</div>
+			</div>
+			
+			<div class="form-group"  id="iDBody4" >
+				<label class="col-sm-3 control-label" >请选择图片边线：</label>
+				<div class="col-sm-8" >
+					
+					 <table>		
+		<tr th:each="member:${webThreadList}">
+			<td th:text="${member?.name}"/>		
+		</tr>
+	</table>  
+					
+				</div>
+			</div>
+			
+			<div class="form-group"  id="iDBody7"  style="display: none">
+				<label class="col-sm-3 control-label" >请选择图片破洞：</label>
+				<div class="col-sm-8" >
+					
+                            
+                             <table>		
+		<tr th:each="member:${webWashList}">
+			<td th:text="${member?.name}"/>		
+		</tr>
+	</table>  
+					
+				</div>
+			</div>
+			
+			<div class="form-group"  id="iDBody5" >
+				<label class="col-sm-3 control-label" >请选择图片尺码：</label>
+				<div class="col-sm-8" >
+					
+					<table>		
+		<tr th:each="member:${webSizesList}">
+			<td th:text="${member?.size}"/>		
+		</tr>
+	</table>  
+					
+				</div>
+			</div>
+			
+			
+			<div class="form-group" id="iDBody6"  >
+				<label class="col-sm-3 control-label" >请选择图片纽扣：</label>
+				<div class="col-sm-8" >
+					
+                            
+                            <table>		
+		<tr th:each="member:${webButtonList}">
+			<td th:text="${member?.name}"/>		
+		</tr>
+	</table>  
+					
+				</div>
+			</div>
+			
+			
+			
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label " >是否可以购买:</label>
+				<div class="col-sm-8" th:switch="${webDesigner?.isTobuy}">
+				
+		    <p th:case="1" style="color: red"> 可以</p>
+			<p th:case="0" style="color: red"> 不可以</p>	
+				</div>
+				
+				
+				<div class="col-sm-8" >
+				
+				
+			</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label " >状态：</label>
+				<div class="col-sm-8" th:switch="${webDesigner?.status}">
+				
+		    <p th:case="0" style="color: red">未上架</p>
+			<p th:case="1" style="color: red">正常</p>
+			<p th:case="2" style="color: red">删除</p>	
+							</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary" id="button1">查看模型成品</button>
+					<button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/jwk/system/web/jeans/edit.js">
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	
+	<script type="text/javascript">
+	
+
+	
+	window.onload=function(){
+		document.getElementById("button1").setAttribute("disabled",true);
+	}
+	
+	</script>
+	
+	
+</body>
+</html>
+

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-pj-edit"  method="post">
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">商品名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="name" id="name" th:value="${sysPj?.name}"/>
+					<input class="form-control" type="hidden" name="pjId" id="pjId" th:value="${sysPj?.id}"  />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">商品图片：</label>
+				<div class="col-sm-8">
+				  <img th:src="@{${sysPj?.cover}}" width="142" height="122" alt="图片" id="preview"/>
+					<input class="form-control" type="file" name="file" id="file" multiple="multiple"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">贴图：</label>
+				<div class="col-sm-8">
+				   <img th:src="@{${sysPj?.chartlet}}" width="142" height="122" alt="图片" id="prepic"/>
+					<input class="form-control" type="file" name="file" id="filePic"/>
+				</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">性别：</label>
+				<div class="col-sm-8" th:switch="${sysPj?.sex}">
+		    <p th:case="1">	<label ><input name="sex" type="radio" value="1"  checked="checked" />男 </label> 
+            <label><input name="sex" type="radio" value="2"   />女 </label>
+            <label><input name="sex" type="radio" value="3" />通用 </label>
+             </p>
+            <p th:case="2">	<label ><input name="sex" type="radio" value="1"   />男 </label> 
+            <label><input name="sex" type="radio" value="2" checked="checked"  />女 </label> 
+            <label><input name="sex" type="radio" value="3" />通用 </label>
+            </p>
+			<p th:case="3">	<label ><input name="sex" type="radio" value="1"   />男 </label> 
+            <label><input name="sex" type="radio" value="2"   />女 </label> 
+            <label><input name="sex" type="radio" value="3" checked="checked" />通用 </label>
+            </p>	
+				</div>
+				
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">编号：</label>
+				<div class="col-sm-8">
+					<input id="number" name="number" class="form-control" type="text" th:value="${sysPj?.number}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">ID：</label>
+				<div class="col-sm-8">
+					<input id="fid" name="fid" class="form-control" type="text" th:value="${sysPj?.fId}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">价格：</label>
+				<div class="col-sm-8">
+					<input id="price" name="price" class="form-control" type="text" th:value="${sysPj?.price}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">库存：</label>
+				<div class="col-sm-8">
+					<input id="inventory" name="inventory" class="form-control" type="text" th:value="${sysPj?.inventory}">
+				</div>
+			</div>
+			
+			<div class="form-group" >
+				<label class="col-sm-3 control-label">请选择部件类别：</label>
+				<div class="col-sm-8" >
+					<label class="control-label" th:each="member:${allSysfq}">
+                                <input name="category" type="checkbox"  th:text="${member?.value}+'区('+${member?.des}+')'" th:value="${member?.value}"  th:id="${member?.value}+'pj'"/>&nbsp;&nbsp;
+                            </label>
+					
+				</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">类型：</label>
+				<div class="col-sm-8">
+					<input id="type" name="type" class="form-control" type="text" th:value="${sysPj?.type}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">限量：</label>
+				<div class="col-sm-8">
+					<input id="limited" name="limited" class="form-control" type="text" th:value="${sysPj?.limited}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">是否旋转：</label>
+				
+				<div class="col-sm-8" th:switch="${sysPj?.rotate}">
+		    <p th:case="0">	
+            <label><input name="rotate" type="radio" value="1" />是 </label> 
+            <label><input name="rotate" type="radio" value="0"  checked="checked"/>否 </label> 
+             </p>
+            <p th:case="1">	
+            <label><input name="rotate" type="radio" value="1"  checked="checked" />是 </label> 
+            <label><input name="rotate" type="radio" value="0"  />否 </label> 
+             </p>	
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">是否固定图案：</label>
+				<div class="col-sm-8" th:switch="${sysPj?.fixed}">
+				<p th:case="0">	
+			<label><input name="fixed" type="radio" value="0"  checked="checked"/>是 </label> 
+            <label><input name="fixed" type="radio" value="1" />否 </label> 
+            </p>
+            
+            <p th:case="1">	
+			<label><input name="fixed" type="radio" value="0"  />是 </label> 
+            <label><input name="fixed" type="radio" value="1"  checked="checked" />否 </label> 
+            </p>
+				</div>
+			</div>
+			
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">说明：</label>
+				<div class="col-sm-8">
+					<input id="des" name="des" class="form-control" type="text" th:value="${sysPj?.des}">
+				</div>
+			</div>
+		
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<!-- <button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button> -->
+					<button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/jwk/system/goodpj/edit.js">
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	<script>
+		//初始化fileinput
+		var oFileInput = new FileInput();
+		oFileInput.Init("file");
+		oFileInput.Init("filePic");
+		
+	</script>
+	
+	<script type="text/javascript" >
+	 $("#file").change(function () {
+	       
+	        var $img = $("#preview");
+	        
+	        $('#preview').hide();
+	    });
+	    
+	    $("#filePic").change(function () {
+	       
+	        var $img = $("#prepic");
+	        
+	        $('#prepic').hide();
+	    })
+		
+	</script>
+	
+	<script th:inline="javascript">
+	
+	window.onload=function(){
+		var fixe_x = [[${sysPj?.fixeX}]]
+		var fixe_y = [[${sysPj?.fixeY}]]
+		var fixe_z = [[${sysPj?.fixeZ}]]
+		//alert("*********"+fixe_z)
+		/* if($("[name=category]:checkbox").val()==fixe_x){
+	        $("[name=category]:checkbox").attr('checked',true);
+	    }else{
+	        $("[name=category]:checkbox").attr('checked',false);
+	    } */
+		
+		var checkboxes = document.getElementsByName("category"); 
+        var str = []; 
+        for(i=0;i<checkboxes.length;i++){ 
+           // if(checkboxes[i].checked){ 
+        	    //alert("**45****"+checkboxes.length+"***********"+checkboxes[i].checked)
+        	    if(checkboxes[i].value==fixe_x){ 
+                //str.push(checkboxes[i].value);
+                //$("[name=category]:checkbox").attr('checked',true);
+        	    	$("#"+checkboxes[i].value+"pj").attr('checked',true);
+            } 
+        	    
+        	    if(checkboxes[i].value==fixe_y){
+                    $("#"+checkboxes[i].value+"pj").attr('checked',true);
+                } 
+        	    
+        	    if(checkboxes[i].value==fixe_z){                 
+        	    	$("#"+checkboxes[i].value+"pj").attr('checked',true);
+                } 
+         } 
+		
+	}//用window的onload事件，窗体加载完毕的时候
+
+	
+	</script>
+</body>
+</html>
+

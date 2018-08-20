@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>定制牛仔</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+	<script src="/jwk/js/ry-ui.js"></script>
+	<script th:inline="javascript">
+		var jeansId = [[${jeansId}]];
+		var userId = [[${userId}]];
+		var orderType = [[${orderType}]];
+		var cartOrder = [[${cartOrder}]];
+		var cartId = [[${cartId}]];
+	</script>
+	<script th:inline="javascript" src="/js/address.js"></script>
+
+	<style type="text/css">
+		.address_box_tit label{
+			display: block;
+		}
+		.address_box_tit label a{
+			float: right;
+			display: inline-block;
+		}
+		.address_box_close{
+			/*padding: 0 0 0 1rem; */
+		}
+	</style>
+
+
+</head>
+<body>
+<div class="back">
+<header class="header">
+	<th:block th:switch="${cartOrder}">
+		<a th:case="1" th:href="@{/custom/cartOrder(addrId=${addrId},cartId=${cartId})}"><span></span></a>
+		<!-- <a th:case="0" href="javascript:history.back(-1)"><span></span></a> -->
+		<a th:case="2" href="/custom/install"><span></span></a>
+		<a th:case="*" th:href="@{/custom/goOrder(jeansId=${jeansId},userId=${userId},addrId=${addrId},orderType=${orderType})}"><span></span></a>
+	</th:block>
+    地址管理
+</header>
+</div>
+
+<div class="add_container">
+	<div class="address_box" th:each="addr:${address}" >
+		<div class="address_box_close" th:onclick="'adddelete('+${addr?.addrId}+')'">×</div>
+		<a href="#">
+		<div class="address_box_tit" th:onclick="'saveaddr('+${addr?.addrId}+')'">
+			<span th:text="${addr?.linkman}">戴用名 </span>  <span th:text="${addr?.mobile}">123 8888 8888</span>
+		</div>
+		<div class="address_box_p" th:onclick="'saveaddr('+${addr?.addrId}+')'">
+			<p class="P_fl">
+				<span>详细地址</span>
+			</p>
+			<p class="P_fr" th:text="${addr?.addr}" >福建省，厦门市，思明区，莲前街道，软件园二期，望海路16号之一5楼</p>
+		</div>
+		</a>
+
+		<div class="address_box_tit" style="position: relative;">
+			<label >
+				<span>默认地址 </span>
+				<span><input type="radio"    name='defaultid'  th:checked="${addr?.defaultFlag==1? true:false}"  th:onclick="'setdefault('+${addr?.addrId}+')'"></span>
+				<a  th:onclick="'updateaddr('+${addr?.addrId}+')'" >修改 </a>
+			</label>
+		</div>
+	</div>
+
+	<a th:href="@{/custom/address_add(jeansId=${jeansId},orderType=${orderType},cartOrder=${cartOrder},cartId=${cartId})}" id="sub"><input type="submit" value="添加" class="add_submit"></a>
+</div>
+
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+</body>
+</html>

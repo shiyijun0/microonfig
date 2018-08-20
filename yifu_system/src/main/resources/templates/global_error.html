@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>错误页</title>
+</head>
+
+<body>
+	<p style="text-align:center;">出错啦！！！</p>
+	<p th:text="${msg}" style="color:red;"></p>
+	<a href="/custom/index" style="text-align:center;">返回首页</a>
+</body>
+</html>

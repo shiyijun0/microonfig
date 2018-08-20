@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Blueprint: Vertical Timeline" />
+<meta name="keywords" content="timeline, vertical, layout, style, component, web development, template, responsive" />
+<meta name="author" content="Codrops" />
+<link rel="shortcut icon" href="../favicon.ico">
+<link rel="stylesheet" type="text/css" href="/css/default.css" />
+<link rel="stylesheet" type="text/css" href="/css/component.css" />
+<script src="/js/modernizr.custom.js"></script>
+
+<body class="white-bg">
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">   <!-- th:action="@{/system/order/upload}" -->
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-order-check"  method="post" >
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">订单明细编号：</label>
+				<div class="col-sm-8">
+					<p th:text="${webOrderGoods.orderId}"> </p>
+					<!-- <input class="form-control" type="hidden" name="orderId" id="orderId" th:value="${sysOrder?.orderId}"> -->
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">下单用户：</label>
+				<div class="col-sm-8">
+					<p><label style="color: red">昵称： </label><label th:text="${registerUser?.nickname}"></label> </p>
+					<p><label style="color: red">手机号： </label><label th:text="${registerUser?.mobile}"></label> </p>
+					<p><label style="color: red">总价： </label><label th:text="${'￥'+webOrderGoods?.price}"></label> </p>
+					<!-- <p><label style="color: red">数量： </label><label th:text="${sysOrder?.num}"></label> </p> -->
+					<p th:if="${not #lists.isEmpty(registerUser?.kuaidi)}"><label style="color: red" >快递公司： </label><label th:text="${registerUser?.kuaidi}"></label> </p>
+				</div>
+			</div>
+			
+			<div class="form-group" th:if="${not #lists.isEmpty(resellJeans)}">
+				<label class="col-sm-3 control-label">预售商品信息：</label>
+				<div class="col-sm-8">
+					<p><label style="color: red">商品名称： </label><label th:text="${resellJeans?.name}"></label> </p>
+					<p><label style="color: red">商品编码： </label><label th:text="${resellJeans?.presellCode}"></label> </p>
+					<p><label style="color: red">商品价格名称： </label><label th:text="${resellJeans?.priceName}"></label> </p>
+					<p><label style="color: red">商品原件： </label><label th:text="${resellJeans?.originalPrice}"></label> </p>					
+					<p><label style="color: red">商品价格： </label><label th:text="${resellJeans?.price}"></label> </p>
+					<p><label style="color: red">商品图片： </label><img th:src="@{${qiniuUrl+resellJeans?.images}}" width="142" height="122" alt="图片" id="fileimg"/> </p>
+					<!-- <p><label style="color: red">商品详细图： </label><img th:src="@{${qiniuUrl+resellJeans?.detailImgs}}" width="142" height="122" alt="贴图" id="fileimg"/> </p> -->
+					
+				</div>
+			</div>
+
+			<div class="form-group" th:if="${not #lists.isEmpty(webSizes)}">
+				<label class="col-sm-3 control-label">选中尺码：</label>
+				<div class="col-sm-8">
+					<p><label style="color: red">尺码大小： </label><label th:text="${webSizes?.size}"></label> </p>
+					<p><label style="color: red">尺码描述： </label><label th:text="${webSizes?.des}"></label> </p>
+				</div>
+			</div>
+
+			<div class="form-group"  th:if="${not #lists.isEmpty(webColor)}">
+				<label class="col-sm-3 control-label">选中颜色：</label>
+				<div class="col-sm-8">
+					<p><label style="color: red">名称： </label><label th:text="${webColor?.name}"></label> </p>
+					<p><label style="color: red">价格： </label><label th:text="${webButton?.price}"></label> </p>
+					<p><label style="color: red">图片： </label><img th:src="@{${qiniuUrl+webColor?.cover}}" width="142" height="122" alt="图片" id="fileimg"/> </p>
+					<p><label style="color: red">贴图： </label><img th:src="@{${qiniuUrl+webColor?.coverTitle}}" width="142" height="122" alt="贴图" id="fileimg"/> </p>
+					<p><label style="color: red">背景图片： </label><img th:src="@{${qiniuUrl+webColor?.coverBack}}" width="142" height="122" alt="背景图片" id="fileimg"/> </p>
+					<!-- <p><label style="color: red">纽扣描述： </label><label th:text="${buLiao?.des}"></label> </p> -->
+				</div>
+			</div>
+			<!-- <div class="form-group">
+				<label class="col-sm-3 control-label">效果图：</label>
+				<div class="col-sm-8">
+				<label th:each="patternAll:${patternAllList}"><img th:src="@{${patternAll?.icopicurl}}" width="142" height="122" alt="图片" id="prepic"/> </label>
+				</div>
+			</div> -->
+
+			<!--时间抽-->
+			<div class="container" th:if="${not #lists.isEmpty(companyList)}">
+				<header class="clearfix">
+
+				</header>
+				<div class="main">
+
+					<ul class="cbp_tmtimeline">
+						<li th:each="company:${companyList}">
+							<time class="cbp_tmtime" datetime="2013-04-10 18:30"><span th:text="${company?.year}">4/10/13</span> <span th:text="${company?.hour}">18:30</span></time>
+							<div class="cbp_tmicon cbp_tmicon-phone"></div>
+							<div class="cbp_tmlabel">
+								<p th:text="${company?.context}">gi</p>
+							</div>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+
+
+
+
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<!-- <button type="button" class="btn btn-primary"  onclick="submitForm()">保存</button> -->
+					<!-- <button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button> -->
+					<button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	<script type="text/javascript">
+	/* function submitForm(){
+		$("#form-order-check").submit()
+		window.history.back(-1);
+		//window.parent.location.reload();
+	} */
+	</script>
+</body>
+</html>

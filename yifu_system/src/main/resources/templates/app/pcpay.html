@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>pc端支付</title>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.qrcode.min.js"></script>
+<script src="/ajax/libs/layer/layer.min.js"></script>
+<script type="text/javascript">
+        $(function test() { 
+        	if (window.applicationCache) {
+        		$('#qrcodeImg').qrcode("${code_url }");
+            } else {
+            	$('#qrcodeImg').qrcode({
+                    render: "table",
+                    text: "${code_url }"
+           		});
+            }
+        }); 
+</script>
+<script type="text/javascript">   
+$(function(){
+	//加载微信支付图片
+	queryWxPay();
+	//test();
+});
+var timer;
+function queryWxPay(){
+	timer = setInterval("remainTime2()", 4000);
+	remainTime2();
+	
+}
+
+function remainTime2(){
+	var record_id = $("#record_id").val();
+	$.ajax({
+		type:'post',
+		data:{record_id:record_id},
+		url:'/app/payrecord/findById',
+		success:function(data){
+			console.info(data);
+			/* if(data.status==true){//支付成功
+				
+			} */
+		}
+	});
+}
+</script>  
+</head>
+<body>
+	<div class="container">
+	<form id="manager_form">
+	<input type="hidden" id="jeans_id" name="jeans_id" value="${obj.jeans_id }"/>
+	<input type="hidden" id="status" name="status" value="${obj.status }"/>
+	<input type="hidden" id="record_id" value="${record_id }">
+		<div class="jobLeft paymentBox">
+			<div class="payment">
+				<div class="payTop">
+					<label>微信支付</label> <span class="payTip">二维码有效期2两小时，过期后请刷新页面重新获取二维码。</span>
+				</div>
+				<div class="pay">
+					<div class="payLeft">
+						<div class="payCode" id="qrcodeImg">
+							<img id="guide" src="" alt="" />
+						</div>
+						<div class="paybottom">
+							<span class="payTag"> 请使用微信扫一扫 <br /> 扫描二维码支付
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+</body>
+</html>

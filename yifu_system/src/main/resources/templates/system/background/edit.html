@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/jwk/css/fileinput.min.css" rel="stylesheet">
+<link href="/ajax/libs/iCheck/custom.css" rel="stylesheet">
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-background-edit" enctype="multipart/form-data" method="post">
+			<input id="backgroundId" name="backgroundId" type="hidden" th:value="${background.backgroundId}"/>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">性别：</label>
+				<div class="col-sm-8">
+					<div class="checkbox i-checks">
+					<label class="radio-inline">
+						<input type="radio" name="sex"  value="1" th:checked="${background.sex==1? true:false}"> 男
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="sex"  value="2" th:checked="${background.sex==2? true:false}"> 女
+					</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">问题列表：</label>
+				<div class="col-sm-8">
+					<select class="form-control" id="question" name="question">
+						<option value="1" th:selected="${background.question == 1 }">紧身的,修身的,舒适宽松的</option>
+						<option value="2" th:selected="${background.question == 2 }">日常休闲,街头潮流,酒吧夜店</option>
+						<option value="3" th:selected="${background.question == 3 }">简约大气,独特另类,绚丽缤纷</option>
+						<option value="4" th:selected="${background.question == 4 }">低调内敛,乐天达观,热情奔放</option>
+						<option value="5" th:selected="${background.question == 5 }">量身定做,彰显个性,奇思妙想</option>
+					</select>
+				</div>
+			</div>
+
+
+
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">图片文件：</label>
+				<div class="col-sm-8">
+					<img th:src="${background.url}" height="60%" width="60%"  onerror="this.style.display='none'"    id="img">
+					<input type="file" id="imageFile" name="imageFile" class="file-loading" onchange="messImg()">
+				</div>
+			</div>
+
+
+
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	<script src="/jwk/js/fileinput.min.js"></script>
+	<script src="/jwk/js/zh.js"></script>
+	<script src="/jwk/js/fileutil.js"></script>
+	<script>
+        //初始化fileinput
+        var oFileInput = new FileInput();
+        oFileInput.Init("imageFile");
+        function messImg(){
+            $("#img").hide();
+        };
+	</script>
+	<script type="text/javascript" src="/jwk/system/background/edit.js">
+	</script>
+	<script src="/ajax/libs/iCheck/icheck.min.js"></script>
+	<script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+	</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+target/
+
+.idea/
+JWK-System.iml
+.classpath
+.project
+.settings/
+/bin/

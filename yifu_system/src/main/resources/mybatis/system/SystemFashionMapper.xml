@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemFashionMapper">
+
+	<resultMap type="SysFashion" id="SysFashionResult">
+		<id     property="id"       column="id"        />
+		<result property="uid"      column="uid"       />
+		<result property="pointint"     column="pointint"      />
+		<result property="copy"     column="copy"      />
+		<result property="goodsId"     column="goods_id"    />
+		<result property="imgA"     column="img_a"    />
+		<result property="imgB"     column="img_b"      />
+		<result property="gender"     column="gender"    />
+		<result property="pcMod"     column="pc_mod"    />
+		<result property="androidMod"   column="android_mod"  />
+		<result property="iosMod"   column="ios_mod"  />
+		<result property="goodsPicurl"     column="goods_picurl"      />
+		<result column="goods_name" property="goodsName"  />
+   		 <result column="price" property="price"  />
+   		  <result column="select_size" property="selectSize"  />
+    	<result column="goods_intro" property="goodsIntro"  />
+    	<result column="buliao" property="buliao"  />
+    	<result column="pattern_all" property="patternAll"  />
+    	<result column="size_list" property="sizeList"  />	
+    	<result column="buliao_list" property="buliaoList"  />	
+    	<result column="order_serials" property="orderSerials"  />
+    	<result column="ctime" property="ctime"  />			
+	</resultMap> 
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysFashionResult">
+		select * from sys_fashion
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND goods_name = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	
+	<select id="selectSysFashionAll" resultMap="SysFashionResult">
+		SELECT * FROM sys_fashion
+	</select>
+	
+	<select id="selectSysFashionById" parameterType="Long" resultMap="SysFashionResult">
+		select *
+		from sys_fashion u
+		where u.id = #{id}
+	</select>
+	
+	<delete id="deleteSysFashionById" parameterType="Long">
+ 		delete from sys_fashion where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteSysFashion" parameterType="String">
+ 		delete from sys_fashion where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateSysFashion" parameterType="SysFashion">
+ 		update sys_fashion
+ 		<set>
+ 			<if test="gender != null and gender != ''">gender = #{gender},</if>
+ 			ctime = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertSysFashion" parameterType="SysFashion" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_fashion(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="gender != null and gender != ''">gender,</if>
+ 			ctime
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="gender != null and gender != ''">#{gender},</if>
+ 			sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

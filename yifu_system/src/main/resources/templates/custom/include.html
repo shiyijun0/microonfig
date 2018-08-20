@@ -1,0 +1,123 @@
+<form id="form1" method="post">
+    <!-- 验证码登录 -->
+	<div class="lo_bg login_switch">
+		<div class="login_tit">
+			<span class="tit_fl" id="login">验证码登录</span>
+			<span class="tit_fr" id="login_close">×</span>
+			<span class="tit_cen">登录</span>
+		</div>
+		<div class="login_switch_ph">
+			<span class="login_switch_error"></span>
+			<div class="login_num">
+				<span>+86> </span><input type="text" value="" placeholder="请输入手机号码" maxlength="11" id="mobile">
+			</div>
+			<div class="login_switch_next"><span>下一步</span></div>
+		</div>
+		<!-- <div class="login_party">
+			<a href="" class="login_wx"></a>
+			<a href="" class="login_sina"></a>
+		</div> -->
+	</div>
+	
+	<!--  输入密码 -->
+	<div class="lo_bg entering_password">
+		<div class="set_password_tit">
+			<span class="tit_fr" id="entering_close">×</span>
+			<span class="tit_cen">输入密码</span>
+		</div>
+		<div class="set_password_ph">
+			<span class="entering_password_error"></span>
+			<div class="set_password_num">
+				<input type="text" value="" readonly="readonly" id="mobile1">
+			</div>
+			<div class="set_password_num">
+				<input type="password" value="" placeholder="请输入你的密码" id="pass2">
+			</div>
+			<a class="entering_password_news"  >忘记密码</a>
+			<p><input type="button" class="entering_password_news_again" value="确定" id="sub2"></p>
+		</div>
+	</div>
+	
+	<!-- 密码登录 -->
+	<div class="lo_bg login_bg">
+	</div>
+	<div class="lo_bg login">
+		<div class="login_tit">
+			<span class="tit_fl" id="login_switch">密码登录</span>
+			<span class="tit_fr" id="login_close">×</span>
+			<span class="tit_cen">登录</span>
+		</div>
+		<div class="login_ph">
+			<span class="login_error"></span>
+			<div class="login_num">
+				<span>+86> </span><input type="text" value="" placeholder="请输入手机号码" maxlength="11" id="phone">
+			</div>
+			<div class="login_next"><span>下一步</span></div>
+		</div>
+		<!-- <div class="login_party">
+			<a href="" class="login_wx"></a>
+			<a href="" class="login_sina"></a>
+		</div> -->
+	</div>
+	
+	
+	<!-- 输入验证码 -->
+	<div class="lo_bg verification">
+		<div class="verification_tit">
+			<span class="tit_fl" id="verification_back">《</span>
+			<span class="tit_fr" id="verification_close">×</span>
+			<span class="tit_cen">输入验证码</span>
+		</div>
+		<div class="verification_ph">
+			<span class="verification_error"></span>
+			<p class="verification_news">验证码发送至 <span></span></p>
+			<p>
+				<a class="verification_news_again" href="javascript:void(0)">
+					<span id="getPhoneCode">获取验证码</span>
+				</a>
+			</p>
+			<div class="verification_num">
+				 <input type="text" value="" placeholder="" maxlength="4">
+			</div>
+		</div>
+	</div>
+	
+	<!-- 设置密码 -->
+	<div class="lo_bg set_password">
+		<div class="set_password_tit">
+			<span class="tit_fr" id="set_password_close">×</span>
+			<span class="tit_cen">设置登录密码</span>
+		</div>
+		<div class="set_password_ph">
+			<span class="set_password_error"></span>
+			<div class="set_password_num">
+				<input type="password" value="" placeholder="请输入你的密码" id="password1">
+			</div>
+			<a class="set_password_news">须包含数字、字母、符号中至少2种元素密码长度须8-16位</a>
+			<p><input type="button" class="set_password_news_again" value="确定" id="sub"></p>
+	
+		</div>
+	</div>
+	
+
+	<div class="lo_bg password" >
+		<div class="password_tit">
+			<span class="tit_fr" id="password_close">×</span>
+			<span class="tit_cen">密码重置</span>
+		</div>
+		<div class="password_ph">
+			<span class="password_error"></span>
+			<div class="password_num password_num1">
+				<input type="text" value="" id="forgetmobile" readonly>
+			</div>
+			<div class="password_num password_num1">
+				<input type="text" value="" placeholder="请输入8-16位密码" id="newpassword">
+			</div>
+			<p class="password_news">须包含数字、字母、符号中至少2种元素密码长度须8-16位</p>
+			<p><input type="button" class="password_news_again" value="确定"  id="forgetpass"></p>
+		</div>
+	</div>
+
+
+
+</form>

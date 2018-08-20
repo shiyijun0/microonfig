@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemWebBannerMapper">
+
+	<resultMap type="SysWebBanner" id="SysWebBannerResult">
+		<id column="id" property="id" jdbcType="INTEGER" />
+    <result column="banner_imgs" property="bannerImgs" jdbcType="VARCHAR" />
+     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+      <result column="designer_id" property="designerId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysWebBannerResult">
+		select * from sys_web_banner
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND name = #{searchValue}
+			</if>
+			
+		</where>
+	</select>
+
+	
+	<select id="selectWebBannerAll" resultMap="SysWebBannerResult">
+		SELECT * FROM sys_web_banner
+	</select>  
+	
+	<select id="selectWebBannerById" parameterType="Long" resultMap="SysWebBannerResult">
+		select *
+		from sys_web_banner u
+		where u.id = #{id}
+	</select>
+	
+	
+	
+	<delete id="deleteWebBannerById" parameterType="Long">
+ 		delete from sys_web_banner where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteWebBanner" parameterType="String">
+ 		delete from sys_web_banner where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateWebBanner" parameterType="SysWebBanner">
+ 		update sys_web_banner
+ 		<set>
+ 			<if test="name != null and name != ''">name = #{name},</if>
+ 			<if test="bannerImgs != null and bannerImgs != ''">banner_imgs = #{bannerImgs},</if>
+ 			<if test="orderNum != null">order_num = #{orderNum},</if>
+ 			<if test="status != null ">status = #{status},</if>
+ 			<if test="designerId != null">designer_id = #{designerId},</if>
+			<if test="content != null">content = #{content},</if>
+ 			create_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertWebBanner" parameterType="SysWebBanner" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_web_banner(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="name != null and name != ''">name,</if>
+ 			<if test="bannerImgs != null and bannerImgs != ''">banner_imgs,</if>
+ 			<if test="orderNum != null">order_num,</if>
+ 			<if test="status != null ">status,</if>	
+ 			<if test="designerId != null">designer_id,</if>
+		    <if test="content != null">content,</if>
+ 			create_time 
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="name != null and name != ''">#{name},</if>
+ 			<if test="bannerImgs != null and bannerImgs != ''">#{bannerImgs},</if>
+ 			<if test="orderNum != null">#{orderNum},</if>
+ 			<if test="status != null "> #{status},</if>
+ 			<if test="designerId != null">#{designerId},</if>
+		    <if test="content != null">#{content},</if>
+ 			sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

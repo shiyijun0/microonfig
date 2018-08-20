@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemSysWebQuestionMapper">
+
+	<resultMap type="SysWebQuestion" id="SysWebQuestionResult">
+		<id     property="id"       column="id"        />
+		<result property="content"     column="content"      />
+		<result property="ctime"   column="ctime"  />
+	</resultMap>
+
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysWebQuestionResult">
+		select * from sys_web_question
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND id = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectWebQuestionAll" resultMap="SysWebQuestionResult">
+		SELECT * FROM sys_web_question
+	</select>
+
+
+	<select id="selectSysWebQuestionById" parameterType="int" resultMap="SysWebQuestionResult">
+		select *
+		from sys_web_question u
+		where u.id = #{id}
+	</select>
+
+
+	<update id="updateSysWebQuestion" parameterType="SysWebQuestion">
+		update sys_web_question
+		<set>
+			<if test="content != null and content != ''">content = #{content},</if>
+			ctime = sysdate()
+		</set>
+		where 1=1
+		<if test="id != 0">and  id = #{id}</if>
+	</update>
+
+
+</mapper> 

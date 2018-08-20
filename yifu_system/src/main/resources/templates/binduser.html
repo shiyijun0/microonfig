@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+<meta charset="UTF-8">
+<title>绑定手机号</title>
+<script src="/ajax/libs/layer/layer.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			alert(1);
+		});
+		
+		function bindUser(){
+			var mobile = $("#mobile").val();
+			if(mobile == "" ||mobile ==''){
+				layer.msg("手机号不能为空");
+				return;
+			}
+			var regu = /^\d{11}$/ ;
+		    var re = new RegExp(regu);
+		    if(!(re.test(mobile) || new RegExp(/^\d{3}\*\*\*\*\d{4}$/ ).test(mobile))){
+		        layer.msg( "手机号码格式不正确" );
+		        $("#mobile").focus();
+		        return;
+		     }
+			
+		    var password = $("#password").val();
+		    if(password =="" || password ==''){
+		    	layer.msg("密码不能为空");
+		    	return;
+		    }
+		    if(password.length<6){
+		    	layer.msg("密码长度不能少于6位数");
+		    	return;
+		    }
+		    $.ajax({
+		    	type:'post',
+		    	data:$("#bindForm").serialize(),
+		    	url:'/system/binduser/save',
+	    	 	success: function(r) {
+		            if (r.code == 0) {
+		                //parent.location.href = '/index';
+		                alert("绑定成功");
+		            } else {
+		                layer.msg(r.msg);
+		            }
+		        }
+		    });
+		}
+	</script>
+</head>
+<body>
+	<form id="bindForm">
+        <h4 class="no-margins">绑定手机号：</h4>
+        <!-- <input type="hidden" name="openId" value="${appUser.openId}"/>
+        <input type="hidden" name="mobile" value="${appUser.mobile}"/>
+        <input type="hidden" name="userId" value="${appUser.userId}"/>
+        <input type="hidden" name="nickname" value="${appUser.nickname}"/>
+        <input type="hidden" name="sex" value="${appUser.sex}"/>
+        <input type="hidden" name="headimgurl" value="${appUser.headimgurl}"/> -->
+        <input type="text"     name="mobile" id ="mobile" class="form-control uname"     placeholder="手机号"/>
+        <input type="password" name="password" id ="password" class="form-control pword m-b" placeholder="密码"/>
+        <button class="btn btn-success btn-block" onclick="bindUser();">绑定</button>
+    </form>
+</body>
+</html>

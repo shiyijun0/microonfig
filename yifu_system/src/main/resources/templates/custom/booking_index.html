@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>预售首页</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/common-login.css">
+	<link rel="stylesheet" type="text/css" href="/css/booking.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+    <script src="/jwk/js/ry-ui.js"></script>
+	<script src="/js/sendCode.js"></script>
+	<script src="/js/common-login.js"></script>
+	<script type="text/javascript">
+        var indexType = 0;
+	</script>
+</head>
+<body>
+
+<!-- 头部 -->
+<div class="back booking_index">
+	<div class="booking_index_bg"></div>	
+	<header class="header">
+		<img src="/images/logo.png" alt="">
+	    <!-- <a href="javascript:history.back(-1)"><span></span></a> -->
+	    <a href="/custom/index"><span></span></a>
+	    <a href="javascript:void(0)"><span class="back_right"></span></a>
+	</header>
+</div>
+
+<!-- 登录信息 -->
+<!-- <th:block layout:include="custom/include"/> -->
+<th:block th:replace="custom/include"/>
+
+<!-- 左边栏 -->
+<th:block th:replace="custom/left"/>
+
+
+<div class="booking booking_shop_bg" style="margin-top: 0;padding-top: 5rem;">
+	<div class="booking_index_box" th:each="prelist:${presellList}">
+		<a th:href="@{/custom/booking_shop(id=${prelist?.id})}">
+         <img class="lazy" th:src="@{${qiniuUrl} + ${prelist?.images}}" alt="商品图片" /> </a>
+
+		<div class="booking_p">
+			<th:block th:if="${prelist?.sysLimitConfig!=null}">
+				<div class="booking_p_l">限量定制<br>
+					<span th:text="${prelist?.sysLimitConfig?.limited}+'件'">99件</span>
+				</div>
+				<div class="booking_p_r">
+					<span th:text="'RMB'+${prelist?.originalPrice}">RMB1099.00</span>
+					<i th:text="${prelist?.priceName}">早鸟价</i>
+					￥<th:block th:text="${prelist?.sysLimitConfig?.price}">799.00</th:block>
+				</div>
+			</th:block>
+			<th:block th:if="${prelist?.sysLimitConfig==null}">
+				<div class="booking_p_l">限量定制<br>
+					<span th:text="${prelist?.inventory}+'件'"></span>
+				</div>
+				<div class="booking_p_r">
+					<span th:text="'RMB'+${prelist?.originalPrice}"></span>
+					<i th:text="${prelist?.priceName}"></i>
+					￥<th:block th:text="${prelist?.price}"></th:block>
+				</div>
+			</th:block>
+		</div>
+		<a href="#" class="link" th:onclick="'javascript:gobuy(\''+${prelist?.id}+'\',\''+${session.user?.id}+'\')'">购买</a>
+	</div>
+</div>
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+    //购买时判断是否已经登录
+   function gobuy(presellId,userId){
+    	$.ajax({
+            cache: true,
+            type: "POST",
+            url: "/custom/islogin",
+            data:{},
+            dataType: "json",
+            error: function (request) {
+                $.modalMsg("系统出问题了");
+            },
+            success: function (data) {
+            	if(data.msg=="未登录"){
+            		$(".login_switch").fadeOut();
+                    $(".login").fadeIn();
+            	}else{
+            		 var requrl = window.location.href;
+            		//去订单页
+            		window.location.href="/custom/goOrder?jeansId="+presellId+"&orderType=1&requrl="+requrl;
+            	}
+            }
+    	});
+    }
+</script>
+</body>
+</html>

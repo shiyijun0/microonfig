@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemAddrMapper">
+
+	<resultMap type="Addr" id="AddrResult">
+		<id property="addrId" 			column="id" />
+		<result property="userId" 		column="user_id" />
+		<result property="provinceId" 	column="province_id" />
+		<result property="cityId" 		column="city_id" />
+		<result property="areaId" 		column="area_id" />
+		<result property="addr" 		column="addr" />
+		<result property="remark" 		column="remark" />
+		<result property="mobile" 		column="mobile" />
+		<result property="linkman" 		column="linkman" />
+		<result property="defaultFlag" 	column="default_flag" />
+		<result property="createTime" 	column="create_time" />
+		<result property="updateTime" 	column="update_time" />
+	</resultMap>
+
+	<select id="selectAddrAll"  parameterType="Long" resultMap="AddrResult">
+		select * from sys_addr
+		  where 1=1 and user_id = #{userId}
+	</select>
+	
+	<select id="selectDeafultByUserId" parameterType="Long" resultMap="AddrResult">
+		select * from sys_addr where default_flag =1 and user_id = #{userId}
+	</select>
+	
+	<select id="selectAddrs"  parameterType="Addr"   resultMap="AddrResult">
+		select * from sys_addr
+		<where>
+		default_flag =1
+			<if test="userId != null and userId != 0 ">
+				and user_id = #{userId}
+			</if>
+			
+			<!-- <if test="defaultFlag != null  ">
+				and default_flag = #{defaultFlag}
+			</if> -->
+		</where>
+	</select>
+
+	<select id="checkDefaultAddr" parameterType="Long" resultType="int">
+		select count(*) from sys_addr where user_id = #{userId} and default_flag = 1
+	</select>
+
+	<select id="selectAddrById" parameterType="Long" resultMap="AddrResult">
+		select * from sys_addr where id= #{addrId}
+	</select>
+
+
+
+	<insert id="insertAddr" parameterType="Addr">
+		insert into sys_addr(
+		<if test="addrId != null and addrId != 0">id,</if>
+		<if test="userId != null and userId != 0">user_id,</if>
+		<if test="provinceId != null and provinceId != 0">province_id,</if>
+		<if test="cityId != null and cityId != 0">city_id,</if>
+		<if test="areaId != null and areaId != 0">area_id,</if>
+		<if test="addr != null and addr != '' ">addr,</if>
+		<if test="remark != null and remark != ''">remark,</if>
+		<if test="mobile != null and mobile != ''">mobile,</if>
+		<if test="linkman != null and linkman != ''">linkman,</if>
+		<if test="defaultFlag != null and defaultFlag != ''">default_flag,</if>
+		create_time
+		)values(
+		<if test="addrId != null and addrId != 0">#{addrId},</if>
+		<if test="userId != null and userId != 0">#{userId},</if>
+		<if test="provinceId != null and provinceId != 0">#{provinceId},</if>
+		<if test="cityId != null and cityId != 0">#{cityId},</if>
+		<if test="areaId != null and areaId != 0">#{areaId},</if>
+		<if test="addr != null and addr != ''">#{addr},</if>
+		<if test="remark != null and remark != ''">#{remark},</if>
+		<if test="mobile != null and mobile != ''">#{mobile},</if>
+		<if test="linkman != null and linkman != ''">#{linkman},</if>
+		<if test="defaultFlag != null and defaultFlag != ''">#{defaultFlag},</if>
+		sysdate()
+		)
+	</insert>
+
+	<update id="updateDefaultFlag" parameterType="Long">
+		update sys_addr set default_flag = 1 where id = #{addrId}
+	</update>
+	
+	<update id="cancelDefaultFlag" parameterType="Long">
+		update sys_addr set default_flag = 0 where user_id = #{userId}
+	</update>
+	
+	<update id="updateAddr" parameterType="Addr">
+		update sys_addr
+		<set>
+			<if test="userId != null and userId != 0">user_id = #{userId},</if>
+			<if test="provinceId != null and provinceId != 0">province_id = #{provinceId},</if>
+			<if test="cityId != null and cityId != 0">city_id = #{cityId},</if>
+			<if test="areaId != null and areaId != 0">area_id = #{areaId},</if>
+			<if test="addr != null and addr != ''">addr = #{addr},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+			<if test="linkman != null and linkman != ''">linkman = #{linkman},</if>
+			<if test="defaultFlag != null and defaultFlag != ''">default_flag = #{defaultFlag},</if>
+			update_time = sysdate()
+		</set>
+		where 1=1
+		<if test="addrId != null and addrId  != ''">and id = #{addrId}</if>
+	</update>
+	
+	<delete id="deleteAddrById" parameterType="Long">
+		delete from sys_addr where id = #{addrId}
+	</delete>
+
+</mapper> 

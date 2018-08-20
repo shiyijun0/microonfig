@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>支付方式</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+    <script src="/jwk/js/ry-ui.js"></script>
+	<style>
+		.replenish_tit label span.yh_menu{
+			display: none;
+		}
+		.replenish_tit input{
+			display: block;
+		}
+	</style>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"><span></span></a>
+    支付方式
+</header>
+</div>
+<div class="add_container">
+	<form > <!-- action="/custom/order_details" -->
+	<div class="replenish">
+		<label class="replenish_img">
+			<p>余额<span>0</span>元</p>
+			<input type="radio" name="" class="add_box_radio" value="4">
+			<span class="yh_menu"></span>
+			<!-- <input type="hidden"  th:value="${price}"  class="add_submit" name="price">
+			<input type="hidden" th:value="${orderId}" class="add_submit" name="orderId">
+			<input type="hidden" th:value="${userId}" class="add_submit" name="userId"> -->
+		</label>
+		<div class="replenish_tit">
+			<label class="add_box add_box_initial replenish_box first" for="zfb">支付宝支付 <input type="radio" checked="checked" name="wapay" class="add_box_radio" value="2" id="zfb">	<span class="yh_menu active"></span>
+			</label>
+			<label class="add_box add_box_initial replenish_box two" for="wx">微信支付 <input type="radio" name="wapay" class="add_box_radio" value="1" id="wx"><span class="yh_menu"></span></label>
+			<!-- <label class="add_box add_box_initial replenish_box three">银联支付 <input type="radio" name="wapay" class="add_box_radio" value="3"></label> -->
+		</div>
+	</div>
+	<input type="button" value="立即支付" class="add_submit" onclick="sub()">
+	</form>
+</div>
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script th:inline="javascript" >
+	$(function() {
+        $(".replenish label").click(function(){
+            $(".replenish .yh_menu").removeClass("active");
+            $(this).find(".yh_menu").addClass('active')
+
+        })
+        $(".replenish_tit ul li").click(function() {
+			$(".replenish_tit ul li p").removeClass('active')
+			$(this).find('p').addClass('active')
+			/* Act on the event */
+		});	
+	});
+	
+	function sub(){
+        var pay= $("input[name='wapay']:checked").val();
+        //alert(pay)
+		if(pay=="" || pay == null || pay == "undefined"){
+			$.modalMsg("请选择支付方式");
+			return;
+		}
+		var orderId=[[${order?.orderId}]];
+		var userId=[[${order?.userId}]];
+		var price=[[${order?.money}]];
+		var num=[[${order?.num}]];
+		var addrId=[[${order?.addrId}]];
+		var jeansId=[[${jeansId}]];
+		var url=null;
+		$.ajax({
+            cache: true,
+            type: "POST",
+            dataType: "json",
+            url: "/alipay/tocheck",
+            data: {
+                "userId": userId,
+                "addrId": addrId,
+                "jeansId": jeansId,
+                "num": num,
+                "money": price,
+                "orderId":orderId
+            },
+            async: false,
+            error: function (request) {
+               console.info(request);
+            },
+            success: function (data) {
+            	if(data.code==0){
+            		if(pay==1){
+            			url="/wxpay/topay"
+            		}else if(pay==2) {
+            			url="/custom/alipay"
+            		}
+            		if(url == null){
+            			$.modalMsg("请求地址为空");
+            			return;
+            		}
+            		$.ajax({
+                        cache: true,
+                        type: "POST",
+                        dataType: "json",
+                        url: url,
+                        data: {
+                            "userId": userId,
+                            "addrId": addrId,
+                            "jeansId": jeansId,
+                            "num": num,
+                            "money": price,
+                            "orderId":orderId
+                        },
+                        async: false,
+                        error: function (request) {
+                           // alert("系统出问题了");
+                           console.info(request);
+                        },
+                        success: function (data) {
+                            if (data.code == 0 && pay==1) { //跳转微信支付
+                                $.ajax({
+                                    cache: true,
+                                    type: "POST",
+                                    url: "/custom/wpsubmit",
+                                    data: {
+                                        "mweb_url": data.mweb_url,
+                                        "result": data.result
+                                    },
+                                    async: false,
+                                    error: function (request) {
+                                        $.modalMsg("系统出现问题");
+                                    },
+                                    success: function (data) {
+                                        if (data.code == 0) {
+                                            // window.location.reload();
+                                            window.location.href="/custom/wpsuccess";
+                                        }
+                                        else {
+                                            $.modalMsg(data.msg);
+                                        }
+                                    }
+                                });
+                            	//window.location.href="/custom/wpsuccess?mweb_url="+data.mweb_url+"&result="+data.result;
+                            }else if(pay==2 && data.code == 0){//支付宝支付
+                                $.ajax({
+                                    cache: true,
+                                    type: "POST",
+                                    url: "/alipay/alipaysubmit",
+                                    data: {
+                                        "userId": data.userId,
+                                        "money": data.money,
+                                        "num": data.num,
+                                        "addrId": data.addrId,
+                                        "jeansId": data.jeansId,
+                                        "orderId": orderId
+                                    },
+                                    async: false,
+                                    error: function (request) {
+                                        $.modalMsg("系统出现问题");
+                                    },
+                                    success: function (data) {
+                                        if (data.code == 0) {
+                                            window.location.href="/alipay/topay";
+                                        }
+                                        else {
+                                            $.modalMsg(data.msg);
+                                        }
+                                    }
+                                });
+                            	//window.location.href="/alipay/topay?userId="+data.userId+"&addrId="+data.addrId+"&jeansId="+data.jeansId+"&num="+data.num+"&money="+data.money+"&orderId="+orderId;
+                            }
+                            else {
+                            	$.modalMsg(data.msg);
+                            }
+                        }
+                    });
+            	}else {
+            		$.modalMsg(data.msg);
+                }
+            }
+        });
+		
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemWebJeansMapper">
+
+	<resultMap type="SysWebJeans" id="SysWebJeansResult">
+		<id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="colors_id" property="colorsId" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="sizes_id" property="sizesId" jdbcType="VARCHAR" />
+    <result column="buttons_id" property="buttonsId" jdbcType="VARCHAR" />
+    <result column="threads_id" property="threadsId" jdbcType="VARCHAR" />
+     <result column="wash_id" property="washId" jdbcType="VARCHAR" />
+    <!-- <result column="cover" property="cover" jdbcType="VARCHAR" />
+    <result column="cover_title" property="coverTitle" jdbcType="VARCHAR" /> -->
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="is_tobuy" property="isTobuy" jdbcType="INTEGER" />
+    <result column="parts_id" property="partsId" jdbcType="VARCHAR" />
+    <result column="fixe_x" property="fixeX" jdbcType="VARCHAR" />
+    <result column="fixe_y" property="fixeY" jdbcType="VARCHAR" />
+
+		<result column="label" property="label" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysWebJeansResult">
+		select * from sys_web_jeans
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND name = #{searchValue}
+			</if>
+			
+		</where>
+	</select>
+
+	
+	<select id="selectWebJeansAll" resultMap="SysWebJeansResult">
+		SELECT * FROM sys_web_jeans
+	</select>  
+	
+	<select id="selectWebJeansById" parameterType="Long" resultMap="SysWebJeansResult">
+		select *
+		from sys_web_jeans u
+		where u.id = #{id}
+	</select>
+	
+	
+	
+	<delete id="deleteWebJeansById" parameterType="Long">
+ 		delete from sys_web_jeans where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteWebJeans" parameterType="String">
+ 		delete from sys_web_jeans where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateWebJeans" parameterType="SysWebJeans">
+ 		update sys_web_jeans
+ 		<set>
+ 			<if test="type != null">type = #{type},</if>
+ 			<if test="price != null">price = #{price},</if>
+ 			<!-- <if test="cover != null and cover != ''">cover = #{cover},</if> -->
+ 			<if test="code != null and code != ''">code = #{code},</if>
+ 			<if test="title != null and title != ''">title = #{title},</if>
+ 			<!-- <if test="coverTitle != null and coverTitle != ''">cover_title = #{coverTitle},</if> -->
+ 			<if test="name != null and name != ''">name = #{name},</if>
+ 			<if test="status != null">status = #{status},</if>
+ 			<if test="colorsId != null and colorsId != ''">colors_id = #{colorsId},</if>
+ 			<if test="fixeX !=null and fixeX != ''">fixe_x = #{fixeX},</if>		
+ 			<if test="fixeY != null and fixeY != ''">fixe_y = #{fixeY},</if>
+			<if test="label != null">label = #{label},</if>
+ 			<if test="sizesId != null and sizesId != ''">sizes_id = #{sizesId},</if>
+ 			<if test="buttonsId != null and buttonsId != ''">buttons_id = #{buttonsId},</if>
+ 			<if test="threadsId != null and threadsId != ''">threads_id = #{threadsId},</if>
+ 			<if test="model != null and model != ''">model = #{model},</if>
+ 			<if test="isTobuy != null and isTobuy != ''">is_tobuy = #{isTobuy},</if>
+ 			<if test="partsId != null and partsId != ''">parts_id = #{partsId},</if>
+ 			<if test="washId != null and washId != ''">wash_id = #{washId},</if>
+ 				
+ 			update_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertWebJeans" parameterType="SysWebJeans" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_web_jeans(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="type != null">type,</if>
+ 			<if test="price != null">price,</if>
+ 			<!-- <if test="cover != null and cover != ''">cover,</if> -->
+ 			<if test="code != null and code != ''">code,</if>
+ 			<if test="title != null and title != ''">title,</if>
+ 			<!-- <if test="coverTitle != null and coverTitle != ''">cover_title,</if> -->
+ 			<if test="name != null and name != ''">name,</if>
+ 			<if test="status != null">status,</if>
+ 			<if test="colorsId != null and colorsId != ''">colors_id,</if>
+ 			<if test="fixeX !=null and fixeX != ''">fixe_x,</if>		
+ 			<if test="fixeY != null and fixeY != ''">fixe_y,</if>
+		    <if test="label != null">label,</if>
+ 			<if test="washId != null and washId != ''">wash_id,</if>
+ 			<if test="sizesId != null and sizesId != ''">sizes_id,</if>
+ 			<if test="buttonsId != null and buttonsId != ''">buttons_id,</if>
+ 			<if test="threadsId != null and threadsId != ''">threads_id,</if>
+ 			<if test="model != null and model != ''">model,</if>
+ 			<if test="isTobuy != null and isTobuy != ''">is_tobuy,</if>
+ 			<if test="partsId != null and partsId != ''">parts_id,</if>	
+ 			ctime ,update_time 
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="type != null">#{type},</if>
+ 			<if test="price != null">#{price},</if>
+ 			<!-- <if test="cover != null and cover != ''">#{cover},</if> -->
+ 			<if test="code != null and code != ''">#{code},</if>
+ 			<if test="title != null and title != ''">#{title},</if>
+ 			<!-- <if test="coverTitle != null and coverTitle != ''">#{coverTitle},</if> -->
+ 			<if test="name != null and name != ''">#{name},</if>
+ 			<if test="status != null">#{status},</if>
+ 			<if test="colorsId != null and colorsId != ''">#{colorsId},</if>
+ 			<if test="fixeX !=null and fixeX != ''">#{fixeX},</if>		
+ 			<if test="fixeY != null and fixeY != ''">#{fixeY},</if>
+		    <if test="label != null">#{label},</if>
+ 			<if test="washId != null and washId != ''">#{washId},</if>
+ 			<if test="sizesId != null and sizesId != ''">#{sizesId},</if>
+ 			<if test="buttonsId != null and buttonsId != ''">#{buttonsId},</if>
+ 			<if test="threadsId != null and threadsId != ''">#{threadsId},</if>
+ 			<if test="model != null and model != ''">#{model},</if>
+ 			<if test="isTobuy != null and isTobuy != ''">#{isTobuy},</if>
+ 			<if test="partsId != null and partsId != ''">#{partsId},</if>
+ 			sysdate(),sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

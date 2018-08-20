@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>我的设计</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/my_design.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	<script th:inline="javascript">
+		var reqLeftUrl = [[${session.reqLeftUrl}]];
+		$(function(){
+			if(reqLeftUrl!="" && reqLeftUrl != null){
+				$("#returnLeft").attr("href",reqLeftUrl);
+			}
+		});
+	</script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)" id="returnLeft"><span></span></a>
+    我的设计
+</header>
+</div>
+
+<div class="my_design" >
+<!--<p th:each="myDesigner:${myDesignerList}">-->
+	<div class="my_design_container" th:each="myDesigner:${myDesignerList}">
+		<div class="my_design_tit">
+		<label th:text="${myDesigner?.subtime}">2018.02.15 20:31</label><span th:id="${myDesigner?.id}" >×</span>
+		</div>
+		<div class="my_design_box">
+			<div class="my_design_box_fl">
+				<img src="/images/des1.jpg" alt="" th:id="${myDesigner?.id}+'img'">
+			</div>
+			<div class="my_design_box_fr">
+				<p >基本款式：<label th:text="${myDesigner?.name}">修身直筒牛仔裤</label></p>
+				<p >洗水工艺：<label th:text="${myDesigner?.push}">浅蓝色中破洞</label></p>
+				<p >纽扣五金：<label th:text="${myDesigner?.button}">红铜扣</label></p>
+				<p >缝线颜色：<label th:text="${myDesigner?.color}">灰色+黄色</label></p>
+				<!-- <p > 缝线颜色：<span th:text="${part}+'&nbsp;&nbsp;'" th:each="part:${myDesigner?.parts}">灰色+黄色</span></p> -->
+				<p>定制图案为：</p>
+				 <p  th:each="part:${myDesigner?.parts}"><label th:text="${part.key}+'：&nbsp;'">左腿上方：</label><label th:text="${part.value}">锦鲤鱼：</label></p>
+				<!--<p th:text="${myDesigner?.name}">左后口袋：金龙</p>
+				<p th:text="${myDesigner?.name}">上方口袋：文字（20180101）</p> -->
+			</div>
+		</div>
+		
+	<!--	</p>-->
+		
+		<!-- <div class="my_design_tit">
+			2018.02.15 20:31<span>×</span>
+		</div>
+		<div class="my_design_box">
+			<div class="my_design_box_fl">
+				<img src="/images/des1.jpg" alt="">
+			</div>
+			<div class="my_design_box_fr">
+				<p>基本款式：修身直筒牛仔裤</p>
+				<p>洗水工艺：浅蓝色中破洞</p>
+				<p>纽扣五金：红铜扣</p>
+				<p>缝线颜色：灰色+黄色</p>
+				<p>定制图案：</p>
+				<p>左腿上方：锦鲤鱼</p>
+				<p>左后口袋：金龙</p>
+				<p>上方口袋：文字（20180101）</p>
+			</div>
+		</div>
+		<div class="my_design_tit">
+			2018.02.15 20:31<span>×</span>
+		</div>
+		<div class="my_design_box">
+			<div class="my_design_box_fl">
+				<img src="/images/des1.jpg" alt="">
+			</div>
+			<div class="my_design_box_fr">
+				<p>基本款式：修身直筒牛仔裤</p>
+				<p>洗水工艺：浅蓝色中破洞</p>
+				<p>纽扣五金：红铜扣</p>
+				<p>缝线颜色：灰色+黄色</p>
+				<p>定制图案：</p>
+				<p>左腿上方：锦鲤鱼</p>
+				<p>左后口袋：金龙</p>
+				<p>上方口袋：文字（20180101）</p>
+			</div>
+		</div>
+		<div class="my_design_tit">
+			2018.02.15 20:31<span>×</span>
+		</div>
+		<div class="my_design_box">
+			<div class="my_design_box_fl">
+				<img src="/images/des1.jpg" alt="">
+			</div>
+			<div class="my_design_box_fr">
+				<p>基本款式：修身直筒牛仔裤</p>
+				<p>洗水工艺：浅蓝色中破洞</p>
+				<p>纽扣五金：红铜扣</p>
+				<p>缝线颜色：灰色+黄色</p>
+				<p>定制图案：</p>
+				<p>左腿上方：锦鲤鱼</p>
+				<p>左后口袋：金龙</p>
+				<p>上方口袋：文字（20180101）</p>
+			</div>
+		</div>
+		<div class="my_design_tit">
+			2018.02.15 20:31<span>×</span>
+		</div>
+		<div class="my_design_box">
+			<div class="my_design_box_fl">
+				<img src="/images/des1.jpg" alt="">
+			</div>
+			<div class="my_design_box_fr">
+				<p>基本款式：修身直筒牛仔裤</p>
+				<p>洗水工艺：浅蓝色中破洞</p>
+				<p>纽扣五金：红铜扣</p>
+				<p>缝线颜色：灰色+黄色</p>
+				<p>定制图案：</p>
+				<p>左腿上方：锦鲤鱼</p>
+				<p>左后口袋：金龙</p>
+				<p>上方口袋：文字（20180101）</p>
+			</div> -->
+			
+			
+		</div>
+		
+	</div>	
+</div>
+	
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+	$(function() {
+		$(".my_order_menu a").click(function() {
+			$(".my_order_menu a").removeClass('active');
+			$(this).addClass('active');
+			/* Act on the event */
+		});
+		
+		
+		
+		
+		
+	});
+	
+	
+	
+</script>
+
+<script type="text/javascript">
+
+$(".my_design_tit span").click(function(){
+	var id=$(this).attr("id");	
+	
+	$.ajax({
+        cache: true,
+        type: "POST",
+        url: "/custom/my_design_delete",
+        data: {
+          
+           "id": id
+           
+        },
+        async: false,
+        error: function (request) {
+           // $.modalMsg("系统出问题了", "error");
+           alert("系统出现问题");
+        },
+        success: function (data) {
+        	console.log(data);
+        	console.info("data===="+data.msg);
+            if (data.code == 0) {
+            	//$.modalMsg("删除成功");
+            	 window.location.reload();
+                
+            }
+            else {
+            	alert(data.msg);
+           // $.modalMsg(data.msg);
+            	
+            }
+        }
+    });
+})
+
+
+$(".my_design_box_fl img").click(function(){
+	var id=parseInt($(this).attr("id"));
+	//alert(id+"******")
+	
+	window.location.href="/custom/showDesigner?id="+id;
+	/* $.ajax({
+        cache: true,
+        type: "POST",
+        url: "/custom/showDesigner",
+        data: {
+          
+           "id": id
+           
+        },
+        async: false,
+        error: function (request) {
+           // $.modalMsg("系统出问题了", "error");
+           alert("系统出现问题");
+        },
+        success: function (data) {
+        	console.log(data);
+        	console.info("data===="+data.msg);
+            if (data.code == 0) {
+            	//$.modalMsg("删除成功");
+            	 window.location.reload();
+                
+            }
+            else {
+            	alert(data.msg);
+           // $.modalMsg(data.msg);
+            	
+            }
+        }
+    }); */
+})
+
+</script>
+</body>
+</html>

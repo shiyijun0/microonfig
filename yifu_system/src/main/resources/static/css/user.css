@@ -1,0 +1,31 @@
+body,html{
+	height: 100%;
+}
+body{
+	position: relative;
+	overflow: hidden;
+}
+.user_add_tit_fr input[type="file"]{
+	display: none;
+	background: none;
+	outline: none;
+	border: 0px;
+	tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-appearance: none;
+	appearance: none;
+}
+.user_add_tit_fr label{
+	width: 4rem;
+	height: 4rem;
+	border-radius: 50%;
+	/*display: block;*/
+	/*position: relative;*/
+	/*z-index: 8;*/
+}
+.user_add_tit_fr img{
+	display: block;
+	width: 4rem;
+	height: 4rem;
+	border-radius: 50%;
+}

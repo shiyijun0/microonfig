@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>优惠卷</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/packet.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/volume.js"></script>
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+	<script src="/jwk/js/ry-ui.js"></script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"><span></span></a>
+    优惠卷
+</header>
+</div>
+<div class="red_packet">
+	<form id="form1" method="post">
+	<div class="packet_volume">
+		<input type="text" placeholder="请输入你的优惠码" class="volume_input" id="couponcode"><input type="button" value="立即兑换" class="volume_sub" onclick="sub()">
+	</div>
+	</form>
+
+	<div class="packet_box" th:each="coupon:${couponUser}">
+		<div class="packet_fl">
+			<p class="packet_big">优惠卷</p>
+			<p class="packet_sm" id="endtime" th:text="|有效期为  ${coupon.ctime} - ${coupon.endtime}|">有效期为 2018.1.1-2018.5.30</p>
+		</div>
+		<div class="packet_fr" id="rank" th:text="${coupon.rank}">8折</div>
+	</div>
+</div>
+	
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+</body>
+</html>

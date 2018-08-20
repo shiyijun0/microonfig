@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemWordColorMapper">
+
+	<resultMap type="WordColor" id="WordColorResult">
+		<id     property="colorId"       column="id"        />
+		<result property="colorName"     column="color"      />
+		<result property="colorPrice"   column="colorprice"  />
+		<result property="createTime"   column="ctime"  />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="WordColorResult">
+		select * from sys_word_color
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND color = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectWordColorById" parameterType="Long" resultMap="WordColorResult">
+		select *
+		from sys_word_color u
+		where u.id = #{colorId}
+	</select>
+
+
+
+	<delete id="deleteWordColorById" parameterType="Long">
+		delete from sys_word_color where id = #{colorId}
+	</delete>
+
+	<delete id="batchDeleteWordColor" parameterType="String">
+		delete from sys_word_color where id in
+		<foreach collection="array" item="colorId" open="(" separator="," close=")">
+			#{colorId}
+		</foreach>
+	</delete>
+
+	<update id="updateWordColor" parameterType="WordColor">
+		update sys_word_color
+		<set>
+			<if test="colorName != null and colorName != ''">color = #{colorName},</if>
+			<if test="colorPrice != null and colorPrice != ''">colorprice = #{colorPrice},</if>
+		</set>
+		where 1=1
+		<if test="colorId != null">and  id = #{colorId}</if>
+	</update>
+
+	<insert id="insertWordColor" parameterType="WordColor" useGeneratedKeys="true" keyProperty="colorId">
+		insert into sys_word_color(
+		<if test="colorId != null and colorId != 0">id,</if>
+		<if test="colorName != null and colorName != ''">color,</if>
+		<if test="colorPrice != null and colorPrice != ''" >colorprice,</if>
+		ctime
+		)values(
+		<if test="colorId != null and colorId != 0">#{colorId},</if>
+		<if test="colorName != null and colorName != ''">#{colorName},</if>
+		<if test="colorPrice != null and colorPrice != ''" >#{colorPrice},</if>
+		sysdate()
+		)
+	</insert>
+
+</mapper> 

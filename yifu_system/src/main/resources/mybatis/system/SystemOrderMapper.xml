@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemOrderMapper">
+
+	<resultMap type="SysOrder" id="SysOrderResult">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="addr_id" property="addrId" jdbcType="INTEGER" />
+    <result column="coupon_id" property="couponId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="size" property="size" jdbcType="VARCHAR" />
+      <result column="color" property="color" jdbcType="VARCHAR" />
+       <result column="jeans_name" property="jeansName" jdbcType="VARCHAR" />
+       <result column="order_type" property="orderType" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysOrderResult">
+		select * from sys_order
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND order_id = #{searchValue}
+			</if>
+			
+			<if test="searchPayStatus != null and searchPayStatus != ''">
+				AND pay_status = #{searchPayStatus}
+			</if>
+			<if test="searchPayType != null and searchPayType != ''">
+				AND pay_type = #{searchPayType}
+			</if>
+		</where>
+	</select>
+
+	<update id="updatePayStatus" parameterType="Long">
+		update sys_order set pay_status = 1 where id = #{id}
+	</update>
+	
+	<select id="selectOrderAll" resultMap="SysOrderResult">
+		SELECT * FROM sys_order
+	</select> 
+	
+	<select id="selectOrderByOrder" resultMap="SysOrderResult" parameterType="SysOrder">
+		SELECT * FROM sys_order
+		
+		<where>
+		1=1
+			<if test="payStatus != null ">
+				AND pay_status = #{payStatus}
+			</if>
+
+			<if test="orderId != null and orderId != ''">
+			AND order_id = #{orderId}
+		</if>
+
+			<if test="userId != null and userId != ''">
+				AND user_id = #{userId}
+			</if>
+
+		</where>
+	</select>  
+	
+	<select id="selectOrderById" parameterType="Long" resultMap="SysOrderResult">
+		select *
+		from sys_order u
+		where u.id = #{id}
+	</select>
+	
+	
+	
+	<delete id="deleteOrderById" parameterType="Long">
+ 		delete from sys_order where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteOrder" parameterType="String">
+ 		delete from sys_order where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateOrder" parameterType="SysOrder">
+ 		update sys_order
+ 		<set>
+ 			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+ 			<if test="addrId != null and addrId != ''">addr_id = #{addrId},</if>
+ 			<if test="couponId != null and couponId != ''">coupon_id = #{couponId},</if>
+ 			<if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+ 			<if test="remark != null and remark != ''">remark = #{remark},</if>
+ 			<if test="num != null and num != ''">num = #{num},</if>
+ 			<if test="payType != null and payType != ''">pay_type = #{payType},</if>
+ 			<if test="money != null and money != ''">money = #{money},</if>
+ 			<if test="payStatus !=null and payStatus != ''">pay_status = #{payStatus},</if>			
+ 			<if test="orderType !=null and orderType != 0">order_type = #{orderType},</if>			
+ 			pay_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+	
+	<update id="updateOrderByOrderId" parameterType="SysOrder">
+ 		update sys_order
+ 		<set>
+ 			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+ 			<if test="addrId != null and addrId != ''">addr_id = #{addrId},</if>
+ 			<if test="couponId != null and couponId != ''">coupon_id = #{couponId},</if>
+ 			<if test="id != null and id != ''">id = #{id},</if>
+ 			<if test="remark != null and remark != ''">remark = #{remark},</if>
+ 			<if test="color != null and color != ''">color=#{color},</if>
+ 			<if test="size != null and size != ''">size=#{size},</if>
+ 			<if test="jeansName != null and jeansName != ''">jeans_name=#{jeansName},</if>
+ 			<if test="num != null and num != ''">num = #{num},</if>
+ 			<if test="payType != null and payType != ''">pay_type = #{payType},</if>
+ 			<if test="money != null and money != ''">money = #{money},</if>
+ 			<if test="payStatus !=null and payStatus != ''">pay_status = #{payStatus},</if>			
+ 			<if test="orderType !=null and orderType != 0">order_type = #{orderType},</if>			
+ 			pay_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null and id != 0">and id = #{orderId}</if>
+	</update>
+
+
+	<update id="updateOrderByPayStatus" parameterType="SysOrder">
+		update sys_order
+		<set>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="addrId != null and addrId != ''">addr_id = #{addrId},</if>
+			<if test="couponId != null and couponId != ''">coupon_id = #{couponId},</if>
+			<if test="id != null and id != ''">id = #{id},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="color != null and color != ''">color=#{color},</if>
+			<if test="size != null and size != ''">size=#{size},</if>
+			<if test="jeansName != null and jeansName != ''">jeans_name=#{jeansName},</if>
+			<if test="num != null and num != ''">num = #{num},</if>
+			<if test="payType != null and payType != ''">pay_type = #{payType},</if>
+			<if test="money != null and money != ''">money = #{money},</if>
+			<if test="payStatus !=null">pay_status = #{payStatus},</if>
+			<if test="orderType !=null">order_type = #{orderType},</if>
+
+		</set>
+		where 1=1
+		<if test="id != null and id != 0">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertOrder" parameterType="SysOrder" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_order(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="userId != null and userId != ''">user_id,</if>
+ 			<if test="addrId != null and addrId != ''">addr_id,</if>
+ 			<if test="couponId != null and couponId != ''">coupon_id,</if>
+ 			<if test="orderId != null and orderId != ''">order_id,</if>
+ 			<if test="remark != null and remark != ''">remark,</if>
+ 			<if test="num != null and num != ''">num,</if>
+ 			<if test="payType != null and payType != ''">pay_type,</if>
+ 			<if test="color != null and color != ''">color,</if>
+ 			<if test="size != null and size != ''">size,</if>
+ 			<if test="jeansName != null and jeansName != ''">jeans_name,</if>
+ 			<if test="money != null and money != ''">money,</if>
+ 			<if test="payStatus !=null and payStatus != ''">pay_status,</if>	
+ 			<if test="orderType !=null and orderType != 0">order_type,</if>	
+ 			create_time
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="userId != null and userId != ''">#{userId},</if>
+ 			<if test="addrId != null and addrId != ''">#{addrId},</if>
+ 			<if test="couponId != null and couponId != ''">#{couponId},</if>
+ 			<if test="orderId != null and orderId != ''">#{orderId},</if>
+ 			<if test="remark != null and remark != ''">#{remark},</if>
+ 			<if test="num != null and num != ''">#{num},</if>
+ 			<if test="payType != null and payType != ''">#{payType},</if>
+ 			<if test="color != null and color != ''">#{color},</if>
+ 			<if test="size != null and size != ''">#{size},</if>
+ 			<if test="jeansName != null and jeansName != ''">#{jeansName},</if>
+ 			<if test="money != null and money != ''">#{money},</if>
+ 			<if test="payStatus !=null and payStatus != ''">#{payStatus},</if>	
+ 			<if test="orderType !=null and orderType != ''">#{orderType},</if>	
+ 			sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

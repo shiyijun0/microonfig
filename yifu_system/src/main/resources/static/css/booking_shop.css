@@ -1,0 +1,1220 @@
+body{
+	position: relative;
+}
+.booking img{
+	width: 100%;
+	display: block;
+}
+.header span.back_right{
+	left: initial;
+    width: 3rem;
+    right: 4.63%;
+    background: url(../images/more.png) center center no-repeat;
+    background-size: 70%;
+}
+.booking_fix{
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	padding-right: 1rem;
+	box-sizing: border-box;
+	background-color: rgba(12,17,28,.8);
+	height: 4rem;
+	text-align: right;
+}
+.booking_fix a{
+	display: inline-block;
+	width: 6rem;
+	line-height: 2.4rem;
+	background-color: #11294f;
+	color: #fff;
+	margin-top: .8rem;
+	text-align: center;
+	margin-left: 1rem;
+	border-radius: .6rem;
+}
+.booking_index{
+	position: fixed;
+	width: 100%;
+	height: 5rem;
+	background-color: rgba(12,17,28,.8);
+	z-index: 9;
+}
+
+.booking_index .header span{
+	    background: url(../images/back1.png) center center no-repeat;
+	    background-size: contain;
+}
+.booking_index .header span.back_right{
+		background: url(../images/more1.png) center center no-repeat;
+	    background-size: contain;
+}
+
+.booking_index .header span{
+	top: .5rem;
+}
+.booking_index img{
+	width: 40%;
+	margin: 0 auto;
+}
+.booking_index_box{
+	position: relative;
+}
+.booking_index_box a{
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+	display: inline-block;
+	line-height: 2.5rem;
+	padding: 0 3rem;
+	border-radius: .8rem;
+	background-color: #11294f;
+	color: #fff;
+}
+.booking_index_bg{
+	position: fixed;
+	width: 100%;
+	top: 0;
+}
+.booking_shop_bg{
+	padding-top: 5rem;
+	background-color: #0c101b;
+}
+.booking_index_box{
+	margin-bottom: .2rem;
+}
+.index_banner{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.index_banner .baner img{
+	width: auto;
+	height: 100%;
+}
+.nav{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+.back .header span{
+	z-index: 999;
+}
+.header{
+	z-index: 7;
+}
+.nav{
+    /*background-color: #000;*/
+}
+.nav_bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 997;
+}
+.nav_mid{
+    position: fixed;
+    z-index: 999;
+    width: 55%;
+    height: 100%;
+    top: 0;
+    left: -55%;
+    box-sizing: border-box;
+    padding: 3rem 0 0 2.5rem;
+    background: url(../images/left.jpg);
+    background-size: 100%;
+    color: #fff;
+    line-height: 2.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.nav .user .user_img #uimg{
+    width: 6rem;
+    height: 6rem;
+    margin-bottom: 1rem;
+   /* background: url(../images/user.png) no-repeat;*/
+    background-size: 100%;
+    border-radius: 50px;
+    overflow: hidden;
+}
+.nav .user{
+    margin-top: 1
+
+}
+.nav .user p{
+    line-height: 1.5rem;
+    font-size: .6rem;
+}
+.nav .user p.big{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.nav_mid .nav_bom{
+    position: absolute;
+    bottom: 2rem;
+    font-size: .6rem;
+}
+.nav_mid .nav_bom p{
+    line-height: 1rem;
+}
+.nav ul li a{
+    display: inherit;
+    color: inherit;
+}
+.nav ul{
+    margin-top: 3rem;
+}
+.nav_mid{
+    text-align: left;
+}
+/*登录*/
+.login{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+.login_tit{
+	position: relative;
+	margin-top: 3rem;
+	width: 100%;
+	margin: 0 auto;
+}
+.login_tit .tit_fl{
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: .6rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+
+}
+.login_tit .tit_fr{
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .6rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+}
+.tit_cen{
+	display: inline-block;
+	margin-top: 1rem;
+	font-size: 1.2rem;
+}
+.login_party a{
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	margin: 0 1rem;
+	border-radius: 50%;
+	border: 1px solid #748399;
+}
+.login_party a.login_wx{
+	background: url(../images/weixin.png) center no-repeat;
+	background-size:70%;
+}
+.login_party a.login_sina{
+	background: url(../images/sina.png) center no-repeat;
+	background-size: 70%;
+}
+.login_next{
+	line-height: 2rem;
+	text-align: center;
+	margin: .6rem 0;
+}
+.login_next span{
+	display: inline-block;
+	padding: 0 1.5rem;
+	background-color: #707f95;
+	border-radius: 8px;
+	color: #fff;
+}
+.login_num{
+	width: 80%;
+	display: flex;
+	margin: 0 auto;
+	line-height: 2rem;
+	border-bottom: 1px solid #11294f;
+	font-size: .9rem;
+}
+.login_num span{
+	width: 4rem;
+}
+.login_num input{
+	flex: 1;
+	width: 100%;
+	height: 100%;
+	height: 2rem;
+	padding: 0;
+	margin: 0;
+	border: none;
+	background-color: transparent;
+	outline: none;
+
+}
+.login_num input::-webkit-input-placeholder {
+	color: #707f95;
+}
+.login_num input:focus::-webkit-input-placeholder {
+	color: #707f95;
+}
+/* Firefox < 19 */
+.login_num input:-moz-placeholder {
+	color: #707f95;
+}
+.login_num input:focus:-moz-placeholder {
+	color: #707f95;
+}
+/* Firefox > 19 */
+.login_num input::-moz-placeholder {
+	color: #707f95;
+}
+.login_num input:focus::-moz-placeholder {
+	color: #707f95;
+}
+
+/* Internet Explorer 10 */
+.login_num input:-ms-input-placeholder {
+	color: #707f95;
+}
+.login_num input:focus:-ms-input-placeholder {
+	color: #707f95;
+}
+.login_ph .login_error{
+	color: #ffd200;
+	font-size: .6rem;
+}
+
+/*验证*/
+.verification{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+.verification_tit{
+	position: relative;
+	margin-top: 3rem;
+	width: 100%;
+	margin: 0 auto;
+}
+.verification_tit .tit_fl{
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: .6rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+
+}
+.verification_tit .tit_fr{
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .6rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+}
+.verification_party a{
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	margin: 0 1rem;
+	border-radius: 50%;
+	border: 1px solid #748399;
+}
+
+.verification_next{
+	line-height: 2rem;
+	text-align: center;
+	margin: .6rem 0;
+}
+.verification_next span{
+	display: inline-block;
+	padding: 0 1.5rem;
+	background-color: #707f95;
+	border-radius: 8px;
+	color: #fff;
+}
+.verification_num{
+	width: 60%;
+	display: flex;
+	margin: 0 auto;
+	line-height: 2rem;
+	border-bottom: 1px solid #11294f;
+	font-size: .9rem;
+	margin-top: .5rem;
+}
+.verification_num span{
+	width: 60px;
+}
+.verification_num input{
+	flex: 1;
+	width: 100%;
+	border: none;
+	background-color: transparent;
+	outline: none;
+
+}
+.verification_num input::-webkit-input-placeholder {
+	color: #707f95;
+}
+.verification_num input:focus::-webkit-input-placeholder {
+	color: #707f95;
+}
+/* Firefox < 19 */
+.verification_num input:-moz-placeholder {
+	color: #707f95;
+}
+.verification_num input:focus:-moz-placeholder {
+	color: #707f95;
+}
+/* Firefox > 19 */
+.verification_num input::-moz-placeholder {
+	color: #707f95;
+}
+.verification_num input:focus::-moz-placeholder {
+	color: #707f95;
+}
+
+/* Internet Explorer 10 */
+.verification_num input:-ms-input-placeholder {
+	color: #707f95;
+}
+.verification_num input:focus:-ms-input-placeholder {
+	color: #707f95;
+}
+.verification_ph .verification_error{
+	color: #ffd200;
+	font-size: .6rem;
+}
+.verification_news{
+	color: #11294f;
+	font-size: .6rem;
+}
+.verification_news_again{
+	margin-top: .9rem;
+	font-size: .8rem;
+	display: inline-block;
+	padding: .4rem .8rem;
+	border: 1px solid #11294f;
+	border-radius: 8px;
+}
+.verification_num input{
+	line-height: 2rem;
+	font-size: 1.2rem;
+	text-align: center;
+}
+/*设置密码*/
+
+.set_password{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+.set_password_tit{
+	position: relative;
+	margin-top: 3rem;
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: .5rem;
+}
+.set_password_tit .tit_fl{
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: .6rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+
+}
+.set_password_tit .tit_fr{
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .6rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+}
+.tit_cen{
+	display: inline-block;
+	margin-top: 1rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.set_password_party a{
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	margin: 0 1rem;
+	border-radius: 50%;
+	border: 1px solid #748399;
+}
+
+.set_password_next{
+	line-height: 2rem;
+	text-align: center;
+	margin: .6rem 0;
+}
+.set_password_next span{
+	display: inline-block;
+	padding: 0 1.5rem;
+	background-color: #707f95;
+	border-radius: 8px;
+	color: #fff;
+}
+.set_password_num{
+	width: 60%;
+	display: flex;
+	margin: 0 auto;
+	line-height: 2rem;
+	border-bottom: 1px solid #11294f;
+	font-size: .9rem;
+	margin-bottom: .5rem;
+
+}
+.set_password_num span{
+	width: 60px;
+}
+.set_password_num input{
+	flex: 1;
+	width: 100%;
+	border: none;
+	background-color: transparent;
+	outline: none;
+}
+.set_password_ph{
+
+}
+.set_password_num input::-webkit-input-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus::-webkit-input-placeholder {
+	color: #707f95;
+}
+/* Firefox < 19 */
+.set_password_num input:-moz-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus:-moz-placeholder {
+	color: #707f95;
+}
+/* Firefox > 19 */
+.set_password_num input::-moz-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus::-moz-placeholder {
+	color: #707f95;
+}
+
+/* Internet Explorer 10 */
+.set_password_num input:-ms-input-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus:-ms-input-placeholder {
+	color: #707f95;
+}
+.set_password_ph .set_password_error{
+	color: #ffd200;
+	font-size: .6rem;
+}
+.set_password_news{
+	display: inline-block;
+	width: 60%;
+	color: #11294f;
+	font-size: .6rem;
+}
+.set_password_news_again{
+	margin-top: .9rem;
+	font-size: 1rem;
+	display: inline-block;
+	padding: .4rem 1.2rem;
+	background-color: #11294f;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+}
+.set_password_num input{
+	line-height: 2rem;
+	font-size: 1rem;
+	text-align: center;
+}
+
+
+.entering_password_news_again{
+	margin-top: .9rem;
+	font-size: 1rem;
+	display: inline-block;
+	padding: .4rem 1.2rem;
+	background-color: #11294f;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+}
+
+.login_bg{
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	opacity: .7;
+	z-index: 2;
+}
+/*设置密码*/
+
+.set_password{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+.set_password_tit{
+	position: relative;
+	margin-top: 3rem;
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: .5rem;
+}
+.set_password_tit .tit_fl{
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: .6rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+
+}
+.set_password_tit .tit_fr{
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .6rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+}
+.tit_cen{
+	display: inline-block;
+	margin-top: 1rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.set_password_party a{
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	margin: 0 1rem;
+	border-radius: 50%;
+	border: 1px solid #748399;
+}
+
+.set_password_next{
+	line-height: 2rem;
+	text-align: center;
+	margin: .6rem 0;
+}
+.set_password_next span{
+	display: inline-block;
+	padding: 0 1.5rem;
+	background-color: #707f95;
+	border-radius: 8px;
+	color: #fff;
+}
+.set_password_num{
+	width: 60%;
+	display: flex;
+	margin: 0 auto;
+	line-height: 2rem;
+	border-bottom: 1px solid #11294f;
+	font-size: .9rem;
+	margin-bottom: .5rem;
+
+}
+.set_password_num span{
+	width: 60px;
+}
+.set_password_num input{
+	flex: 1;
+	width: 100%;
+	border: none;
+	background-color: transparent;
+	outline: none;
+}
+.set_password_ph{
+
+}
+.set_password_num input::-webkit-input-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus::-webkit-input-placeholder {
+	color: #707f95;
+}
+/* Firefox < 19 */
+.set_password_num input:-moz-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus:-moz-placeholder {
+	color: #707f95;
+}
+/* Firefox > 19 */
+.set_password_num input::-moz-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus::-moz-placeholder {
+	color: #707f95;
+}
+
+/* Internet Explorer 10 */
+.set_password_num input:-ms-input-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus:-ms-input-placeholder {
+	color: #707f95;
+}
+.set_password_ph .set_password_error{
+	color: #ffd200;
+	font-size: .6rem;
+}
+.set_password_news{
+	display: inline-block;
+	width: 60%;
+	color: #11294f;
+	font-size: .6rem;
+}
+.set_password_news_again{
+	margin-top: .9rem;
+	font-size: 1rem;
+	display: inline-block;
+	padding: .4rem 1.2rem;
+	background-color: #11294f;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+}
+.set_password_num input{
+	line-height: 2rem;
+	font-size: 1rem;
+	text-align: center;
+}
+
+
+.entering_password_news_again{
+	margin-top: .9rem;
+	font-size: 1rem;
+	display: inline-block;
+	padding: .4rem 1.2rem;
+	background-color: #11294f;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+}
+
+/*输入密码*/
+.password{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+.password_tit{
+	position: relative;
+	margin-top: 3rem;
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: .5rem;
+}
+.password_tit .tit_fl{
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: .6rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+
+}
+.password_tit .tit_fr{
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .6rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+}
+.tit_cen{
+	display: inline-block;
+	margin-top: 1rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.password_party a{
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	margin: 0 1rem;
+	border-radius: 50%;
+	border: 1px solid #748399;
+}
+
+.password_next{
+	line-height: 2rem;
+	text-align: center;
+	margin: .6rem 0;
+}
+.password_next span{
+	display: inline-block;
+	padding: 0 1.5rem;
+	background-color: #707f95;
+	border-radius: 8px;
+	color: #fff;
+}
+.password_num{
+	width: 60%;
+	display: flex;
+	margin: 0 auto;
+	line-height: 2rem;
+	border-bottom: 1px solid #11294f;
+	font-size: .9rem;
+	margin-bottom: .5rem;
+
+}
+.password_num span{
+	width: 60px;
+}
+.password_num input{
+	flex: 1;
+	width: 100%;
+	border: none;
+	background-color: transparent;
+	outline: none;
+}
+.password_ph{
+
+}
+.password_num input::-webkit-input-placeholder {
+	color: #707f95;
+}
+.password_num input:focus::-webkit-input-placeholder {
+	color: #707f95;
+}
+/* Firefox < 19 */
+.password_num input:-moz-placeholder {
+	color: #707f95;
+}
+.password_num input:focus:-moz-placeholder {
+	color: #707f95;
+}
+/* Firefox > 19 */
+.password_num input::-moz-placeholder {
+	color: #707f95;
+}
+.password_num input:focus::-moz-placeholder {
+	color: #707f95;
+}
+
+/* Internet Explorer 10 */
+.password_num input:-ms-input-placeholder {
+	color: #707f95;
+}
+.password_num input:focus:-ms-input-placeholder {
+	color: #707f95;
+}
+.password_ph .password_error{
+	color: #ffd200;
+	font-size: .6rem;
+}
+.password_news{
+	width: 70%;
+	margin: 0 auto;
+	color: #707f95;
+	font-size: .5rem;
+}
+.password_news_again{
+	margin-top: .9rem;
+	font-size: 1rem;
+	display: inline-block;
+	padding: .4rem 1.2rem;
+	background-color: #707f95;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+}
+.password_num input{
+	line-height: 2rem;
+	font-size: 1rem;
+	text-align: center;
+}
+
+.user_add_tit_fl{
+	padding-top: .5rem;
+	flex: 1;
+}
+.user_add_tit_fl p{
+	line-height: initial;
+}
+.user_add_tit_fl p.big{
+	font-size: 1.2rem;
+	text-transform:uppercase;
+	font-weight: bold;
+}
+.user_add_tit_fl p.sm{
+	color: #ffd200;
+	font-size: .9rem;
+}
+.user_add_tit_fr{
+	float: right;
+	width: 4rem;
+	height: 4rem;
+}
+.uesr_add_tit{
+	padding: 1rem 1rem;
+	background-color: #f0f1f4;
+}
+
+
+
+/*登录*/
+.login_switch{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+.login_switch .login_error {
+	color: #ffd200;
+	font-size: .6rem;
+}
+.login_switch_next {
+	line-height: 2rem;
+	text-align: center;
+	margin: .6rem 0;
+}
+.login_switch_next span {
+	display: inline-block;
+	padding: 0 1.5rem;
+	background-color: #707f95;
+	border-radius: 8px;
+	color: #fff;
+}
+
+.login_switch{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+
+
+/*输入密码*/
+.entering_password{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+.entering_password_tit{
+	position: relative;
+	margin-top: 3rem;
+	width: 100%;
+	margin: 0 auto;
+}
+.entering_password_tit .tit_fl{
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: .6rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+
+}
+.entering_password_tit .tit_fr{
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .6rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+}
+.entering_password_party a{
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	margin: 0 1rem;
+	border-radius: 50%;
+	border: 1px solid #748399;
+}
+
+.entering_password_next{
+	line-height: 2rem;
+	text-align: center;
+	margin: .6rem 0;
+}
+.entering_password_next span{
+	display: inline-block;
+	padding: 0 1.5rem;
+	background-color: #707f95;
+	border-radius: 8px;
+	color: #fff;
+}
+.entering_password_num{
+	width: 60%;
+	display: flex;
+	margin: 0 auto;
+	line-height: 2rem;
+	border-bottom: 1px solid #11294f;
+	font-size: .9rem;
+	margin-top: .5rem;
+}
+.entering_password_num span{
+	width: 60px;
+}
+.entering_password_num input{
+	flex: 1;
+	width: 100%;
+	border: none;
+	background-color: transparent;
+	outline: none;
+
+}
+.entering_password_news{
+	display: inline-block;
+	width: 60%;
+	color: #11294f;
+	font-size: .6rem;
+}
+.back .header span.back_right{
+	background: url(../images/more.png) center center no-repeat;
+	background-size: contain;
+}
+/*设置密码*/
+
+.set_password{
+	display: none;
+	position: fixed;
+	top: 30%;
+	width:74%;
+	margin:0 12%;
+	text-align: center;
+	background-color: rgba(203, 214, 228,.9);
+	border-radius: 15px;
+	box-shadow: 0 0 20px #999;
+	color: #11294f;
+	padding: .5rem 0 1rem 0;
+	z-index: 9;
+}
+.set_password_tit{
+	position: relative;
+	margin-top: 3rem;
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: .5rem;
+}
+.set_password_tit .tit_fl{
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: .6rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+
+}
+.set_password_tit .tit_fr{
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .6rem;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding: 0 1rem;
+}
+.tit_cen{
+	display: inline-block;
+	margin-top: 1rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.set_password_party a{
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	margin: 0 1rem;
+	border-radius: 50%;
+	border: 1px solid #748399;
+}
+
+.set_password_next{
+	line-height: 2rem;
+	text-align: center;
+	margin: .6rem 0;
+}
+.set_password_next span{
+	display: inline-block;
+	padding: 0 1.5rem;
+	background-color: #707f95;
+	border-radius: 8px;
+	color: #fff;
+}
+.set_password_num{
+	width: 60%;
+	display: flex;
+	margin: 0 auto;
+	line-height: 2rem;
+	border-bottom: 1px solid #11294f;
+	font-size: .9rem;
+	margin-bottom: .5rem;
+
+}
+.set_password_num span{
+	width: 60px;
+}
+.set_password_num input{
+	flex: 1;
+	width: 100%;
+	border: none;
+	background-color: transparent;
+	outline: none;
+}
+.set_password_ph{
+
+}
+.set_password_num input::-webkit-input-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus::-webkit-input-placeholder {
+	color: #707f95;
+}
+/* Firefox < 19 */
+.set_password_num input:-moz-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus:-moz-placeholder {
+	color: #707f95;
+}
+/* Firefox > 19 */
+.set_password_num input::-moz-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus::-moz-placeholder {
+	color: #707f95;
+}
+
+/* Internet Explorer 10 */
+.set_password_num input:-ms-input-placeholder {
+	color: #707f95;
+}
+.set_password_num input:focus:-ms-input-placeholder {
+	color: #707f95;
+}
+.set_password_ph .set_password_error{
+	color: #ffd200;
+	font-size: .6rem;
+}
+.set_password_news{
+	display: inline-block;
+	width: 60%;
+	color: #11294f;
+	font-size: .6rem;
+}
+.set_password_news_again{
+	margin-top: .9rem;
+	font-size: 1rem;
+	display: inline-block;
+	padding: .4rem 1.2rem;
+	background-color: #11294f;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+}
+.set_password_num input{
+	line-height: 2rem;
+	font-size: 1rem;
+	text-align: center;
+}
+
+
+.entering_password_news_again{
+	margin-top: .9rem;
+	font-size: 1rem;
+	display: inline-block;
+	padding: .4rem 1.2rem;
+	background-color: #11294f;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+}

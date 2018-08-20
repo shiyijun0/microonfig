@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<script th:inline="javascript">
+	var qiniuUrl = [[${qiniuUrl}]];
+</script>
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-presell-edit"  method="post">
+			<input id="id" name="id" type="hidden" th:value="${presellJeans.id}"/>
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">商品名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="name" id="name" th:value="${presellJeans.name}"/>	
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">商品编码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="presellCode" id="presellCode" th:value="${presellJeans.presellCode}"/>	
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">商品图片：</label>
+				<div class="col-sm-8">
+					<th:block th:if="${presellJeans?.images!=null}">
+						<img th:src="@{${qiniuUrl}+${presellJeans?.images}}" width="142" height="122" alt="商品图片" id="images"/>
+					</th:block>
+					<input class="form-control" type="file" name="file1" id="file1"/>
+					<input type="hidden" name="imgs" id="imgs" th:value="${presellJeans?.images}"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">详细图：</label>
+				<div class="col-sm-8">
+					<th:block th:if="${presellJeans?.detailImg1!=null}">
+						<img th:src="@{${qiniuUrl}+${presellJeans?.detailImg1}}" width="142" height="122" alt="商品图片" id="detailImg1"/>
+					</th:block>
+					<input class="form-control" type="file" name="file2" id="file2" /><br/>
+					
+					<th:block th:if="${presellJeans?.detailImg2!=null}">
+						<img th:src="@{${qiniuUrl}+${presellJeans?.detailImg2}}" th:if="${presellJeans?.detailImg2!=null}" width="142" height="122" alt="商品图片" id="detailImg2"/>
+					</th:block>
+					<input class="form-control" type="file" name="file3" id="file3" /><br/>
+					
+					<th:block th:if="${presellJeans?.detailImg3!=null}">
+						<img th:src="@{${qiniuUrl}+${presellJeans?.detailImg3}}" width="142" height="122" alt="商品图片" id="detailImg3"/>
+					</th:block>
+					<input class="form-control" type="file" name="file4" id="file4" />
+					<input type="hidden" name="imgs2" id="imgs2" th:value="${presellJeans?.detailImg1}"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">商品价格：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="price" id="price" th:value="${presellJeans.price}"/>	
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">价格名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="priceName" id="priceName" th:value="${presellJeans.priceName}"/>	
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">原价：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="originalPrice" id="originalPrice" th:value="${presellJeans.originalPrice}"/>	
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">库存：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="inventory" id="inventory" th:value="${presellJeans.inventory}"/>	
+				</div>
+			</div>
+			<div class="form-group" >
+				<label class="col-sm-3 control-label">请选择尺码：</label>
+				<div class="col-sm-8" >
+					<label class="control-label" th:each="size:${sizelist}">
+                        <input name="sizes" type="checkbox" th:text="${size.size}" th:value="${size.id}"/>&nbsp;&nbsp;
+                    </label>
+				</div>
+			</div>
+			<input name="existSize" id="existSize" type="hidden" th:value="${presellJeans.sizesId}" />
+			<input name="existColor" id="existColor" type="hidden" th:value="${presellJeans.colorsId}" />
+			<div class="form-group" >
+				<label class="col-sm-3 control-label">请选择颜色：</label>
+				<div class="col-sm-8" >
+					<label class="control-label" th:each="color:${colorlist}">
+                        <input name="colors" type="checkbox"  th:text="${color.name}" th:value="${color.id}" />&nbsp;&nbsp;
+                    </label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">排序号：</label>
+				<div class="col-sm-8">
+			<input class="form-control" type="text" name="orderNum" id="orderNum" th:value="${presellJeans.orderNum}"/>	
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">状态：</label>
+				<div class="col-sm-8">
+		            <label><input name="status" type="radio" value="0" th:checked="${presellJeans.status==0 }"/>上架 </label> 
+					<label><input name="status" type="radio" value="1" th:checked="${presellJeans.status==1 }"/>下架 </label> 
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	<script type="text/javascript" src="/jwk/system/presell/edit.js">
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	<script>
+		//初始化fileinput
+		var oFileInput = new FileInput();
+		oFileInput.Init("file1");
+		oFileInput.Init("file2");
+		oFileInput.Init("file3");
+		oFileInput.Init("file4");
+		
+	 	$("#file1").change(function () {
+	        $('#images').hide();
+	    });
+	    
+	    $("#file2").change(function () {     
+	        $('#detailImg1').hide();	     
+	    });
+	    $("#file3").change(function () {     
+	        $('#detailImg2').hide();	     
+	    });
+	    $("#file4").change(function () {     
+	        $('#detailImg3').hide();	     
+	    });
+	</script>
+</body>
+</html>
+

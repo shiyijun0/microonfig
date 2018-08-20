@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemWebPositionMapper">
+
+	<resultMap type="SysWebPosition" id="SysWebPositionResult">
+		<id column="id" property="id" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysWebPositionResult">
+		select * from sys_web_position
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND des = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	
+	<select id="selectWebPositionAll" resultMap="SysWebPositionResult" parameterType="Long">
+		SELECT * FROM sys_web_position 
+		where type = #{type}
+		<!-- <where>
+		   
+			<if test="type != null ">
+				AND type = #{type}
+			</if>
+		</where> -->
+	</select>
+	
+	<select id="selectWebPositionByPosition" resultMap="SysWebPositionResult" parameterType="SysWebPosition">
+		SELECT * FROM sys_web_position 
+		
+		<where>
+		   1=1
+			<if test="position != null ">
+				AND position = #{position}
+			</if>
+			<if test="type != null ">
+				AND type = #{type}
+			</if>
+		</where>
+	</select> 
+	
+	<select id="selectWebPositionById" parameterType="Long" resultMap="SysWebPositionResult">
+		select *
+		from sys_web_position u
+		where u.id = #{id}
+	</select>
+	
+	<delete id="deleteWebPositionById" parameterType="Long">
+ 		delete from sys_web_position where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteWebPosition" parameterType="String">
+ 		delete from sys_web_position where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateWebPosition" parameterType="SysWebPosition">
+ 		update sys_web_position
+ 		<set>
+ 			<if test="position != null">position = #{position},</if>
+ 			<if test="des != null and des != ''">des = #{des},</if>
+ 			<if test="type != null ">type = #{type},</if>
+ 			ctime = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertWebPosition" parameterType="SysWebPosition" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_web_position(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="position != null">position,</if>
+ 			<if test="des != null and des != ''">des,</if>
+ 			<if test="type != null ">type,</if>
+ 			
+ 			ctime
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="position != null">#{position},</if>
+ 			<if test="des != null and des != ''">#{des},</if>
+ 			<if test="type != null ">#{type},</if>
+ 			
+ 			sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

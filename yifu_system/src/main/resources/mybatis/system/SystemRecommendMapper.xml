@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemRecommendMapper">
+
+	<resultMap type="SysRecommend" id="SysRecommendResult">
+		<id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="img_a" jdbcType="INTEGER" property="imgA" />
+    <result column="img_b" jdbcType="INTEGER" property="imgB" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="goods_picurl" jdbcType="VARCHAR" property="goodsPicurl" />
+    <result column="pc_mod" jdbcType="VARCHAR" property="pcMod" />
+    <result column="android_mod" jdbcType="VARCHAR" property="androidMod" />
+    <result column="ios_mod" jdbcType="VARCHAR" property="iosMod" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="goods_intro" jdbcType="VARCHAR" property="goodsIntro" />
+    <result column="size_image" jdbcType="VARCHAR" property="sizeImage" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="f_id" jdbcType="CHAR" property="fId" />
+    <result column="number" jdbcType="CHAR" property="number" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />	
+    
+     <result column="select_size" property="selectSize"  />
+    	<result column="bu_liao" property="buliao"  />
+    	<result column="pattern_all" property="patternAll"  />
+    	<result column="size_list" property="sizeList"  />	
+    	<result column="buliao_list" property="buliaoList"  />		
+	</resultMap> 
+	
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysRecommendResult">
+		<!-- select goods_name,gender,question from sys_recommend u INNER JOIN sys_recommend_bg t -->
+		select * from sys_recommend
+		<where>
+		<!-- u.id=t.recommend_id  -->
+			<if test="searchValue != null and searchValue != ''">
+				AND goods_name = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	
+	<select id="selectSysRecommendAll" resultMap="SysRecommendResult">
+		SELECT * FROM sys_recommend
+	</select>
+	
+	<select id="selectSysRecommendById" parameterType="Long" resultMap="SysRecommendResult">
+		select *
+		from sys_recommend u
+		where u.id = #{id}
+	</select>
+	
+	<select id="selectSysRecommendByGoodsName" parameterType="String" resultMap="SysRecommendResult">
+		select *
+		from sys_recommend u
+		where u.goods_name = #{goodsName}
+	</select>
+	
+	<delete id="deleteSysRecommendById" parameterType="Long">
+ 		delete from sys_recommend where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteSysRecommend" parameterType="String">
+ 		delete from sys_recommend where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateSysRecommend" parameterType="SysRecommend">
+ 		update sys_recommend
+ 		<set>
+ 			<if test="gender != null and gender != ''">gender = #{gender},</if>
+ 			<if test="sizeImage != null and sizeImage != ''">size_image = #{sizeImage},</if>
+ 			ctime = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertSysRecommend" parameterType="SysRecommend" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_recommend(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="gender != null and gender != ''">gender,</if>
+ 			ctime
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="gender != null and gender != ''">#{gender},</if>
+ 			sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style type="text/css">
+	.table tbody tr td{
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+		<div class="btn-group hidden-xs" id="tableToolbar" role="group">
+			<button type="button" class="btn btn-outline btn-default" th:onclick="'javascript:add()'" shiro:hasPermission="system:message:add">
+                <i class="glyphicon glyphicon-plus"></i>
+            </button>
+			<button type="button" class="btn btn-outline btn-default" th:onclick="'javascript:batchRemove()'" shiro:hasPermission="system:message:batchRemove">
+	            <i class="glyphicon glyphicon-trash"></i>
+	        </button>
+        </div>
+		<table class="bootstrap-table" data-mobile-responsive="true"
+			   data-sort-name="ctime" data-sort-order="asc" style='table-layout:fixed;'>
+		</table>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/jwk/system/message/message.js"></script>
+</body>
+</html>

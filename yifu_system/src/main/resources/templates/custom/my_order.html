@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>定制牛仔</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/my_order.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	<script th:inline="javascript">
+		var reqLeftUrl = [[${session.reqLeftUrl}]];
+		$(function(){
+			if(reqLeftUrl!="" && reqLeftUrl != null){
+				$("#returnLeft").attr("href",reqLeftUrl);
+			}
+		});
+	</script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"  id="returnLeft"><span></span></a>
+    <!-- <a href="/custom/index"><span></span></a> -->
+    我的订单
+</header>
+
+
+</div>
+<div class="my_order">
+	<div class="my_order_container">
+	
+		<div class="my_order_menu">
+			<a href="#"><span>全部</span></a>
+			<a href="#"><span>待付款</span></a>
+			<a href="#"><span>待生产</span></a>
+			<!-- <a href="#"><span>定制中</span></a> -->
+			<a href="#"><span>已生产</span></a>
+			<!--<a href="#"><span>待付款</span></a>-->
+			<!-- <a href="#"><span>收货中</span></a> -->
+			<a href="#"><span>已发货</span></a>
+			<a href="#"><span>已收货</span></a>
+		</div>
+		<span th:each="myorder:${orderList}">
+		<div class="my_order_list">
+			<div class="my_order_list_tit">
+				<label th:text="${#dates.format(myorder?.createTime, 'yyyy-MM-dd HH:mm:ss')}">2018.02.15 20:31</label><span th:switch="${myorder?.payStatus}">
+				<label th:case="0">支付失败</label> <label th:case="1">已支付(待生产)</label> <label th:case="2">已支付(已生产)</label>
+				<label th:case="3">待支付</label> <label th:case="4">已发货</label> <label th:case="5">完成</label></span>	
+			</div>
+			<div class="my_order_list_box">
+				<div class="my_order_list_left">
+					<img src="/images/m_or1.jpg" alt="">
+				</div>
+				<div class="my_order_list_cen">					
+					<p >基本款式：<label th:text="${myorder?.jeansName}">修身直筒牛仔裤</label></p>
+					<p >尺码：<label th:text="${myorder?.size}">修身直筒牛仔裤</label></p>
+					<p >颜色：<label th:text="${myorder?.color}">修身直筒牛仔裤</label></p>
+					<!-- <br>尺码：31码 颜色：牛仔蓝 -->
+				</div>
+				<div class="my_order_list_rit">
+					<span class="new" >¥<label th:text="${myorder?.money}">1200.00</label> </span><br><span class="through">¥<label th:text="${myorder?.money}">1200.00</label> </span>
+					<p >x<label th:text="${myorder?.num}">1</label></p>
+				</div>
+			</div>
+			<div class="my_order_list_tit center" th:switch="${myorder?.payStatus}">
+			
+					<!--  -->
+			<label th:case="1">			
+			<a href="#" th:id="${myorder?.id}">详情</a>
+			<a href="javascript:void(0)"  th:id="${myorder?.id}" class="active" readonly="readonly">定制中</a>
+			</label>
+			
+			<label th:case="2">			
+			<a href="#" th:id="${myorder?.id}">详情</a>
+			<a href="javascript:void(0)"  th:id="${myorder?.id}" class="active" readonly="readonly">定制中</a>
+			</label>
+					
+			<label th:case="0">			
+			<a href="#" th:id="${myorder?.id}">删除</a>
+			</label>
+			
+			<label th:case="3">		
+			<a href="#" th:id="${myorder?.id}" >取消</a>  <!-- href="/custom/pay_menu" -->
+				<a href="javascript:void(0)" th:id="${myorder?.id}" class="active">详情</a>
+			<a href="#"  th:id="${myorder?.id}" >立即付款</a>
+			<input  th:id="${myorder?.id+'money'}" type="hidden" th:value="${myorder?.money}" />
+			<input  th:id="${myorder?.id+'addrId'}" type="hidden" th:value="${myorder?.addrId}" />
+			<input  th:id="${myorder?.id+'numId'}" type="hidden" th:value="${myorder?.num}" />
+				<input  id="jeansId" type="hidden" value="0" />
+			</label>
+			
+			<label th:case="4">		
+			<a href="javascript:void(0)" th:id="${myorder?.id}" class="active">详情</a>
+				<a href="javascript:void(0)" th:id="${myorder?.id}" class="active">查看物流</a>
+				<a href="javascript:void(0)" th:id="${myorder?.id}" class="active">确认收货</a>
+			</label>
+			
+			<label th:case="5">			
+			<a href="#" th:id="${myorder?.id}">删除</a>
+				<a href="javascript:void(0)" th:id="${myorder?.id}" class="active">完成</a>
+			</label>
+				
+			</div>
+		</div> </span>
+		
+		<!-- <div class="my_order_list">
+			<div class="my_order_list_tit">
+				2018.02.15 20:31<span>待付款</span>	
+			</div>
+			<div class="my_order_list_box">
+				<div class="my_order_list_left">
+					<img src="/images/m_or1.jpg" alt="">
+				</div>
+				<div class="my_order_list_cen">
+					修身直筒牛仔裤<br>尺码：31码 颜色：牛仔蓝
+				</div>
+				<div class="my_order_list_rit">
+					<span class="new">¥1200.00 </span><br><span class="through">¥1200.00 </span><br>x1
+				</div>
+			</div>
+			<div class="my_order_list_tit center">
+				<a href="">取消</a>
+				<a href="/custom/pay_menu">立即付款</a>
+			</div>
+		</div>
+		<div class="my_order_list">
+			<div class="my_order_list_tit">
+				2018.02.15 20:31<span>待付款</span>	
+			</div>
+			<div class="my_order_list_box">
+				<div class="my_order_list_left">
+					<img src="/images/m_or1.jpg" alt="">
+				</div>
+				<div class="my_order_list_cen">
+					修身直筒牛仔裤<br>尺码：31码 颜色：牛仔蓝
+				</div>
+				<div class="my_order_list_rit">
+					<span class="new">¥1200.00 </span><br><span class="through">¥1200.00 </span><br>x1
+				</div>
+			</div>
+			<div class="my_order_list_tit center">
+				<a href="">详情</a>
+				<a href="" class="active">定制中</a>
+			</div>
+		</div>
+		<div class="my_order_list">
+			<div class="my_order_list_tit">
+				2018.02.15 20:31<span>待付款</span>	
+			</div>
+			<div class="my_order_list_box">
+				<div class="my_order_list_left">
+					<img src="/images/m_or1.jpg" alt="">
+				</div>
+				<div class="my_order_list_cen">
+					修身直筒牛仔裤<br>尺码：31码 颜色：牛仔蓝
+				</div>
+				<div class="my_order_list_rit">
+					<span class="new">¥1200.00 </span><br><span class="through">¥1200.00 </span><br>x1
+				</div>
+			</div>
+			<div class="my_order_list_tit center">
+				<a href="">查看物流</a>
+				<a href="" class="active">待收货</a>
+			</div>
+		</div>
+		<div class="my_order_list">
+			<div class="my_order_list_tit">
+				2018.02.15 20:31<span>待付款</span>	
+			</div>
+			<div class="my_order_list_box">
+				<div class="my_order_list_left">
+					<img src="/images/m_or1.jpg" alt="">
+				</div>
+				<div class="my_order_list_cen">
+					修身直筒牛仔裤<br>尺码：31码 颜色：牛仔蓝
+				</div>
+				<div class="my_order_list_rit">
+					<span class="new">¥1200.00 </span><br><span class="through">¥1200.00 </span><br>x1
+				</div>
+			</div>
+			<div class="my_order_list_tit center">
+				<a href="">删除</a>
+				<a href="" class="active">完成</a>
+			</div>
+		</div> -->
+	</div>
+	
+
+</div>
+	
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script th:inline="javascript">
+	$(function() {
+
+        var url = location.search;
+        var id = url.split("orderIndex=")[1];
+        $(".my_order_menu a").eq(id).addClass('active');
+
+        $(".my_order_menu a").click(function() {
+			/* $(".my_order_menu a").removeClass('active');
+			$(this).addClass('active'); */
+			var orderIndex = $(this).index()
+			switch(orderIndex)
+		        {
+		              case 0:
+		            	  window.location.href="/custom/my_order?"+"orderIndex="+0;
+		               break;
+		              case 1:
+		            	  window.location.href="/custom/my_order?payStatus="+3+"&orderIndex="+1;
+		               break;
+		              case 2:
+		            	  window.location.href="/custom/my_order?payStatus="+1+"&orderIndex="+2;
+		               break;
+		              case 3:
+		            	  window.location.href="/custom/my_order?payStatus="+2+"&orderIndex="+3;
+			           break;  
+		              case 4:
+		            	  window.location.href="/custom/my_order?payStatus="+orderIndex+"&orderIndex="+4;
+		            	  
+		               break;
+		              case 5:
+		            	  window.location.href="/custom/my_order?payStatus="+orderIndex+"&orderIndex="+5;
+		            	  
+		               break;
+		              default:
+		              
+		        }
+			
+			/* Act on the event */
+		});
+		$(".my_order_list_tit a").click(function(){
+			var id = $(this).attr("id");
+			var dltext=$(this).text()
+			
+			if(dltext=="删除"){
+				console.log(id+"*****"+dltext);
+				
+				$.ajax({
+			        cache: true,
+			        type: "POST",
+			        url: "/custom/my_order_delete",
+			        data: {
+			          
+			           "id": id
+			           
+			        },
+			        async: false,
+			        error: function (request) {
+			           
+			           alert("系统出现问题");
+			        },
+			        success: function (data) {
+			        	//console.log(data);
+			        	//console.info("data===="+data.msg);
+			            if (data.code == 0) {
+			            	
+			            	 window.location.reload();
+			                
+			            }
+			            else {
+			            	alert(data.msg);
+			            	//$(".login,.login_bg").fadeIn();
+			            	
+			            }
+			        }
+			    });
+				
+			}else if(dltext=="详情"){
+				//console.log(id+"*****"+dltext);
+				window.location.href="/custom/order_details?id="+id;
+			}else if(dltext=="定制中"){
+               // window.location.href="/custom/order_details?id="+id;
+			}else if(dltext=="取消"){
+				
+				$.ajax({
+			        cache: true,
+			        type: "POST",
+			        url: "/custom/my_order_delete",
+			        data: {
+			          
+			           "id": id
+			           
+			        },
+			        async: false,
+			        error: function (request) {
+			           
+			           alert("系统出现问题");
+			        },
+			        success: function (data) {
+			        	//console.log(data);
+			        	//console.info("data===="+data.msg);
+			            if (data.code == 0) {
+			            	
+			            	 window.location.reload();
+			                
+			            }
+			            else {
+			            	alert(data.msg);
+			            	
+			            	
+			            }
+			        }
+			    });
+			}else if(dltext=="立即付款"){
+				var userId=[[${userId}]];
+				var price=$("#"+id+"money").val();
+
+                var num=$("#"+id+"numId").val();
+                var addrId=$("#"+id+"addrId").val();
+				/*var num=$("#numId").val();
+				var addrId=$("#addrId").val();*/
+				var jeansId=$("#jeansId").val();
+				var orderId=id;
+               // alert(price+"*****"+num+"****"+addrId)
+                if(confirm("是否立即付款？")){
+                    $.ajax({
+                        cache: true,
+                        type: "POST",
+                        url: "/custom/pay_menu",
+                        data: {
+
+                            "userId": userId,
+                            "price": price,
+                            "num": num,
+                            "addrId": addrId,
+                            "jeansId": jeansId,
+                            "orderId": orderId
+
+                        },
+                        async: false,
+                        error: function (request) {
+
+                            alert("系统出现问题");
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            console.info("data===="+data.msg);
+                            if (data.code == 0) {
+                               // window.location.reload();
+                                window.location.href="/custom/pay_menu_success?orderId="+orderId;
+
+                            }
+                            else {
+                                alert(data.msg);
+
+
+                            }
+                        }
+                    });
+
+                }
+				//window.location.href="/custom/pay_menu?userId="+userId+"&orderId="+id+"&price="+price+"&addrId="+addrId+"&num="+num+"&jeansId="+jeansId;
+				
+			}else if(dltext=="查看物流"){
+                window.location.href="/custom/logistics_details?id="+id;
+			}else if(dltext=="确认收货"){
+                if(confirm("是否确认收货？")){
+                    $.ajax({
+                        cache: true,
+                        type: "POST",
+                        url: "/custom/deliveryGoods",
+                        data: {
+
+                            "id": id
+
+                        },
+                        async: false,
+                        error: function (request) {
+
+                            alert("系统出现问题");
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            console.info("data===="+data.msg);
+                            if (data.code == 0) {
+
+                                window.location.reload();
+
+                            }
+                            else {
+                                alert(data.msg);
+
+
+                            }
+                        }
+                    });
+
+                }
+			}else if(dltext=="完成"){
+                window.location.href="/custom/order_details?id="+id;
+			}
+		})
+	});
+</script>
+</body>
+</html>

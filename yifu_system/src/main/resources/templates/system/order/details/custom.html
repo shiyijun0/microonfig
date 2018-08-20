@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>定制牛仔</title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/swiper.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+    <link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+    <link href="/js/fileinput.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/index.js"></script>
+    <script src="/ajax/libs/layer/layer.min.js"></script>
+    <script src="/jwk/js/common.js"></script>
+    <script src="/jwk/js/ry-ui.js"></script>
+
+    <script src="/js/sendCode.js"></script>
+    <script src="/js/custom-order.js"></script>
+    <script th:inline="javascript">
+	    var designerId = [[${webDesigner?.id}]];
+	    var jeansId = [[${webDesigner?.jeansId}]];
+    </script>
+    <style type="text/css">
+        .loading svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -25px;
+            margin-top: -25px;
+            -webkit-animation: spin 2s linear infinite;
+            -moz-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+            width: 50px;
+            height: 50px;
+            fill: #fff;
+        }
+        .verification_news_again{
+	        background-color: transparent;
+	        color: inherit
+        }
+    </style>
+</head>
+
+<!-- 背景bg_white -->
+<body class="bg1">
+<!-- 头部 -->
+<!-- 切换动画 -->
+<div class="loading" id="sss_loading">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+	<path id="loading-12-icon" d="M291,82.219c0,16.568-13.432,30-30,30s-30-13.432-30-30s13.432-30,30-30S291,65.65,291,82.219z
+		 M261,404.781c-15.188,0-27.5,12.312-27.5,27.5s12.312,27.5,27.5,27.5s27.5-12.312,27.5-27.5S276.188,404.781,261,404.781z
+		 M361.504,113.167c-4.142,7.173-13.314,9.631-20.487,5.489c-7.173-4.141-9.631-13.313-5.49-20.487
+		c4.142-7.173,13.314-9.631,20.488-5.489C363.188,96.821,365.645,105.994,361.504,113.167z M188.484,382.851
+		c-14.348-8.284-32.697-3.368-40.98,10.98c-8.285,14.349-3.367,32.696,10.98,40.981c14.35,8.283,32.697,3.367,40.98-10.981
+		C207.75,409.482,202.834,391.135,188.484,382.851z M421.33,184.888c-8.368,4.831-19.07,1.965-23.901-6.404
+		c-4.832-8.368-1.965-19.07,6.404-23.902c8.368-4.831,19.069-1.964,23.9,6.405C432.566,169.354,429.699,180.056,421.33,184.888z
+		 M135.399,329.767c-8.285-14.35-26.633-19.266-40.982-10.982c-14.348,8.285-19.264,26.633-10.979,40.982
+		c8.284,14.348,26.632,19.264,40.981,10.98C138.767,362.462,143.683,344.114,135.399,329.767z M436.031,277.249
+		c-11.044,0-20-8.953-20-19.999c0-11.045,8.955-20.001,20.001-20.001c11.044,0,19.999,8.955,19.999,20.002
+		C456.031,268.295,447.078,277.249,436.031,277.249z M115.97,257.251c-0.001-16.57-13.433-30.001-30.001-30.002
+		c-16.568,0.001-29.999,13.432-30,30.002c0.001,16.566,13.433,29.998,30.001,30C102.538,287.249,115.969,273.817,115.97,257.251z
+		 M401.333,364.248c-10.759-6.212-14.446-19.97-8.234-30.73c6.212-10.759,19.971-14.446,30.731-8.233
+		c10.759,6.211,14.445,19.971,8.232,30.73C425.852,366.774,412.094,370.46,401.333,364.248z M135.398,184.736
+		c8.285-14.352,3.368-32.698-10.98-40.983c-14.349-8.283-32.695-3.367-40.981,10.982c-8.282,14.348-3.366,32.696,10.981,40.981
+		C108.768,204,127.115,199.082,135.398,184.736z M326.869,421.328c-6.902-11.953-2.807-27.242,9.148-34.145
+		s27.243-2.806,34.146,9.149c6.902,11.954,2.806,27.243-9.15,34.145C349.059,437.381,333.771,433.284,326.869,421.328z
+		 M188.482,131.649c14.352-8.286,19.266-26.633,10.982-40.982c-8.285-14.348-26.631-19.264-40.982-10.98
+		c-14.346,8.285-19.264,26.633-10.98,40.982C155.787,135.017,174.137,139.932,188.482,131.649z"></path>
+	</svg>
+</div>
+<header class="header">
+  <!--  <a href="javascript:history.back(-1)"><span></span></a>-->
+    <a th:onclick="'javascript:layer_close()'"><span></span></a>
+    <!--<div class="form-group">
+        <div class="form-control-static col-sm-offset-9">
+            <button type="button" class="btn btn-primary" id="stid">提交</button>
+            <button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button>
+        </div>
+    </div>-->
+</header>
+
+
+
+<!-- 左边栏 -->
+<nav class="nav">
+
+</nav>
+
+<!-- 加载 -->
+<div class="canvas_bg">
+    <div class="canvas_loading">
+        <div class="loading" id="bar" style="width: 1%;">1%</div>
+    </div>
+</div>
+<!-- 裤子闪烁点 -->
+<div class="container">
+    <div id="trousers_canvas">
+        <!-- 文字 -->
+        <a href="#" class="model_btn model_tan" id="x_word"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+
+        <a href="#" class="model_btn model_tan" id="kouzi0"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+        <a href="#" class="model_btn model_tan" id="kouzi1"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+        <a href="#" class="model_btn model_tan" id="kouzi2"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+        <a href="#" class="model_btn model_tan" id="kouzi3"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+
+        <a href="#" class="model_btn model_tan" id="kouzi4"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+        <a href="#" class="model_btn model_tan" id="kouzi5"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+        <a href="#" class="model_btn model_tan" id="kouzi6"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+        <a href="#" class="model_btn model_tan" id="kouzi7"><span class="model_btn_sm model_tan_sm"><span
+                class="model_btn_sm model_tan_sm1"></span></span></a>
+
+    </div>
+</div>
+
+
+<footer class="footer" id="footer" >
+    <aside class="aside">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </aside>
+
+</footer>
+
+
+
+<canvas id="myCanvas" width="400" height="400" style="border:1px solid #d3d3d3;display: none;">
+    Your browser does not support the HTML5 canvas tag.
+</canvas>
+<div class="" style="background-color: red;">
+    <canvas id="wordCanvas" width="512" height="512" style="border:1px solid #d3d3d3;display: none;">
+        Your browser does not support the HTML5 canvas tag.
+    </canvas>
+</div>
+<script src='/js/three.js'></script>
+<script src='/js/OrbitControls.js'></script>
+<script src="/js/AssimpJSONLoader.js"></script>
+<script src='/js/jeansData.js'></script>
+<script src='/js/Projector.js'></script>
+<!-- <script type="text/javascript" src="static/js/model.js"></script> -->
+<script type="text/javascript" src="/js/fastclick.js"></script>
+
+<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/fileutil.js}"></script>
+
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+<script th:inline="javascript">
+    var qiniuUrl = [[${qiniuUrl}]];
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 4.5,
+        freeMode: true,
+        spaceBetween: 8,
+        scrollbar: '.swiper-scrollbar',
+        observer: true,//修改swiper自己或子元素时，自动初始化swiper
+        observeParents: true,//修改swiper的父元素时，自动初始化swiper
+    });
+
+</script>
+<script th:inline="javascript">
+    function wxx(obj) {
+        return document.getElementById(obj);
+    }
+
+    //过渡页面
+    function go() {
+        wxx("bar").style.width = parseInt(wxx("bar").style.width) + 1 + "%";
+        wxx("bar").innerHTML = wxx("bar").style.width;
+        if (wxx("bar").style.width == "100%") {
+            window.clearInterval(bar);
+            $(".canvas_bg").fadeOut();
+        }
+    }
+
+    var bar = window.setInterval("go()", 5);
+
+    window.onload = function () {
+        bar;
+    }
+
+
+    $(function () {
+
+
+
+
+
+
+
+        $("#login").click(function (event) {
+
+            $(".login_switch").fadeOut();
+            $(".login").fadeIn();
+            /* Act on the event */
+        });
+
+        $("#login_switch").click(function (event) {
+            $(".login_switch").fadeIn();
+            $(".login").fadeOut();
+            /* Act on the event */
+        });
+
+
+
+        $(".aside").fadeOut();
+
+
+        $(".nav_bg").click(function () {
+            $("body").animate({"left": "0"}, 50);
+            $(".nav_bg").fadeOut();
+        });
+
+        //工艺
+        $("#footer ul li .box").click(function () {
+            var menuLi = $(this).find(".menu a").length;
+            var menuIx = $(this).parent().index();
+
+            if (menuIx == 0) {
+                if (menuLi >= 5) {
+                    $(this).find('.menu').css('height', "12.5rem");
+                }
+            } else if (menuIx == 1) {
+                if (menuLi >= 5) {
+                    $(this).find('.menu').css('height', "21rem");
+                }
+
+            } else if (menuIx == 2) {
+                if (menuLi >= 5) {
+                    $(this).find('.menu').css('height', "19rem");
+                }
+            }
+
+            $("#footer ul li .box").children('.menu').stop().slideUp(100)
+            $(this).find('.menu').stop().slideToggle(100);
+
+
+            $(".aside").fadeOut();
+            // $(this).find('.menu').animate({height: "auto", opacity: 1}, speed)
+        });
+
+        $("#footer ul li .menu a").click(function () {
+            var foot_menu = $(this).parents("li").index();
+            var menu_1 = -1;
+            var menu_2 = -1;
+            var menu_3 = -1;
+            if (foot_menu == 0) {
+                menu_1 = parseInt($(this).attr("id"));
+
+            } else if (foot_menu == 1) {
+
+                menu_2 = parseInt($(this).attr("id"));
+            } else if (foot_menu == 2) {
+
+                menu_3 = parseInt($(this).attr("id"));
+            }
+
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/custom/checkmenu",
+                data: {
+
+                    "color": menu_1,
+                    "button": menu_2,
+                    "thread": menu_3
+                },
+                async: false,
+                error: function (request) {
+                    $.modalMsg("系统出问题了");
+                },
+                success: function (data) {
+                    if (data) {
+                        if (menu_1 > 0) {
+                            var buliaoSingleData = new THREE.JeansSingleData();
+                            buliaoSingleData.id = data.id;
+                            buliaoSingleData.path = qiniuUrl + data.cover;
+                            buliaoSingleData.sprice = data.price;
+                            buliaoSingleData.vec = new THREE.Vector2(data.fixeX, data.fixeY);
+                            buliaoSingleData.colorPath = qiniuUrl + data.coverBack;
+                            
+                            console.log(data.part1);
+                            buliaoSingleData.depth = data.depth;
+                            buliaoSingleData.part1 = data.part1;
+                            buliaoSingleData.part2 = data.part2;
+                            buliaoSingleData.part3 = data.part3;
+                            buliaoSingleData.part4 = data.part4;
+                            buliaoSingleData.part5 = data.part5;
+                            buliaoSingleData.part6 = data.part6;
+                            buliaoSingleData.part7 = data.part7;
+                            buliaoSingleData.part8 = data.part8;
+                            
+                            moduleInfo.buliao = buliaoSingleData;
+                                                       
+                            
+                            if(moduleInfo.buliao.part1 == 1) //0:代表可以放圖片 ，1 ：代表不可以放圖片
+                            {                            	
+                            	moduleInfo.tuFLU = null;
+                            	setDrawData(moduleInfo.tuFLU, 5);
+                            }
+                            if(moduleInfo.buliao.part2 == 1) //0:代表可以放圖片 ，1 ：代表不可以放圖片
+                            {
+                            	moduleInfo.tuFLD = null;
+                            	 setDrawData(moduleInfo.tuFLD, 6);
+                            }
+                            if(moduleInfo.buliao.part3 == 1) //0:代表可以放圖片 ，1 ：代表不可以放圖片
+                            {
+                            	moduleInfo.tuFRU = null;
+                            	setDrawData(moduleInfo.tuFRU, 3);
+                            }
+                            if(moduleInfo.buliao.part4 == 1) //0:代表可以放圖片 ，1 ：代表不可以放圖片
+                            {
+                            	moduleInfo.tuFRD = null;
+                            	  setDrawData(moduleInfo.tuFRD, 4);
+                            }
+                            
+                            if(moduleInfo.buliao.part5 == 1) //0:代表可以放圖片 ，1 ：代表不可以放圖片
+                            {
+                            	moduleInfo.tuDLU = null;
+                            	 setDrawData(moduleInfo.tuDLU, 8);
+                            }
+                            if(moduleInfo.buliao.part6 == 1) //0:代表可以放圖片 ，1 ：代表不可以放圖片
+                            {
+                            	moduleInfo.tuDRU = null;
+                            	 setDrawData(moduleInfo.tuDRU, 7);
+                            }
+                            if(moduleInfo.buliao.part7 == 1) //0:代表可以放圖片 ，1 ：代表不可以放圖片
+                            {
+                            	moduleInfo.tuDLD = null;
+                            	 setDrawData(moduleInfo.tuDLD, 10);
+                            }
+                            if(moduleInfo.buliao.part8 == 1) //0:代表可以放圖片 ，1 ：代表不可以放圖片
+                            {
+                            	moduleInfo.tuDRD = null;
+                            	 setDrawData(moduleInfo.tuDRD, 9);
+                            }
+                            setDrawData(buliaoSingleData, 0);
+                            startDraw();
+                            DrawBackGround();
+
+                        }
+                        else if (menu_2 > 0) {
+                            var niukoSingleData = new THREE.JeansSingleData();
+                            niukoSingleData.id = data.id;
+                            niukoSingleData.path = qiniuUrl + data.cover;
+                            niukoSingleData.sprice = data.price;
+                            niukoSingleData.vec = new THREE.Vector2(data.fixeX, data.fixeY);
+                            moduleInfo.niuko = niukoSingleData;
+                            drawNiuko();
+
+                        }
+                        else if (menu_3 > 0) {
+                            var bianxianSingleData = new THREE.JeansSingleData();
+                            bianxianSingleData.id = data.id;
+                            bianxianSingleData.path = qiniuUrl + data.cover;
+                            bianxianSingleData.sprice = data.price;
+                            bianxianSingleData.vec = new THREE.Vector2(data.fixeX, data.fixeY);
+                            moduleInfo.bianxian = bianxianSingleData;
+                            setDrawData(bianxianSingleData, 2);
+                            startDraw();
+                        }
+                    }
+                    else {
+                        $.modalMsg("返回有误");
+                    }
+                }
+            });
+
+
+        });
+
+
+        //配件消失
+        $(".swiper-container").on('click', '.swiper-slide', function () {
+            var id = $(this).find('img').attr("id");
+            var kouziNum = $(this).parents(".aside").attr("data-name")
+            //alert("*******"+id)
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/custom/checkPicInfo",
+                data: {
+                    "id": id
+
+                },
+                async: false,
+                error: function (request) {
+                    $.modalMsg("系统出问题了");
+                },
+                success: function (data) {
+                    if (data) {
+                        var tuanSingleData = new THREE.JeansSingleData();
+                        tuanSingleData.id = data.id;
+                        tuanSingleData.path = qiniuUrl + data.cover;
+                        tuanSingleData.sprice = data.price;
+                        tuanSingleData.vec = new THREE.Vector2(data.fixeX, data.fixeY);
+                        switch (data.region) {
+
+                            case 1:
+                                moduleInfo.tuFLU = tuanSingleData;
+                                setDrawData(tuanSingleData, 5);
+                                break;
+                            case 2:
+                                moduleInfo.tuFRU = tuanSingleData;
+                                setDrawData(tuanSingleData, 3);
+                                break;
+                            case 3:
+                                moduleInfo.tuFLD = tuanSingleData;
+                                setDrawData(tuanSingleData, 6);
+                                break;
+                            case 4:
+                                moduleInfo.tuFRD = tuanSingleData;
+                                setDrawData(tuanSingleData, 4);
+                                break;
+                            case 5:
+                                moduleInfo.tuDLU = tuanSingleData;
+                                setDrawData(tuanSingleData, 8);
+                                break;
+                            case 6:
+                                moduleInfo.tuDRU = tuanSingleData;
+                                setDrawData(tuanSingleData, 7);
+                                break;
+                            case 7:
+                                moduleInfo.tuDLD = tuanSingleData;
+                                setDrawData(tuanSingleData, 10);
+                                break;
+                            case 8:
+                                moduleInfo.tuDRD = tuanSingleData;
+                                setDrawData(tuanSingleData, 9);
+                                break;
+                        }
+                        console.log(moduleInfo);
+                        startDraw();
+
+                    }
+                    else {
+                        $.modalMsg("返回有误");
+                    }
+                }
+            });
+
+            // console.log(dataNum);
+            switch (kouziNum) {
+                case "kouzi1":
+
+                    break;
+                case "kouzi2":
+
+                    break;
+            }
+            $(".aside").fadeOut();
+        });
+
+
+        //选择文字
+        $("#x_word").click(function () {
+            lookword()
+            $(".pop_wenzi").fadeIn();
+        });
+
+
+        var fontSize = 100;
+        $(".wenzi_a input").keyup(function () {
+            var inputClor = $(".wenzi_a input").css("color")
+            var inputFam = $(this).css("font-family");
+            startDrawWord(inputClor, fontSize, inputFam)
+        });
+
+        $(".wenzi_a").on("input", function () {
+            var inputClor = $(".wenzi_a input").css("color")
+            var inputFam = $(this).css("font-family");
+            console.log(inputFam)
+            startDrawWord(inputClor, fontSize, inputFam)
+        });
+
+
+        $(".wenzi_rem").click(function () {
+            var inputClor = $(".wenzi_a input").css("color");
+            fontSize = fontSize + 10;
+            var inputFam = $(".wenzi_a input").css("font-family");
+            if (fontSize >= 120) {
+                fontSize = 120;
+                startDrawWord(inputClor, fontSize, inputFam)
+            } else {
+                startDrawWord(inputClor, fontSize, inputFam)
+            }
+            console.log(inputFam)
+        });
+        $(".wenzi_add").click(function () {
+            var inputClor = $(".wenzi_a input").css("color");
+            fontSize = fontSize - 10;
+            var inputFam = $(".wenzi_a input").css("font-family");
+            if (fontSize <= 100) {
+                fontSize = 100;
+                startDrawWord(inputClor, fontSize, inputFam)
+            } else {
+                startDrawWord(inputClor, fontSize, inputFam)
+            }
+            console.log(inputFam)
+        });
+        $(".wenzi_b a").click(function () {
+
+            var inputFam = $(this).attr("data-fam");
+            var inputClor = $(".wenzi_a input").css("color");
+            $(".wenzi_a input").css("font-family", inputFam)
+            startDrawWord(inputClor, fontSize, inputFam)
+            console.log(inputFam)
+
+        });
+        $(".wenzi_c a").click(function () {
+
+            var inputClor = $(this).attr("data-color");
+            $(".wenzi_a input").css("color", inputClor);
+
+            var inputFam = $(".wenzi_a input").css("font-family");
+
+            $(".wenzi_a input").css("font-family", inputFam)
+
+            startDrawWord(inputClor, fontSize, inputFam)
+            console.log(inputFam)
+
+        });
+
+        //关闭弹出框
+        $(".pop_up_close").click(function () {
+            $(".pop_up").fadeOut();
+        });
+        // 确认修改
+        $(".pop_up_submit").click(function () {
+            $(".pop_up").fadeOut();
+        });
+        //弹出登录框
+     
+
+
+        $(".entering_password_news").click(function () {
+            $(".entering_password").fadeOut();
+            $(".login").fadeIn();
+            /* Act on the event */
+        });
+        $(".tit_fr").click(function () {
+            $(".login,.login_bg,.login_switch,.entering_password,.verification,.set_password,.password").fadeOut()
+        });
+
+        //取消文字
+        $(".pop_wenzi_rus").click(function () {
+            lookmodule();
+            startDrawWord(0, 0, 0);
+            $(".pop_wenzi").fadeOut();
+        });
+
+
+        // 确认文字
+        $(".pop_wenzi_sub").click(function () {
+            $(".pop_wenzi").fadeOut();
+            lookmodule();
+        });
+
+
+
+
+
+
+
+        $("#verification_back").click(function () {
+            $(".verification").fadeOut();
+            $(".login").fadeIn();
+        });
+
+
+        $("#verification_close,#set_password_close,#password_close").click(function () {
+            $(".verification,.login_bg,.set_password,.password").fadeOut()
+        });
+
+        /*$(".entering_password_news_again").click(function () {
+            var pass1 = $(".entering_password_num1 input").val();
+            var pass2 = $(".entering_password_num2 input").val();
+            console.log(pass1);
+
+            if (pass1 != pass2) {
+                $(".entering_password_error").html("前后密码不一致");
+            } else if (pass1 == '') {
+                $(".entering_password_error").html("密码位数不能小于6位");
+            } else {
+                //输入成功
+                $(".entering_password,.login_bg").fadeOut()
+            }
+        });*/
+
+
+        //设置密码关闭登陆框
+      /* $(".set_password_news_again").click(function () {
+            $(".set_password,.login_bg").fadeOut();
+        });*/
+
+
+
+
+        $(".password_news_again").click(function () {
+            $(".login").fadeOut();
+            $(".password,.login_bg").fadeOut()
+        });
+
+
+    });
+
+
+    function startDrawWord(a, b, c) {
+        var textValue = document.getElementById('wenzi').value;
+        var wenziSingleData = new THREE.WordData();
+        wenziSingleData.color = a;
+        wenziSingleData.font = b + 'px' + ' ' + c;
+        wenziSingleData.content = textValue;
+        wenziSingleData.sprice = 1;
+        moduleInfo.wenZi = wenziSingleData;
+        console.log(b)
+        drawWord();
+    }
+
+    //放大模型
+    function lookword() {
+        controls.target = new THREE.Vector3(0, 8, 0);
+        controls.maxDistance = 15;
+        controls.minDistance = 15;
+        controls.update();
+
+        setTimeout('upDateRedPic()', 100);
+
+    }
+
+    //缩小模型
+    function lookmodule() {
+        controls.target = new THREE.Vector3(0, 5, 0);
+        controls.minDistance = 32;
+        controls.maxDistance = 100;
+        controls.update();
+        setTimeout('upDateRedPic()', 100);
+    }
+
+    function startDraw() {
+        draw(
+            function () {
+
+                var canvas = document.getElementById('myCanvas');
+                var canvasTexture = new THREE.Texture(canvas);
+                canvasTexture.wrapS = THREE.RepeatWrapping;
+                canvasTexture.wrapT = THREE.RepeatWrapping;
+                canvasTexture.magFilter = THREE.LinearFilter;
+                canvasTexture.minFilter = THREE.LinearFilter;
+
+                buliaoObj.children[0].material.map = canvasTexture;
+
+                canvasTexture.needsUpdate = true;
+                buliaoObj.children[0].material.map.needsUpdate = true;
+                buliaoObj.children[0].material.needsUpdate = true;
+                buliaoObj.children[0].material.shininess = 0;
+
+//                setTimeout(function(){document.getElementById('canvas_bg').style.display = "none";},1000);
+               setTimeout("upDateRedPic()",300);
+                console.log(buliaoObj);
+                refreshSpriceTxt();
+            }
+        )
+    }
+
+    var data = new Array(12);
+    var vec = new Array(12);
+    var imgArray = new Array(12);
+
+    function cacheExternalImage(url) {
+        var img = new Image,
+            src = url,
+            cvs = document.createElement('canvas'),
+            ctx = cvs.getContext('2d');
+        img.crossOrigin = "Anonymous";
+        img.onload = function () {
+        }
+        img.src = src;
+        if (img.complete || img.complete === undefined) {
+            img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+            img.src = src;
+        }
+        return img;
+    }
+
+    function draw(fn) {
+        var c = document.getElementById("myCanvas"),
+            ctx = c.getContext('2d');
+        ctx.clearRect(0, 0, 2048, 2048);
+        len = data.length;
+        c.width = 2048;
+        c.height = 2048;
+
+        function drawing(n) {
+            if (n < len) {
+                if (data[n] == null) {
+                    drawing(n + 1);//递归
+                }
+                else {
+                    if (imgArray[n] == null) {
+                        var img = new Image;
+
+                        // img.src = data[n] + "?t=" + Date.parse(new Date());
+                        // img.crossOrigin="anonymous";
+
+                        img = cacheExternalImage(data[n]);
+
+                        document.getElementById('sss_loading').style.display = "block";
+                        console.log('开始加载图片' + data[n]);
+                        img.onload = function () {
+                            console.log('加载图片完成==' + n);
+
+                            document.getElementById('sss_loading').style.display = "none";
+                            ctx.drawImage(img, vec[n].x, vec[n].y, img.width, img.height);
+                            img.needsUpdate = true;
+                            ctx.needsUpdate = true;
+                            drawing(n + 1);//递归
+                            imgArray[n] = img;
+                        }
+                    }
+                    else {
+                        ctx.drawImage(imgArray[n], vec[n].x, vec[n].y, imgArray[n].width, imgArray[n].height);
+
+                        ctx.needsUpdate = true;
+                        drawing(n + 1);//递归
+                    }
+                }
+
+
+            }
+            else {
+
+                fn();
+            }
+
+        }
+
+        drawing(0);
+    }
+
+    function drawWord() {
+        if (moduleInfo.wenZi == null)
+        {
+            wordObj.visible = false;
+            return;
+        }
+        wordObj.visible = true;
+        console.log('换文字');
+        var c = document.getElementById('wordCanvas'),
+            ctx = c.getContext('2d');
+        ctx.clearRect(0, 0, 512, 512);
+        ctx.font = moduleInfo.wenZi.font;
+        ctx.fillStyle = moduleInfo.wenZi.color;
+        ctx.fillText(moduleInfo.wenZi.content, (512 - ctx.measureText(moduleInfo.wenZi.content).width) / 2, 220);
+        ctx.needsUpdate = true;
+
+        var canvasTexture = new THREE.Texture(c);
+        canvasTexture.wrapS = THREE.RepeatWrapping;
+        canvasTexture.wrapT = THREE.RepeatWrapping;
+        canvasTexture.magFilter = THREE.LinearFilter;
+        canvasTexture.minFilter = THREE.LinearFilter;
+
+        wordObj.children[0].material.map = canvasTexture;
+
+        canvasTexture.needsUpdate = true;
+        wordObj.children[0].material.map.needsUpdate = true;
+        wordObj.children[0].material.needsUpdate = true;
+        refreshSpriceTxt();
+    }
+
+
+    function changetu() {
+        var tuanSingleData = new THREE.JeansSingleData();
+        tuanSingleData.id = '003';
+        tuanSingleData.path = 'img/tu2.png';
+        tuanSingleData.sprice = 1;
+        tuanSingleData.vec = new THREE.Vector2(700, 1300);
+        moduleInfo.tuFLD = tuanSingleData;
+        setDrawData(tuanSingleData, 6);
+        startDraw();
+
+    }
+
+    function changebianxian() {
+        var bianxianSingleData = new THREE.JeansSingleData();
+        bianxianSingleData.id = '001';
+        bianxianSingleData.path = 'img/bianxian2.png';
+        bianxianSingleData.sprice = 1;
+        bianxianSingleData.vec = new THREE.Vector2(0, 0);
+        moduleInfo.bianxian = bianxianSingleData;
+        setDrawData(bianxianSingleData, 2);
+        startDraw();
+    }
+
+    function changePodong() {
+        var podongSingleData = new THREE.JeansSingleData();
+        podongSingleData.id = '001';
+        podongSingleData.path = 'img/podong2.png';
+        podongSingleData.sprice = 1;
+        podongSingleData.vec = new THREE.Vector2(0, 0);
+        moduleInfo.podong = podongSingleData;
+        setDrawData(podongSingleData, 1);
+        startDraw();
+    }
+
+
+    function changeColor() {
+        var buliaoSingleData = new THREE.JeansSingleData();
+        buliaoSingleData.id = '001';
+        buliaoSingleData.path = 'img/img6.png';
+        buliaoSingleData.sprice = 1;
+        buliaoSingleData.vec = new THREE.Vector2(0, 0);
+        moduleInfo.buliao = buliaoSingleData;
+        setDrawData(buliaoSingleData, 0);
+        startDraw();
+    }
+
+    /**
+     * 用来替换贴图
+     * @param {Object} color
+     * @param {Object} type 0:颜色 1：破洞 2：边线 3：正面左上 4：正面左下 5：正面右上 6：正面右下 7 反面左上 8反面左下 9 反面右上 10反面右下
+     */
+    function setDrawData(pic, type) {
+        if (pic == null) {
+            data[type] = null;
+            vec[type] = null;
+            imgArray[type] = null;
+        }
+        else {
+            data[type] = pic.path;
+            vec[type] = pic.vec;
+            imgArray[type] = null;
+        }
+    }
+
+    //首次进入进行数据处理
+    function initData() {
+        setDrawData(moduleInfo.buliao, 0);
+        setDrawData(moduleInfo.podong, 1);
+        setDrawData(moduleInfo.bianxian, 2);
+        setDrawData(moduleInfo.tuFRU, 3);
+        setDrawData(moduleInfo.tuFRD, 4);
+        setDrawData(moduleInfo.tuFLU, 5);
+        setDrawData(moduleInfo.tuFLD, 6);
+        setDrawData(moduleInfo.tuDRU, 7);
+        setDrawData(moduleInfo.tuDLU, 8);
+        setDrawData(moduleInfo.tuDRD, 9);
+        setDrawData(moduleInfo.tuDLD, 10);
+    }
+
+    var moduleInfo; //保存当前牛仔裤信息
+    var module;//牛仔裤模型
+    var niukoObj;//纽扣模型
+    var buliaoObj;//贴图模型
+    var wordObj;//文字模型
+
+    //相机
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+
+    //场景
+    var renderer = new THREE.WebGLRenderer({antialias: true, precision: 'highp', alpha: true});
+    renderer.setPixelRatio(window.devicePixelRatio);
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+
+    renderer.setSize(width, height);
+    renderer.setClearColor(new THREE.Color('white'), 0);
+  //  renderer.shadowMapEnabled = true;
+   // renderer.shadowMapType = THREE.PCFSoftShadowMap;
+
+    document.body.appendChild(renderer.domElement);
+
+
+    window.addEventListener('resize', function () {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+
+    })
+
+    //裤子高度
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target = new THREE.Vector3(0, 5, 0);
+    controls.enableZoom = false;
+    controls.enablePan = false;
+    controls.enableKeys = false;
+    controls.minDistance = 32;
+    controls.maxDistance = 100;
+    //角度
+    controls.minPolarAngle = 1.5;//-0.5
+    controls.maxPolarAngle = 1.5;
+
+    controls.addEventListener('change', upDateRedPic);
+
+    var imgArrayForward = new Array();
+    var imgArrayBack = new Array();
+    var forwardFlag = true;
+    var backFlag = true;
+    initRedImg();
+    
+    
+
+
+    function initRedImg() {
+        for (var i = 0; i < 4; i++) {
+            var kouzi = document.getElementById('kouzi' + i)
+            imgArrayForward.push(kouzi);
+        }
+
+        var kouzi = document.getElementById('x_word')
+        imgArrayForward.push(kouzi);
+
+
+        for (var j = 0; j < 4; j++) {
+            var kouzi = document.getElementById('kouzi' + (j + 4))
+            imgArrayBack.push(kouzi);
+        }
+
+    }
+
+
+    function upDateRedPic() {
+        // if (0.5 > controls.getAzimuthalAngle() && controls.getAzimuthalAngle() > -0.3) {
+        //     if (forwardFlag == false)
+        //         picForwardHide('block');
+        //
+        //     if (backFlag == true)
+        //         picBackHide('none');
+        //     onCameraChage();
+        // }
+        // else if (controls.getAzimuthalAngle() > 3.0 || controls.getAzimuthalAngle() < -2.5) {
+        //     if (forwardFlag == true)
+        //         picForwardHide('none');
+        //     if (backFlag == false)
+        //         picBackHide('block');
+        //     onCameraChage();
+        // }
+        // else {
+        //     if (forwardFlag == true)
+                picForwardHide('none');
+                picBackHide('none');
+        //     if (backFlag == true)
+        //         picBackHide('none');
+        // }
+    }
+
+    ///摄像机改变处理
+    var screenVec;
+
+    function onCameraChage() {
+        if (areaArrayForward && forwardFlag == true) {
+            for (var i = 0; i < areaArrayForward.length; i++) {
+                screenVec = objToScreenPosition(areaArrayForward[i], camera);
+                var kouzi = imgArrayForward[i];
+                kouzi.style.left = (screenVec.x) + "px"
+                kouzi.style.top = (screenVec.y) + "px"
+            }
+
+        }
+        if (areaArrayBack && backFlag == true) {
+
+            for (var j = 0; j < areaArrayBack.length; j++) {
+                screenVec = objToScreenPosition(areaArrayBack[j], camera);
+                var kouzi = imgArrayBack[j];
+                kouzi.style.left = (screenVec.x) + "px"
+                kouzi.style.top = (screenVec.y) + "px"
+            }
+        }
+    }
+
+    function picForwardHide(flag) {
+        if (flag == 'none')
+            forwardFlag = false;
+        else
+            forwardFlag = true;
+
+        for (var i = 0; i < imgArrayForward.length; i++) {
+            imgArrayForward[i].style.display = flag;
+        }
+
+    }
+
+    function picBackHide(flag) {
+        if (flag == 'none')
+            backFlag = false;
+        else
+            backFlag = true;
+
+        for (var i = 0; i < imgArrayBack.length; i++) {
+            imgArrayBack[i].style.display = flag;
+        }
+    }
+
+
+    controls.update();
+
+
+    scene.add(new THREE.AmbientLight('white', 1));
+    var directionalLight = new THREE.DirectionalLight(0xffffff);
+//    directionalLight.position.x = Math.random() - 0.5;
+//    directionalLight.position.y = Math.random();
+//    directionalLight.position.z = Math.random() - 0.5;
+    directionalLight.position.set(0,1, 0).normalize(); //x,y,z. light source is coming from same angle as camera position
+    scene.add(directionalLight);
+
+
+    createJeansData();
+    startLoadJeans(moduleInfo);
+
+
+    //[[${webJeans?.colorsId}]]  var fixe_size = [[${webJeans?.sizesId}]]
+
+    //新建测试
+    function createJeansData() {
+
+        //alert("*******"+[[${webDesigner?.id}]]);
+        moduleInfo = new THREE.JeansData();
+        moduleInfo.id = [[${webDesigner?.id}]];
+        moduleInfo.moduleId = [[${webDesigner?.jeansId}]];
+        moduleInfo.moduleName = [[${qiniuUrl}]] + [[${webjeans?.model}]];
+        moduleInfo.moduleSprice = [[${webjeans?.price}]];
+        moduleInfo.moduleType = [[${webjeans?.type}]];
+
+        var buliaoSingleData = new THREE.ColorSingleData();
+        buliaoSingleData.id = [[${webJeansColor?.id}]];
+        buliaoSingleData.path = [[${qiniuUrl}]] + [[${webJeansColor?.cover}]];
+        buliaoSingleData.sprice = [[${webJeansColor?.price}]];
+        var vec = new THREE.Vector2(0, 0);
+        vec.x = [[${webJeansColor?.fixeX}]];
+        vec.y = [[${webJeansColor?.fixeY}]];
+        buliaoSingleData.vec = vec;
+        buliaoSingleData.colorPath = [[${qiniuUrl}]] + [[${webJeansColor?.coverBack}]];
+        buliaoSingleData.part1 = [[${webJeansColor?.part1}]];
+        buliaoSingleData.part2 = [[${webJeansColor?.part2}]];
+        buliaoSingleData.part3 = [[${webJeansColor?.part3}]];
+        buliaoSingleData.part4 = [[${webJeansColor?.part4}]];
+        buliaoSingleData.part5 = [[${webJeansColor?.part5}]];
+        buliaoSingleData.part6 = [[${webJeansColor?.part6}]];
+        buliaoSingleData.part7 = [[${webJeansColor?.part7}]];
+        buliaoSingleData.part8 = [[${webJeansColor?.part8}]];
+
+        
+        moduleInfo.buliao = buliaoSingleData;
+
+        var bianxianSingleData = new THREE.JeansSingleData();
+        bianxianSingleData.id = [[${webJeansThread?.id}]];
+        bianxianSingleData.path = [[${qiniuUrl}]] + [[${webJeansThread?.cover}]];
+        bianxianSingleData.sprice = [[${webJeansThread?.price}]];
+        var vec = new THREE.Vector2(0, 0);
+        vec.x = [[${webJeansThread?.fixeX}]];
+        vec.y = [[${webJeansThread?.fixeY}]];
+        bianxianSingleData.vec = vec;
+        moduleInfo.bianxian = bianxianSingleData;
+
+
+        if ([[${webJeansWash}]] != null) {
+            var podongSingleData = new THREE.JeansSingleData();
+            podongSingleData.id = [[${webJeansWash?.id}]];
+            podongSingleData.path = [[${qiniuUrl}]] + [[${webJeansWash?.cover}]];
+            podongSingleData.sprice = [[${webJeansWash?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${webJeansWash?.fixeX}]];
+            vec.y = [[${webJeansWash?.fixeY}]];
+            podongSingleData.vec = vec;
+            moduleInfo.podong = podongSingleData;
+        }
+
+        if ([[${partsVO?.parts1}]] != null) {
+            //1 前左上
+            var tuanSingleData = new THREE.JeansSingleData();
+            tuanSingleData.id = [[${partsVO?.parts1?.id}]];
+            tuanSingleData.path = [[${qiniuUrl}]] + [[${partsVO?.parts1?.cover}]];
+            tuanSingleData.sprice = [[${partsVO?.parts1?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${partsVO?.parts1?.fixeX}]];
+            vec.y = [[${partsVO?.parts1?.fixeY}]];
+            tuanSingleData.vec = vec;
+            moduleInfo.tuFLU = tuanSingleData;
+        }
+
+        if ([[${partsVO?.parts2}]] != null) {
+            //2前右上
+            var tuanSingleData = new THREE.JeansSingleData();
+            tuanSingleData.id = [[${partsVO?.parts2?.id}]];
+            tuanSingleData.path = [[${qiniuUrl}]] + [[${partsVO?.parts2?.cover}]];
+            tuanSingleData.sprice = [[${partsVO?.parts2?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${partsVO?.parts2?.fixeX}]];
+            vec.y = [[${partsVO?.parts2?.fixeY}]];
+            tuanSingleData.vec = vec;
+            moduleInfo.tuFRU = tuanSingleData;
+        }
+
+        //alert(partsVO?.parts3)
+        if ([[${partsVO?.parts3}]] != null) {
+            //3前左下
+            var tuanSingleData = new THREE.JeansSingleData();
+            tuanSingleData.id = [[${partsVO?.parts3?.id}]];
+            tuanSingleData.path = [[${qiniuUrl}]] + [[${partsVO?.parts3?.cover}]];
+            tuanSingleData.sprice = [[${partsVO?.parts3?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${partsVO?.parts3?.fixeX}]];
+            vec.y = [[${partsVO?.parts3?.fixeY}]];
+            tuanSingleData.vec = vec;
+            moduleInfo.tuFLD = tuanSingleData;
+        }
+
+        if ([[${partsVO?.parts4}]] != null) {
+            //4前右下
+            var tuanSingleData = new THREE.JeansSingleData();
+            tuanSingleData.id = [[${partsVO?.parts4?.id}]];
+            tuanSingleData.path = [[${qiniuUrl}]] + [[${partsVO?.parts4?.cover}]];
+            tuanSingleData.sprice = [[${partsVO?.parts4?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${partsVO?.parts4?.fixeX}]];
+            vec.y = [[${partsVO?.parts4?.fixeY}]];
+            tuanSingleData.vec = vec;
+            moduleInfo.tuFRD = tuanSingleData;
+        }
+
+        if ([[${partsVO?.parts5}]] != null) {
+            //5后左上
+            var tuanSingleData = new THREE.JeansSingleData();
+            tuanSingleData.id = [[${partsVO?.parts5?.id}]];
+            tuanSingleData.path = [[${qiniuUrl}]] + [[${partsVO?.parts5?.cover}]];
+            tuanSingleData.sprice = [[${partsVO?.parts5?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${partsVO?.parts5?.fixeX}]];
+            vec.y = [[${partsVO?.parts5?.fixeY}]];
+            tuanSingleData.vec = vec;
+            moduleInfo.tuDLU = tuanSingleData;
+        }
+
+        if ([[${partsVO?.parts6}]] != null) {
+            //6后右上
+            var tuanSingleData = new THREE.JeansSingleData();
+            tuanSingleData.id = [[${partsVO?.parts6?.id}]];
+            tuanSingleData.path = [[${qiniuUrl}]] + [[${partsVO?.parts6?.cover}]];
+            tuanSingleData.sprice = [[${partsVO?.parts6?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${partsVO?.parts6?.fixeX}]];
+            vec.y = [[${partsVO?.parts6?.fixeY}]];
+            tuanSingleData.vec = vec;
+            moduleInfo.tuDRU = tuanSingleData;
+        }
+        if ([[${partsVO?.parts7}]] != null) {
+            //7后左下
+            var tuanSingleData = new THREE.JeansSingleData();
+            tuanSingleData.id = [[${partsVO?.parts7?.id}]];
+            tuanSingleData.path = [[${qiniuUrl}]] + [[${partsVO?.parts7?.cover}]];
+            tuanSingleData.sprice = [[${partsVO?.parts7?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${partsVO?.parts7?.fixeX}]];
+            vec.y = [[${partsVO?.parts7?.fixeY}]];
+            tuanSingleData.vec = vec;
+            moduleInfo.tuDLD = tuanSingleData;
+        }
+
+
+        if ([[${partsVO?.parts8}]] != null) {
+            //后右下
+            var tuanSingleData = new THREE.JeansSingleData();
+            tuanSingleData.id = [[${partsVO?.parts8?.id}]];
+            tuanSingleData.path = [[${qiniuUrl}]] + [[${partsVO?.parts8?.cover}]];
+            tuanSingleData.sprice = [[${partsVO?.parts8?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${partsVO?.parts8?.fixeX}]];
+            vec.y = [[${partsVO?.parts8?.fixeY}]];
+            tuanSingleData.vec = vec;
+            moduleInfo.tuDRD = tuanSingleData;
+        }
+
+
+        if ([[${webDesigner?.wordContent}]] != null && [[${webDesigner?.wordContent}]] != ''&&[[${webDesigner?.wordContent}]] != undefined) {
+            var wenziSingleData = new THREE.WordData();
+            wenziSingleData.color = [[${webDesigner?.wordColor}]];
+            wenziSingleData.font = [[${webDesigner?.wordFont}]];
+            wenziSingleData.content = [[${webDesigner?.wordContent}]];
+            wenziSingleData.sprice = [[${webDesigner?.wordSize}]];
+            moduleInfo.wenZi = wenziSingleData;
+        }
+
+
+        if ([[${webJeansButton}]] != null) {
+            var niukoSingleData = new THREE.JeansSingleData();
+            niukoSingleData.id = [[${webJeansButton?.id}]];
+            niukoSingleData.path = [[${qiniuUrl}]] + [[${webJeansButton?.cover}]];
+            niukoSingleData.sprice = [[${webJeansButton?.price}]];
+            var vec = new THREE.Vector2(0, 0);
+            vec.x = [[${webJeansButton?.fixeX}]];
+            vec.y = [[${webJeansButton?.fixeY}]];
+            niukoSingleData.vec = vec;
+            moduleInfo.niuko = niukoSingleData;
+        }
+
+        console.log(moduleInfo);
+
+    }
+
+    //更换底图
+    function DrawBackGround() {  // '<img src="' + coverUrl + '" alt="图片" width="62" height="52">'
+        if (moduleInfo == null || moduleInfo.buliao == null) return;
+
+        $("body").css('background-image', 'url("' + moduleInfo.buliao.colorPath + '")');
+        if (moduleInfo.buliao.depth == '0')//深
+        {
+        	$("body").removeClass("bg_white")
+        	$("body").addClass("bg_back");
+        }
+        //浅
+        else {
+            $("body").removeClass("bg_back");
+            $("body").addClass("bg_white");
+
+        }
+
+
+    }
+
+    ///开始根据数据生成模型
+    function startLoadJeans(jeansData) {
+        loadModule(jeansData.moduleName);
+    }
+
+
+    var allSprice = 0;
+
+    function refreshSpriceTxt() {
+        var sprice = refreshSprice(moduleInfo);
+        $("#all_price").text(sprice)
+        allSprice = sprice;
+    }
+
+
+    ///根据数据计算价格
+    function refreshSprice(jeansData) {
+        var sprice = 0;
+        if (jeansData)
+            sprice += jeansData.moduleSprice;
+        if (jeansData.niuko)
+            sprice += jeansData.niuko.sprice;
+        if (jeansData.buliao)
+            sprice += jeansData.buliao.sprice;
+        if (jeansData.bianxian)
+            sprice += jeansData.bianxian.sprice;
+        if (jeansData.podong)
+            sprice += jeansData.podong.sprice;
+        if (jeansData.kodai)
+            sprice += jeansData.kodai.sprice;
+
+        if (jeansData.tuFRU)
+            sprice += jeansData.tuFRU.sprice;
+        if (jeansData.tuFRD)
+            sprice += jeansData.tuFRD.sprice;
+        if (jeansData.tuFLU)
+            sprice += jeansData.tuFLU.sprice;
+        if (jeansData.tuFLD)
+            sprice += jeansData.tuFLD.sprice;
+        if (jeansData.tuDRU)
+            sprice += jeansData.tuDRU.sprice;
+        if (jeansData.tuDLU)
+            sprice += jeansData.tuDLU.sprice;
+        if (jeansData.tuDRD)
+            sprice += jeansData.tuDRD.sprice;
+        if (jeansData.tuDLD)
+            sprice += jeansData.tuDLD.sprice;
+
+        if (jeansData.wenZi) {
+            sprice += 50;
+        }
+
+        return sprice;
+    }
+
+    var loadNum;
+
+    ///加载模型
+
+    function loadModule(modulePath) {
+        var loader = new THREE.ObjectLoader();
+        loader.load(modulePath,
+            function (obj) {
+                module = obj;
+                console.log(module);
+                module.scale.x = module.scale.y = module.scale.z = 8;
+                getModuleInfo();
+                initData();
+                startDraw();
+
+                drawWord();
+                drawNiuko();
+                DrawBackGround();
+                scene.add(module);
+
+
+            },
+
+            function (xhr) {
+
+                var loadNum = Math.floor((xhr.loaded / xhr.total * 100));
+//                document.getElementById('loading').style.width = loadNum + "%";
+//                document.getElementById('loading').innerHTML =  loadNum + "%";
+            },
+            // onError callback
+            function (err) {
+                console.error('An error happened');
+            }
+        );
+    }
+
+    ///替换钮扣
+    function drawNiuko() {
+
+        if (moduleInfo == null || moduleInfo.niuko == null) return;
+        var loader = new THREE.TextureLoader();
+        loader.load(moduleInfo.niuko.path, function (texture) {
+            niukoObj.children[0].material.map = texture;
+            texture.needsUpdate = true;
+            niukoObj.children[0].material.map.needsUpdate = true;
+            niukoObj.children[0].material.needsUpdate = true;
+        });
+
+        console.log(niukoObj);
+    }
+
+
+    var areaArrayForward = new Array();
+    var areaArrayBack = new Array();
+
+    ///获取模型的数据
+    function getModuleInfo() {
+        for (var i = 0; i < module.children.length; i++) {
+            console.log(module.children[i].name);
+            switch (module.children[i].name) {
+
+                case 'fastener':
+                    niukoObj = module.children[i];
+                    break;
+                case 'under':
+                    buliaoObj = module.children[i];
+                    break;
+                case 'word':
+                    wordObj = module.children[i];
+                    break;
+                case 'Plane01':
+                    areaArrayForward.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+                case 'Plane02':
+                    areaArrayForward.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+                case 'Plane03':
+                    areaArrayForward.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+                case 'Plane04':
+                    areaArrayForward.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+                case 'Plane05':
+                    areaArrayBack.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+                case 'Plane06':
+                    areaArrayBack.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+                case 'Plane07':
+                    areaArrayBack.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+                case 'Plane08':
+                    areaArrayBack.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+                case 'Plane09':
+                    areaArrayForward.push(module.children[i]);
+                    module.children[i].visible = false;
+                    break;
+            }
+        }
+    }
+
+
+    ///替换纽扣
+    function changeKozi(koziPath) {
+
+        var loader = new THREE.ObjectLoader();
+        loader.load('/models/' + koziPath, function (obj) {
+            var newKozi = obj;
+            var oldkoziPosition = getModulePosition(niukoObj);
+            module.remove(niukoObj);
+
+            setModulePosition(newKozi, oldkoziPosition);
+            module.add(newKozi);
+            niukoObj = newKozi;
+        });
+
+    }
+
+    ///得到子模型位置和角度
+    function getModulePosition(moduleChidren) {
+        var moduelPositon = new THREE.ModuleDat();
+
+        moduelPositon.x = moduleChidren.position.x;
+        moduelPositon.y = moduleChidren.position.y;
+        moduelPositon.z = moduleChidren.position.z;
+
+        moduelPositon.scalex = moduleChidren.scale.x;
+        moduelPositon.scaley = moduleChidren.scale.y;
+        moduelPositon.scalez = moduleChidren.scale.z;
+
+        moduelPositon.quertion = moduleChidren.rotation;
+        return moduelPositon;
+    }
+
+
+    ///设置子模型的位置和角度
+    function setModulePosition(modulechidren, moduleposition) {
+        modulechidren.position.x = moduleposition.x;
+        modulechidren.position.y = moduleposition.y;
+        modulechidren.position.z = moduleposition.z;
+
+        modulechidren.scale.x = moduleposition.scalex;
+        modulechidren.scale.y = moduleposition.scaley;
+        modulechidren.scale.z = moduleposition.scalez;
+
+        modulechidren.rotation = moduleposition.quertion;
+    }
+
+    function objToScreenPosition(obj, camera) {
+        projector = new THREE.Projector();
+        positionVec = new THREE.Vector3(obj.position.x, obj.position.y, obj.position.z);
+        world_vector = obj.parent.localToWorld(positionVec);
+        vector = world_vector.project(camera);
+
+        halfWidth = window.innerWidth / 2,
+
+            halfHeight = window.innerHeight / 2;
+
+        return {
+
+            x: Math.round(vector.x * halfWidth + halfWidth),
+
+            y: Math.round(-vector.y * halfHeight + halfHeight)
+
+        };
+    }
+
+
+    var update = function () {
+
+
+    };
+
+    var render = function () {
+        renderer.render(scene, camera);
+    };
+
+
+    var GameLoop = function () {
+        requestAnimationFrame(GameLoop);
+
+        update();
+        render();
+
+    };
+
+    GameLoop();
+</script>
+
+<script type="text/javascript">
+    //获取对象
+
+</script>
+</body>
+</html>

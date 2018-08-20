@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemOrderGoodsMapper">
+
+	<resultMap type="SysOrderGoods" id="SysOrderGoodsResult">
+		<id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="jeans_id" jdbcType="INTEGER" property="jeansId" />
+    <result column="bl_id" jdbcType="INTEGER" property="blId" />
+    <result column="size_id" jdbcType="INTEGER" property="sizeId" />
+    <result column="jeans_name" jdbcType="VARCHAR" property="jeansName" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+     <result column="jeans_desc" property="jeansDesc"  />
+    <result column="bu_liao" property="buliao"  />
+    	<result column="pattern_all" property="patternAll"  />
+    	<result column="size_list" property="sizeList"  />	
+    	<result column="buliao_list" property="buliaoList"  />
+    	<result column="select_size" property="selectSize"  />
+    	
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysOrderGoodsResult">
+		select * from sys_order_goods
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND user_id = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	<select id="selectOrderGoodsAll" resultMap="SysOrderGoodsResult">
+		SELECT * FROM sys_order_goods
+	</select>  
+	
+	<select id="selectOrderGoodsById" parameterType="Long" resultMap="SysOrderGoodsResult">
+		select *
+		from sys_order_goods u
+		where u.id = #{id}
+	</select>
+	
+	<select id="selectOrderGoodsByOrderId" parameterType="Long" resultMap="SysOrderGoodsResult">
+		select *
+		from sys_order_goods u
+		where u.order_id = #{orderId}
+	</select>
+	
+	
+	
+	<delete id="deleteOrderGoodsById" parameterType="Long">
+ 		delete from sys_order_goods where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="deleteOrderGoodsByorderId" parameterType="Long">
+ 		delete from sys_order_goods where order_id = #{orderId}
+ 	</delete>
+ 	
+ 	
+ 	<delete id="batchDeleteOrderGoods" parameterType="String">
+ 		delete from sys_order_goods where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateOrderGoods" parameterType="SysOrderGoods">
+ 		update sys_order_goods
+ 		<set>
+ 			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+ 			<if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+ 			<if test="jeansId != null and jeansId != ''">jeans_id = #{jeansId},</if>
+ 			<if test="jeansName != null and jeansName != ''">jeans_name = #{jeansName},</if>
+ 			<if test="num != null and num != ''">num = #{num},</if>
+ 			<if test="money != null and money != ''">money = #{money},</if>
+ 			<if test="blId != null and blId != ''">bl_id = #{blId},</if>
+ 			<if test="sizeId !=null and sizeId != ''">size_id = #{sizeId},</if>	
+ 			<if test="jeansDesc !=null and jeansDesc != ''">jeans_desc = #{jeansDesc},</if>			
+ 			create_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertOrderGoods" parameterType="SysOrderGoods" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_order_goods(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="userId != null and userId != ''">user_id,</if>
+ 			<if test="orderId != null and orderId != ''">order_id,</if>
+ 			<if test="jeansId != null and jeansId != ''">jeans_id,</if>
+ 			<if test="jeansName != null and jeansName != ''">jeans_name,</if>
+ 			<if test="num != null and num != ''">num,</if>
+ 			<if test="money != null and money != ''">money,</if>
+ 			<if test="blId != null and blId != ''">bl_id,</if>
+ 			<if test="sizeId !=null and sizeId != ''">size_id,</if>	
+ 			<if test="jeansDesc !=null and jeansDesc != ''">jeans_desc,</if>		
+ 			create_time 
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="userId != null and userId != ''">#{userId},</if>
+ 			<if test="orderId != null and orderId != ''">#{orderId},</if>
+ 			<if test="jeansId != null and jeansId != ''">#{jeansId},</if>
+ 			<if test="jeansName != null and jeansName != ''">#{jeansName},</if>
+ 			<if test="num != null and num != ''">#{num},</if>
+ 			<if test="money != null and money != ''">#{money},</if>
+ 			<if test="blId != null and blId != ''">#{blId},</if>
+ 			<if test="sizeId !=null and sizeId != ''">#{sizeId},</if>	
+ 			<if test="jeansDesc !=null and jeansDesc != ''">#{jeansDesc},</if>	
+ 			sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

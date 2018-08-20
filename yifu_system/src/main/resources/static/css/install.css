@@ -1,0 +1,55 @@
+.install_pt{
+	padding-top: 4rem;
+	text-align: center;
+}
+.add_box{
+	width: 90%;
+    margin: 0 auto;
+    background-color: #eceef1;
+    line-height: 2.5rem;
+    color: #11294f;
+    text-align: left;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    display: flex;
+    font-size: .9rem;
+    margin-bottom: .2rem;
+    border-radius: 5px;
+}
+.add_submit {
+    margin-top: 2rem;
+    background-color: #11294f;
+    color: #fff;
+    padding: .5rem 2rem;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+.install_popup{
+	display: none;
+	position: absolute;
+	top: 40%;
+	left: 20%;
+	width: 60%;
+	background-color: rgba(203,214,228,.9);
+	border-radius:10px;
+	text-align: center;
+	padding: 1rem 0 1.5rem 0;
+	font-size: .9rem;
+	color: #11294f;
+	box-shadow:  0 3px 6px #11294f;
+}
+.install_popup img{
+	display: block;
+	width: 10%;
+	margin: .5rem auto;
+}
+.install_popup a{
+	margin-top: 1rem;
+	display: inline-block;
+	line-height: 2rem;
+	padding: 0 1.7rem;
+	background-color: #11294f;
+	color: #fff;
+	border-radius: 8px;
+}

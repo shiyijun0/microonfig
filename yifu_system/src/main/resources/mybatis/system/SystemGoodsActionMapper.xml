@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemGoodsActionMapper">
+
+	<resultMap type="JeansAction" id="JeansActionResult">
+		<result property="id"     column="id"      />
+		<result property="nzId"     column="nz_id"      />
+		<result property="type"     column="type"      />
+		<result property="type2"     column="type2"      />
+		<result property="cover"     column="cover"      />
+		<result property="ctime"     column="ctime"      />
+	</resultMap>
+
+	<delete id="deleteJeansActionBynzId">
+		delete from sys_jeans_action where nz_id=#{nzId}
+	</delete>
+	
+	<delete id="batchDeleteJeansAction" parameterType="String">
+ 		delete from sys_jeans_action where nz_id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+	
+	<select id="selectJeansActionBynzId" parameterType="Long" resultMap="JeansActionResult">
+		select *
+		from sys_jeans_action u
+		where nz_id=#{nzId}
+	</select>
+	
+	<insert id="batchJeansAction">
+		insert into sys_jeans_action(nz_id, type,type2,cover,ctime) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(#{item.nzId},#{item.type},#{item.type2},#{item.cover},#{item.ctime})
+		</foreach>
+	</insert>
+	
+	<insert id="insertJeansAction" parameterType="JeansAction" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_jeans_action(
+ 		    <if test="id != null and id != ''">id,</if>
+ 			<if test="nzId != null and nzId != ''">nz_id,</if>
+ 			<if test="type != null and type != ''">type,</if>
+ 			<if test="type2 != null and type2 != ''">type2,</if>
+ 			<if test="cover != null and cover != ''">cover,</if>
+ 			
+ 			ctime
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="nzId != null and nzId != ''">#{nzId},</if>
+ 			<if test="type != null and type != ''">#{type},</if>
+ 			<if test="type2 != null and type2 != ''">#{type2},</if>
+ 			<if test="cover !=null and cover != ''">#{cover},</if>
+ 			sysdate()
+ 		)
+	</insert>
+	
+	<update id="updateJeansAction" parameterType="JeansAction">
+ 		update sys_jeans_action
+ 		<set>
+ 			<if test="type != null and type != ''">type=#{type},</if>
+ 			<if test="type2 != null and type2 != ''">type2=#{type2},</if>
+ 			<if test="cover != null and cover != ''">cover=#{cover},</if>
+ 		</set>
+ 		where 1=1
+ 		<if test="nzId != null">and nz_id = #{nzId}</if>
+	</update>
+	
+</mapper> 

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemMyDesignerMapper">
+
+	<resultMap type="MyDesigner" id="MyDesignerResult">
+		  <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="colors_id" property="colorsId" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="sizes_id" property="sizesId" jdbcType="VARCHAR" />
+    <result column="buttons_id" property="buttonsId" jdbcType="VARCHAR" />
+    <result column="wash_id" property="washId" jdbcType="VARCHAR" />
+    <result column="threads_id" property="threadsId" jdbcType="VARCHAR" />
+    <result column="parts_id" property="partsId" jdbcType="VARCHAR" />
+    <result column="word_size" property="wordSize" jdbcType="VARCHAR" />
+    <result column="word_color" property="wordColor" jdbcType="VARCHAR" />
+    <result column="word_content" property="wordContent" jdbcType="VARCHAR" />
+    <result column="word_font" property="wordFont" jdbcType="VARCHAR" />
+     <result column="designer_id" property="designerId" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="MyDesignerResult">
+		select * from my_designer
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND id = #{searchValue}
+			</if>
+			
+		</where>
+	</select>
+
+	
+	<select id="selectMyDesignerAll" resultMap="MyDesignerResult">
+		SELECT * FROM my_designer
+	</select>
+
+	<select id="selectMyDesignerByMyDesigner" resultMap="MyDesignerResult" parameterType="MyDesigner">
+		SELECT * FROM  my_designer
+
+		<where>
+			1=1
+			<if test="userId != null ">
+				AND user_id = #{userId}
+			</if>
+
+
+		</where>
+	</select>
+
+
+	<select id="selectMyDesignerById" parameterType="Long" resultMap="MyDesignerResult">
+		select *
+		from my_designer u
+		where u.id = #{id}
+	</select>
+	
+	
+	
+	<delete id="deleteMyDesignerById" parameterType="Long">
+ 		delete from my_designer where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteMyDesigner" parameterType="String">
+ 		delete from my_designer where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateMyDesigner" parameterType="MyDesigner">
+ 		update my_designer
+ 		<set>
+ 			
+ 			
+ 			<if test="colorsId != null and colorsId != ''">colors_id = #{colorsId},</if>
+			<if test="userId != null ">user_id = #{userId},</if>
+ 			<if test="sizesId != null and sizesId != ''">sizes_id = #{sizesId},</if>
+ 			<if test="buttonsId != null and buttonsId != ''">buttons_id = #{buttonsId},</if>
+ 			<if test="threadsId != null and threadsId != ''">threads_id = #{threadsId},</if>
+ 			<if test="partsId != null and partsId != ''">parts_id = #{partsId},</if>
+ 			<if test="washId != null and washId != ''">wash_id = #{washId},</if>
+ 			<if test="designerId != null">designer_id = #{designerId},</if>
+ 			<if test="wordSize != null and wordSize != ''">word_size = #{wordSize},</if>
+ 			<if test="wordColor != null and wordColor != ''">word_color = #{wordColor},</if>
+ 			<if test="wordContent != null and wordContent != ''">word_content = #{wordContent},</if>
+ 			<if test="wordFont != null and wordFont != ''">word_font = #{wordFont},</if>
+ 			
+ 			update_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertMyDesigner" parameterType="MyDesigner" useGeneratedKeys="true" keyProperty="id">
+ 		insert into my_designer(
+ 			<if test="id != null and id != ''">id,</if>
+		  <if test="userId != null ">user_id ,</if>
+ 			<if test="designerId != null">designer_id,</if>
+ 			
+ 			<if test="colorsId != null and colorsId != ''">colors_id,</if>
+ 			
+ 			<if test="washId != null and washId != ''">wash_id,</if>
+ 			<if test="sizesId != null and sizesId != ''">sizes_id,</if>
+ 			<if test="buttonsId != null and buttonsId != ''">buttons_id,</if>
+ 			<if test="threadsId != null and threadsId != ''">threads_id,</if>			
+ 			<if test="partsId != null and partsId != ''">parts_id,</if>	
+ 			
+ 			<if test="wordSize != null and wordSize != ''">word_size,</if>
+ 			<if test="wordColor != null and wordColor != ''">word_color,</if>
+ 			<if test="wordContent != null and wordContent != ''">word_content,</if>
+ 			<if test="wordFont != null and wordFont != ''">word_font,</if>
+ 			ctime ,update_time 
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+		<if test="userId != null ">#{userId},</if>
+ 			<if test="designerId != null">#{designerId},</if>
+ 			<if test="colorsId != null and colorsId != ''">#{colorsId},</if>
+ 			
+ 			<if test="washId != null and washId != ''">#{washId},</if>
+ 			<if test="sizesId != null and sizesId != ''">#{sizesId},</if>
+ 			<if test="buttonsId != null and buttonsId != ''">#{buttonsId},</if>
+ 			<if test="threadsId != null and threadsId != ''">#{threadsId},</if>
+ 			<if test="partsId != null and partsId != ''">#{partsId},</if>
+ 			
+ 			<if test="wordSize != null and wordSize != ''">#{wordSize},</if>
+ 			<if test="wordColor != null and wordColor != ''">#{wordColor},</if>
+ 			<if test="wordContent != null and wordContent != ''">#{wordContent},</if>
+ 			<if test="wordFont != null and wordFont != ''">#{wordFont},</if>
+ 			sysdate(),sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

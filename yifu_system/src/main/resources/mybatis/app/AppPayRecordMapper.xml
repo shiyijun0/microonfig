@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AppPayRecordMapper">
+
+	<resultMap type="PayRecord" 		id="PayRecordResult">
+		<id property="id" 				column="id" />
+		<result property="jeansId" 		column="jeans_id" />
+		<result property="userId" 		column="user_id" />
+		<result property="orderId" 		column="order_id" />
+		<result property="money" 		column="money" />
+		<result property="payType" 		column="pay_type" />
+		<result property="status" 		column="status" />
+		<result property="createTime" 	column="create_time" />
+		<result property="tradeNo" 	column="trade_no" />
+	</resultMap>
+
+	<select id="selectPayRecordById" parameterType="Long"
+		resultMap="PayRecordResult">
+		select * from sys_pay_record u where u.id = #{id}
+	</select>
+	
+	<select id="selectByOrderId" parameterType="Long"
+		resultMap="PayRecordResult">
+		select * from sys_pay_record u where u.order_id = #{orderId}
+	</select>
+
+	<update id="updatePayRecordStatus" parameterType="Long">
+		update sys_pay_record set status = 1 where id = #{id}
+	</update>
+
+	<insert id="insertPayRecord" parameterType="PayRecord"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_pay_record(
+			<if test="id != null and id != 0">id,</if>
+			<if test="jeansId != null and jeansId != ''">jeans_id,</if>
+			<if test="userId != null and userId != 0">user_id,</if>
+			<if test="orderId != null and orderId != 0">order_id,</if>
+			<if test="money != null and money != ''">money,</if>
+			<if test="tradeNo != null and tradeNo != ''">trade_no,</if>
+			<if test="payType != null and payType != 0">pay_type,</if>
+			<if test="status != null and status != 0">status,</if>
+			create_time
+		)values(
+			<if test="id != null and id != 0">#{id},</if>
+			<if test="jeansId != null and jeansId != ''">#{jeansId},</if>
+			<if test="userId != null and userId != 0">#{userId},</if>
+			<if test="orderId != null and orderId != 0">#{orderId},</if>
+			<if test="money != null and money != ''">#{money},</if>
+			<if test="tradeNo != null and tradeNo != ''">#{tradeNo},</if>
+			<if test="payType != null and payType != 0">#{payType},</if>
+			<if test="status != null and status != 0">#{status},</if>
+			sysdate()
+		)
+	</insert>
+
+	<update id="updatePayRecord" parameterType="PayRecord">
+		update sys_pay_record
+		<set>
+			<if test="id != null and id != 0">id = #{id},</if>
+			<if test="jeansId != null and jeansId != ''">jeans_id = #{jeansId},</if>
+			<if test="userId != null and userId != 0">user_id = #{userId},</if>
+			<if test="orderId != null and orderId != 0">order_id = #{orderId},</if>
+			<if test="money != null and money != ''">money = #{money},</if>
+			<if test="tradeNo != null and tradeNo != ''">trade_no = #{tradeNo},</if>
+			<if test="payType != null and payType != 0">pay_type = #{payType},</if>
+			<if test="status != null and status != 0">status = #{status}</if>
+		</set>
+		where 1=1
+		<if test="id != null and id  != ''">and id = #{id}</if>
+	</update>
+</mapper> 

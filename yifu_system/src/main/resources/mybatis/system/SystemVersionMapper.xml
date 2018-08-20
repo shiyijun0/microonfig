@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemVersionMapper">
+
+	<resultMap type="Version" id="VersionResult">
+		<id     property="versionId"       column="id"        />
+		<result property="ios"     column="ios"      />
+		<result property="android"   column="android"  />
+	</resultMap>
+
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="VersionResult">
+		select * from sys_version
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND android = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectVersionById" parameterType="int" resultMap="VersionResult">
+		select *
+		from sys_version u
+		where u.id = #{versionId}
+	</select>
+
+
+	<update id="updateVersion" parameterType="Version">
+		update sys_version
+		<set>
+			<if test="ios != null and ios != ''">ios = #{ios},</if>
+			<if test="android != null and android != ''">android = #{android},</if>
+		</set>
+		where 1=1
+		<if test="versionId != 0">and  id = #{versionId}</if>
+	</update>
+
+
+</mapper> 

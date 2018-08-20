@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemRecommendConfigMapper">
+
+	<resultMap type="SysRecommendConfig" id="SysRecommendConfigResult">
+		 <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="recommend_id" property="recommendId" jdbcType="BIGINT" />
+    <result column="limited" property="limited" jdbcType="INTEGER" />
+    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />	
+	</resultMap> 
+	
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysRecommendConfigResult">
+		select * from sys_recommend_config
+		<where>
+		
+			<if test="searchValue != null and searchValue != ''">
+				AND status = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	
+	<select id="selectSysRecommendConfigAll" resultMap="SysRecommendConfigResult">
+		SELECT * FROM sys_recommend_config
+	</select>
+	
+	<select id="selectSysRecommendConfigById" parameterType="Long" resultMap="SysRecommendConfigResult">
+		select *
+		from sys_recommend_config u
+		where u.recommend_id = #{id}
+	</select>
+	
+	
+	
+	<delete id="deleteSysRecommendConfigById" parameterType="Long">
+ 		delete from sys_recommend_config where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteSysRecommendConfig" parameterType="String">
+ 		delete from sys_recommend_config where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateSysRecommendConfig" parameterType="SysRecommendConfig">
+ 		update sys_recommend_config
+ 		<set>
+ 			<if test="recommendId != null and recommendId != ''">recommend_id = #{recommendId},</if>
+ 			<if test="limited != null and limited != ''">limited = #{limited},</if>
+ 			<if test="inventory != null and inventory != ''">inventory = #{inventory},</if>
+ 			<if test="price != null and price != ''">price = #{price},</if>
+ 			<if test="status != null">status = #{status},</if>
+ 			<if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP},</if>
+ 			<if test="endTime != null">end_time= #{endTime,jdbcType=TIMESTAMP},</if>
+ 		
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertSysRecommendConfig" parameterType="SysRecommendConfig" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_recommend_config(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="recommendId != null and recommendId != ''">recommend_id,</if>
+ 			<if test="limited != null and limited != ''">limited,</if>
+ 			<if test="inventory != null and inventory != ''">inventory,</if>
+ 			<if test="price != null and price != ''">price,</if>
+ 			<if test="status != null">status,</if>
+ 			<if test="startTime != null">start_time,</if>
+ 			<if test="endTime != null">end_time,</if>
+ 			create_time
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="recommendId != null and recommendId != ''">#{recommendId},</if>
+ 			<if test="limited != null and limited != ''">#{limited},</if>
+ 			<if test="inventory != null and inventory != ''">#{inventory},</if>
+ 			<if test="price != null and price != ''">#{price},</if>
+ 			<if test="status != null">#{status},</if>
+ 			<if test="startTime != null">#{startTime,jdbcType=TIMESTAMP},</if>
+ 			<if test="endTime != null ">#{endTime,jdbcType=TIMESTAMP},</if>
+ 			sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>定制牛仔</title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/swiper.min.js"></script>
+    <script src="/ajax/libs/layer/layer.min.js"></script>
+    <script src="/jwk/js/common.js"></script>
+    <script src="/jwk/js/ry-ui.js"></script>
+    <script src="/js/sendCode.js"></script>
+    <script   src="/js/common-login.js" ></script>
+    <script type="text/javascript">
+        var indexType = 0;
+    </script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back">
+<header class="header">
+    <a href="javascript:void(0)"><span class="back_right"></span></a>
+</header>
+</div>
+
+<!-- 登录信息 -->
+<th:block th:replace="custom/include"/>
+
+<!-- 左边栏 -->
+<th:block th:replace="custom/left"/>
+
+<!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper" >
+      <div class="swiper-slide" th:each="index:${webIndex}"><img th:src="@{${index.img}}" alt=""></div>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+  </div>
+<!-- Swiper JS -->
+  <div class="index_menu">
+      <a href="/custom/banner">高级定制</a>
+      <a href="/custom/booking_index">设计师款</a>
+  </div>
+
+  <div class="index_banner">
+     
+      <ul>
+          <li>
+            <div class="li_tit">客服服务</div>
+            <a href="/custom/policy">送货及退货政策</a>
+            <a href="javascript:void(0);">常见问题解答</a>
+            <a href="/custom/contact">联系我们</a>
+          </li>
+          <li>
+            <div class="li_tit">关于</div>
+            <a href="/custom/law">法律</a>
+            <a href="javascript:void(0);">隐私</a>
+          </li>
+          <li>
+            <div class="li_tit">分享</div>
+            <a href="javascript:void(0);" ><span class="weixin">微信</span></a>
+            <a href="javascript:void(0);" ><span class="weibo">微博</span></a>
+          </li>
+      </ul>
+      <p class="btt_p">Co-Presented by <br>JWK Jeans 专业定制牛仔裤联合出品公司</p>
+      <img src="/images/log.jpg" alt="" class="index_log">
+      <p class="btt_p">&copy; 2018，JWK Jeans</p>
+  </div>
+
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script>
+
+</script>  
+<script type="text/javascript">
+    $(function(){
+
+
+        $(".tit_fr").click(function () {
+            $(".login,.login_bg,.login_switch,.entering_password,.verification,.set_password,.password").fadeOut();
+        });
+
+        $("#verification_close,#set_password_close,#password_close").click(function () {
+            $(".verification,.login_bg,.set_password,.password").fadeOut();
+        });
+
+
+
+        var wH = $(window).height() - "2.5rem;";
+        $(".swiper-slide").css({
+            height: wH,
+            width: 'auto'
+        });
+        $(window).resize(function(event) {
+           $(".swiper-slide").css({
+                height: wH,
+                width: 'auto'
+            });
+        });
+
+         $(".nav_bg").click(function() {
+             $(".swiper-container").animate({"left": "0"},500);
+             $("body").css("overflow","auto")
+             $(".nav_mid").animate({"left": "-55%"},500);
+             $(".nav_bg").fadeOut();
+
+           /*  $("body").animate({"left": "0"}, 50);
+             $(".nav_bg").fadeOut();*/
+         });
+
+         var swiper = new Swiper('.swiper-container', {
+             loop : true,
+          slidesPerView: 1,
+          delay: 1000,//1秒切换一次
+          autoplay: {
+            disableOnInteraction: false,
+          },
+          reverseDirection: true,
+        });
+    })
+
+</script>
+</body>
+</html>

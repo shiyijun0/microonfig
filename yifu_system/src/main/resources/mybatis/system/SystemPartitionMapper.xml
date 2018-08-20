@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemPartitionMapper">
+
+	<resultMap type="SysFq" id="SysFqResult">
+		<id     property="id"       column="id"        />
+		<result property="value"     column="value"      />
+		<result property="des"     column="des"    />
+		<result property="ctime"       column="ctime"         />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysFqResult">
+		select * from sys_fq
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND des = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	
+	<select id="selectSysFqAll" resultMap="SysFqResult">
+		SELECT * FROM sys_fq
+	</select>
+	
+	<select id="selectSysFqById" parameterType="Long" resultMap="SysFqResult">
+		select *
+		from sys_fq u
+		where u.id = #{id}
+	</select>
+	
+	<delete id="deleteSysFqById" parameterType="Long">
+ 		delete from sys_fq where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteSysFq" parameterType="String">
+ 		delete from sys_fq where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateSysFq" parameterType="SysFq">
+ 		update sys_fq
+ 		<set>
+ 			<if test="value != null and value != ''">value = #{value},</if>
+ 			<if test="des != null and des != ''">des = #{des},</if>
+ 			ctime = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertSysFq" parameterType="SysFq" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_fq(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="value != null and value != ''">value,</if>
+ 			
+ 			<if test="des != null and des != ''">des,</if>
+ 			
+ 			ctime
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="value != null and value != ''">#{value},</if>
+ 			
+ 			<if test="des != null and des != ''">#{des},</if>
+ 			
+ 			sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

@@ -1,0 +1,28 @@
+<nav class="nav" xmlns:th="http://www.thymeleaf.org">
+    <div class="nav_mid">
+        <div class="user">
+            <div class="user_img">
+                <img src="/images/user.png" alt="" id="uimg" th:src="@{${registerUser?.portraiturl}}">
+            </div>
+            <p class="big" th:text="${registerUser?.nickname}" >Allen007</p>
+            <p><span class="type" th:text="${registerUser?.type}==1?'普通用户':'设计师'">蓝钻会员</span>  <span class="integral"  th:text="|积分 ${registerUser?.integral}|">积分1200</span></p>
+        </div>
+        <ul>
+            <li><a href="/custom/index">首页</a></li>
+            <li><a href="/custom/user">个人资料</a></li>
+            <li><a href="/custom/my_account">我的账户</a></li>
+            <li><a href="/custom/my_design">我的设计</a></li>
+            <li><a href="/custom/my_order">我的订单</a></li>
+            <li><a href="/custom/shopping_cart">我的购物车</a></li>
+            <li><a href="/custom/system_message">系统消息</a></li>
+            <li><a href="/custom/install">设置</a></li>
+            <!--<li><a href="">联系客服</a></li>-->
+        </ul>
+        <div class="nav_bom">
+            <p>1.12</p>
+            <p>您的软件是最新版本</p>
+        </div>
+    </div>
+    <div class="nav_bg">
+    </div>
+</nav>

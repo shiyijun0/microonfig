@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>我的账户</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/system.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script th:inline="javascript">
+		var reqLeftUrl = [[${session.reqLeftUrl}]];
+		$(function(){
+			if(reqLeftUrl!="" && reqLeftUrl != null){
+				$("#returnLeft").attr("href",reqLeftUrl);
+			}
+		});
+	</script>
+
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"  id="returnLeft"><span></span></a>
+    系统消息
+</header>
+</div>
+
+<div class="my_system">
+	<div class="my_system_container">
+		<div class="my_system_img">
+			<p>5折优惠券！<br><span>惊喜福利限时抢</span></p>
+			<i>2018.3.15-2018.4.15</i>
+		</div>
+		<div class="my_system_box">
+			<a href="/custom/activities_details">
+			<p class="system_img">
+				<img src="/images/sys2.png" alt="">
+			</p>
+			<p class="system_fl">精品活动<br><span>收到新的活动推荐</span></p>
+			<p class="system_fr">2018.3.15&ensp;18:30</p>
+			</a>
+		</div>	
+		<div class="my_system_box">
+			<a href="/custom/activities_details">
+			<p class="system_img">
+				<img src="/images/sys3.png" alt="">
+			</p>
+			<p class="system_fl">系统通知<br><span>版本更新通知</span></p>
+			<p class="system_fr">2018.3.15&ensp;18:30</p>
+			</a>
+		</div>
+	</div>	
+</div>
+
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+	$(function() {
+		$(".replenish_tit ul li").click(function() {
+			$(".replenish_tit ul li p").removeClass('active')
+			$(this).find('p').addClass('active')
+			/* Act on the event */
+		});	
+		
+	});
+</script>
+</body>
+</html>

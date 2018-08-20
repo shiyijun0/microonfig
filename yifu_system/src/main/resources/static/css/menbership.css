@@ -1,0 +1,70 @@
+.box{
+	position: relative;
+	width: 90%;
+	height: auto;
+	margin: 0 auto;
+}
+.play{
+	display: block;
+	width: 100%;
+	height: 20rem;	
+	border: none;
+	border-radius: 1rem;
+}
+.box h1{
+	position: absolute;
+	top: 5rem;
+	margin-left: 41%;
+	margin-right: %;
+	color: #ffd200;
+	font-weight: lighter;
+	font-size: 5rem;
+}
+.box p{
+	position: absolute;
+	top: 13rem;
+	margin-left: 40%;
+	color: #ffd200;
+	font-weight: lighter;
+	font-size: 1rem;
+}
+.box span{
+	position: absolute;
+	top:17rem;
+	height: 2rem;
+	line-height: 2rem;
+	margin-left: 45%;
+	background: #f8f9f9;
+	width: 6rem;
+	text-align: center;
+	border: none;
+	border-radius: 0.5rem;
+}
+h2{
+	margin-left: 5rem;
+	color: #11294F;
+	font-weight: bolder;
+}
+.list{
+	width: 90%;
+	margin: 1rem auto;
+}
+.list1{
+	position: relative;
+	width: 100%;
+	background: #f8f9f9;
+	border-radius: 0.5rem;
+}
+.list1 p{
+	color: #11294f;
+	margin-top: 0.5rem;
+	margin-left: 1rem;
+}
+.list1 span{
+	position: relative;
+	top: -3.5rem;
+	color: #11294F;
+	float: right;
+	margin-right: 1rem;
+}
+

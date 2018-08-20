@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>订单详情</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+
+	<script th:inline="javascript">
+        var postid = [[${confirmOrder?.postid}]];
+        var type = [[${confirmOrder?.type}]];
+        var temp = [[${confirmOrder?.temp}]];
+        var url = [[${confirmOrder?.url}]];
+	</script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <!-- <a href="javascript:history.back(-1)"><span></span></a> -->
+    <a href="/custom/my_order"><span></span></a>
+    订单详情    
+</header>
+</div>
+<div class="add_container">
+	<div class="order_details">
+		<div class="order_details_img" th:text="${confirmOrder?.payStatus}">交易完成</div>
+		<div class="order_details_box order_details_box_add" >
+			<!-- <p class="big">收件人：周旗 <span class="fl_r">123 888 888</span></p> -->
+			<p >收件人：<span th:text="${confirmOrder?.name}">小王</span></p>
+			<p >电话：<span th:text="${confirmOrder?.mobile}">123 888 888</span></p>
+			<p >收货地址：<span th:text="${confirmOrder?.addr}">福建省厦门市</span></p>
+			<!-- <p class="sm">收货地址：<span>福建省</span><span>厦门市</span><span>思明区莲前街道</span><span>湖里创新园护安路75号102</span>（梅花大厦）</p> -->
+		</div>
+		<div class="order_details_box order_goods">
+			<div class="order_goods_img">
+				<img src="/images/list.jpg" alt="">
+			</div>
+			<div class="order_goods_dai">
+				<!-- <p>修身直筒牛仔裤</p>
+				<p>尺码：31码 颜色：牛仔蓝</p> -->
+				<p >名称：<span th:text="${confirmOrder?.jeansName}">福建省厦门市</span></p>
+				<p >尺码：<span th:text="${confirmOrder?.sizes}">福建省厦门市</span></p>
+				<p >颜色：<span th:text="${confirmOrder?.colors}">福建省厦门市</span></p>
+			</div>
+			<div class="order_goods_pic">
+				<!-- <p class="f_big">¥1200.00</p>
+				<p class="through">¥1200.00</p> -->
+				<p class="f_big">¥<span th:text="${confirmOrder?.actualPayment}">12000</span></p>
+				<p  class="through">¥<span th:text="${confirmOrder?.actualPayment}">12000</span></p>
+				<p >x<span th:text="${confirmOrder?.count}">福建省厦门市</span></p>
+				<!-- <p>x1</p> -->
+			</div>
+		</div>
+		<div class="order_details_box order_details_fr" th:if="${not #lists.isEmpty(confirmOrder?.parts)}">
+			<!-- <p>牛仔裤基本款式 <span>￥699.00</span></p>
+			<p>工艺<span>￥30.00</span></p>
+			<p>左腿图案（上）<span>￥699.00</span></p>
+			<p>左腿图案（底部）<span>￥699.00</span></p>
+			<p>右腿图案（上）<span>￥699.00</span></p>
+			<p>右腿图案（底部）<span>￥699.00</span></p>
+			<p>后口袋<span>￥699.00</span></p> -->
+			 <p  th:each="part:${confirmOrder?.parts}"><label th:text="${part.key}+'：&nbsp;&nbsp;&nbsp;&nbsp;'">左腿上方：</label><label th:text="'￥'+${part.value}">20</label></p>
+		</div>
+		<div class="order_details_box order_details_fr">
+			<!-- <p>小计： <span>￥699.00</span></p>
+			<p>折扣：<span>￥30.00</span></p>
+			<p>礼品卡及优惠卷：<span>￥699.00</span></p>
+			<p>运费：<span>￥699.00</span></p>
+			<p>实付款：<span>￥699.00</span></p> -->
+			<p >小计：&nbsp;&nbsp;&nbsp;&nbsp;￥<span th:text="${confirmOrder?.price}">12000</span></p>
+			<p >运费：&nbsp;&nbsp;&nbsp;&nbsp;￥<span th:text="${confirmOrder?.freight}">0</span></p>
+			<p >实付款：&nbsp;&nbsp;&nbsp;￥<span th:text="${confirmOrder?.actualPayment}">12000</span></p>
+		</div>
+		<div class="order_details_box order_details_fr">
+			<!-- <p>订单编号：458796541254 </p>
+			<p>创建时间：2018-2-15  15:25:30</p>
+			<p>支付时间：2018-2-15  16:25:30</p>
+			<p>发货时间：2018-2-25  15:25:30</p> -->
+			<p th:if="${not #lists.isEmpty(confirmOrder?.id)}">订单编号：<span th:text="${confirmOrder?.id}">458796541254</span></p>
+			<p >创建时间：<span th:text="${confirmOrder?.createTime}">2018-2-25  15:25:30</span></p>
+			<p th:if="${not #lists.isEmpty(confirmOrder?.payTime)}">支付时间：<span th:text="${confirmOrder?.payTime}">2018-2-25  15:25:30</span></p>
+			<p th:if="${not #lists.isEmpty(confirmOrder?.deliveryTime)}">发货时间：<span th:text="${confirmOrder?.deliveryTime}">2018-2-25  15:25:30</span></p>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+	$(function() {
+
+		$(".order_count_rem").click(function(event) {
+			var priceOne = $(".order_count_val").val();	
+			if (priceOne <= 0) {	
+				$(".order_count_val").val(0);
+			}else{
+				var priceOne = parseFloat(priceOne) - 1;
+				$(".order_count_val").val(priceOne);
+			}
+		});
+		$(".order_count_add").click(function(event) {
+			var priceOne = $(".order_count_val").val();
+			if (priceOne >= 99) {
+				var priceOne = $(".order_count_val").val();
+				$(".order_count_val").val(99);
+			}else{
+				var priceOne = parseFloat(priceOne) + 1;
+				$(".order_count_val").val(priceOne);
+			}
+		});
+		$(".order_box").click(function() {
+			$(this).find(".order_box_up").slideToggle();
+		});
+		// siaze
+		// $(".order_size_show a").click(function() {
+		// 	$(".order_size_show a").not(this).addClass('active');			
+		// });
+		// //color
+		// $(".order_color_show a").click(function() {
+		// 	$(".order_color_show a").not(this).addClass('active');			
+		// });
+
+	});
+</script>
+</body>
+</html>

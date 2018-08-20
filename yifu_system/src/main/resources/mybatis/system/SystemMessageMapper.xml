@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemMessageMapper">
+
+	<resultMap type="Message" id="MessageResult">
+		<id     property="messageId"       column="id"        />
+		<result property="title"     column="title"      />
+		<result property="content"   column="content"  />
+		<result property="messageImage"   column="msgimg"  />
+		<result property="userId"   column="userID"  />
+		<result property="type"   column="type"  />
+		<result property="ctime"   column="ctime"  />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="MessageResult">
+		select * from sys_message
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND title = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectMessageById" parameterType="Long" resultMap="MessageResult">
+		select *
+		from sys_message u
+		where u.id = #{messageId}
+	</select>
+
+
+
+	<delete id="deleteMessageById" parameterType="Long">
+		delete from sys_message where id = #{messageId}
+	</delete>
+
+	<delete id="batchDeleteMessage" parameterType="String">
+		delete from sys_message where id in
+		<foreach collection="array" item="messageId" open="(" separator="," close=")">
+			#{messageId}
+		</foreach>
+	</delete>
+
+	<update id="updateMessage" parameterType="Message">
+		update sys_message
+		<set>
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="messageImage != null and messageImage != ''">msgimg=#{messageImage} ,</if>
+			<if test="userId != null and userId != ''">userID=#{userId} ,</if>
+			<if test="type != null and type != ''">type=#{type} ,</if>
+		</set>
+		where 1=1
+		<if test="messageId != null">and  id = #{messageId}</if>
+	</update>
+
+	<insert id="insertMessage" parameterType="Message" useGeneratedKeys="true" keyProperty="messageId">
+		insert into sys_message(
+		<if test="title != null and title != ''">title,</if>
+		<if test="content != null and content != ''">content ,</if>
+		<if test="messageImage != null and messageImage != ''">msgimg ,</if>
+		<if test="userId != null and userId != ''">userID ,</if>
+		<if test="type != null and type != ''">type ,</if>
+		ctime
+		)values(
+		<if test="title != null and title != ''">#{title},</if>
+		<if test="content != null and content != ''">#{content},</if>
+		<if test="messageImage != null and messageImage != ''">#{messageImage},</if>
+		<if test="userId != null and userId != ''">#{userId} ,</if>
+		<if test="type != null and type != ''">#{type} ,</if>
+		sysdate()
+		)
+	</insert>
+
+</mapper> 

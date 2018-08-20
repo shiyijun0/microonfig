@@ -1,0 +1,779 @@
+﻿<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>定制牛仔</title>
+<script type="text/javascript" src="http://www.qiaodan.com/skin/js/jquery.min.js"></script>
+<style>
+	body,button{  margin: 0; font:14px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif; }
+	#trousers_canvas{
+		position: relative;
+	}
+
+	#trousers_canvas canvas{
+		display: block;
+		margin: 0 auto;
+		border: 1px solid #ccc;
+		/*box-shadow: 0 0 0 10px #ccc;*/
+	}
+	.button{
+		margin-top: 10px;
+		text-align: center;
+	}
+	.layui-btn{
+		   display: inline-block;
+	    height: 38px;
+	    line-height: 38px;
+	    padding: 0 18px;
+	    background-color: #009688;
+	    color: #fff;
+	    white-space: nowrap;
+	    text-align: center;
+	    font-size: 14px;
+	    border: none;
+	    border-radius: 2px;
+	    cursor: pointer;
+	}
+	.layui-btn-normal{
+		background-color:#1E9FFF;
+	}
+	.layui-btn-danger{
+		background-color:#FF5722;
+	}
+	.canvas_bg{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: 1;
+		background-color: #fff;
+	}
+	.canvas_loading{
+		position: absolute;
+		left: 5%;
+		top: 50%;
+		width: 90%;
+		height: 20px;
+		line-height: 20px;
+		margin-top: -10px;
+		box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 2px 3px rgba(0, 0, 0, 0.2);
+		border-radius: 8px;
+		overflow: hidden;
+	}
+	.canvas_loading .loading{
+		width: 50%;
+		height: 100%;
+		background-color: #0c1260;
+		text-align: center;
+		color: #fff;
+	}
+	.pta{
+		position: absolute;
+	}
+	.model_btn{
+		position: absolute;
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+		margin-top: -15px;
+		margin-left: -15px;
+		border-radius: 50%;
+		/*opacity: .5;*/
+	}
+	.bg_red{
+		background-color: red;
+	}
+	.model_tan{
+		animation: faguan 1s infinite;
+	}
+	@keyframes faguan{
+		0%{ box-shadow: 0 0 0 #fff }
+		50%{ box-shadow: 0 0 20px #fff }
+		100%{ box-shadow: 0 0 0 #fff }
+/*		to{ box-shadow: 0 0 0 10px red }*/
+	}
+	canvas{
+		position: absolute;
+		z-index: 2;
+	}
+	#myCanvas{
+		z-index: 1;
+	}
+
+	#canvas_drag input{
+		position: absolute;
+		z-index: 9;
+		color: #FF0000;
+		font-size: 14px;
+
+	}
+	#canvas_drag input.submit_input{
+		left: 50px;
+	}
+	#canvas_drag{
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 9;
+	}
+
+</style>
+<body>
+
+<div class="canvas_bg" id="canvas_bg">
+	<div class="canvas_loading">
+		<div class="loading" id="loading" style="width: 1%;">1%</div>
+	</div>
+</div>
+<div class="container">
+	<div id="trousers_canvas">
+		<a class="model_btn bg_red model_tan" id="kouzi"></a>
+	</div>
+</div>
+
+<input type="button" name="" id=""  style="position: absolute; left: 0;" value="换颜色" onclick="changeColor()"/>
+<input type="button" name="" id=""  style="position: absolute; left:100px;" value="换破洞" onclick="changePodong()"/>
+<input type="button" name="" id=""  style="position: absolute; left: 200px;" value="换边线" onclick="changebianxian()"/>
+<input type="button" name="" id=""  style="position: absolute; left: 300px;" value="换图案" onclick="changetu()"/>
+
+<canvas id="myCanvas" width="400" height="400">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<div id="canvas_drag" class="canvas_drag">
+	<div id="drag_canvas"></div>
+	<input type="button" value="移动" class="movee_input"  id="drag_input">
+	<input type="button" value="保存" class="submit_input" onclick="sub()">
+</div>
+
+
+<script src='/js/three.js'></script>
+<script src='/js/OrbitControls.js'></script>
+<script src="/js/AssimpJSONLoader.js"></script>
+<script src='/js/jeansData.js'></script>
+<script src='/js/Projector.js'></script>
+
+
+<script th:inline="javascript">
+	
+	
+	
+	// 绘制图片坐标
+	var X=0;	var Y=0;// js部分
+	var divObj=document.getElementById("canvas_drag");
+	var divIpt=document.getElementById("drag_input");
+	var moveFlag=false;//区别moueseup与click的标志
+	var clickFlag=false;// 拖拽函数
+
+//	画布移动
+	divIpt.onmousedown=function(e){
+		moveFlag=true;
+		clickFlag=true;		
+		var clickEvent=window.event||e;		
+		var mwidth=clickEvent.clientX-divObj.offsetLeft;		
+		var mheight=clickEvent.clientY-divObj.offsetTop;		
+		document.onmousemove=function(e){
+			clickFlag=false;			
+			var moveEvent=window.event||e;			
+			if(moveFlag){
+				divObj.style.left=moveEvent.clientX-mwidth+"px";
+				divObj.style.top=moveEvent.clientY-mheight+"px";////  将鼠标坐标传给Canvas中的图像
+				X=moveEvent.clientX-mwidth;
+				Y=moveEvent.clientY-mheight;////  下面四个条件为限制div以及图像的活动边界
+				if(moveEvent.clientX<=mwidth){
+					divObj.style.left=0+"px";
+					X=0;
+				}				
+				if(parseInt(divObj.style.left)+divObj.offsetWidth >=1000){
+					divObj.style.left=1000 - divObj.offsetWidth+"px";
+					X=1000 - divObj.offsetWidth;
+				}				
+				if(moveEvent.clientY<=mheight){
+					divObj.style.top=0+"px";
+					Y=0;
+				}				
+				if(parseInt(divObj.style.top)+divObj.offsetHeight>=500){
+					divObj.style.top=500-divObj.offsetHeight+"px";
+					Y=500-divObj.offsetHeight;
+				}
+				divObj.onmouseup=function(){
+					moveFlag=false;					if(clickFlag){
+//						alert("点击生效");
+					}
+				}
+			}
+		}
+	};
+
+
+
+
+//模型贴图
+	function startDraw()
+	{
+		draw(
+			function()
+				{		
+					var canvas = document.getElementById( 'myCanvas' );
+					var canvasTexture = new THREE.Texture(canvas);
+					canvasTexture.wrapS = THREE.RepeatWrapping;
+					canvasTexture.wrapT = THREE.RepeatWrapping;
+					canvasTexture.magFilter = THREE.LinearFilter;
+					canvasTexture.minFilter = THREE.LinearFilter;
+				//	canvasTexture.generateMipmaps = false; 
+				//	canvasTexture.needsUpdate = true;
+				//	module.children[6].children[0].material.map = canvasTexture;
+				   canvasTexture.needsUpdate = true;
+					
+				   buliaoObj.children[0].material.map = canvasTexture;
+
+		     
+		           buliaoObj.children[0].material.map.needsUpdate = true;
+		           buliaoObj.children[0].material.needsUpdate = true;
+				}
+		)
+	}
+	
+	
+
+	var data= new Array(12);
+	var vec = new Array(12);
+	var imgArray = new Array(12);
+	
+	
+	var imgX;
+	var imgY;
+	
+	function draw(fn)
+	{
+		
+		var c=document.getElementById("myCanvas"),
+		ctx=c.getContext('2d');
+		ctx.clearRect(0,0,2048,2048);
+		len=data.length;
+		c.width=2048;
+		c.height=2048;
+
+		var img;
+	//	console.error('----==='+partsImg);
+    	img = cacheExternalImage(partsImg);
+		ctx.drawImage(img,100,100,img.width,img.height);
+    	
+		c.onmousedown=function (e) {
+        c.onmousemove = function(e){
+        	
+             x= e.pageX;y=e.pageY;
+            //限制移动不能超出画布
+            (x<2048)? ax=img.width : ax=425;
+            (y<2048)? ay=50 : ay=350;
+            (x < 2048 && x >75)? x =e.pageX : x =ax;
+            (y > 50 && y <2048) ? y=e.pageY : y=ay;
+            //先清除之前的然后重新绘制
+            ctx.clearRect(0,0,c.width,c.height);
+            drawing(0);	
+            ctx.drawImage(img,x-img.width/2,y-img.height/2,img.width,img.height);
+            imgX = x-img.width/2;
+            imgY = y-img.height/2;
+        };
+
+        c.onmouseup = function(){
+            c.onmousemove = null;
+            c.onmouseup = null;
+        };
+    }
+		
+	function cacheExternalImage(url) {
+        var img = new Image,
+            src = url,
+            cvs = document.createElement('canvas'),
+            ctx = cvs.getContext('2d');
+        img.crossOrigin = "Anonymous";
+        img.onload = function () {
+        }
+        img.src = src;
+        if (img.complete || img.complete === undefined) {
+            img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+            img.src = src;
+        }
+        return img;
+    }
+
+
+	function drawing(n)
+		{
+			if(n<len)
+			{
+				if( data[n] == null)
+				{
+					drawing(n+1);//递归
+				}
+				else
+				{
+					if(imgArray[n] ==null)
+					{
+						var img;
+						img=cacheExternalImage(data[n]);
+						img.needsUpdate = true;
+//						img.onload=function()
+//						{
+							ctx.drawImage(img,vec[n].x,vec[n].y,img.width,img.height);
+							ctx.needsUpdate = true;
+							drawing(n+1);//递归
+							imgArray[n] = img;
+						//	console.error( '===============' );
+//						}
+//						drawing(n+1);//递归
+					}
+					else
+					{
+						ctx.drawImage(imgArray[n],vec[n].x,vec[n].y,imgArray[n].width,imgArray[n].height);
+						drawing(n+1);//递归
+					}
+				}	
+			}
+			else
+			{
+				console.error( 'tupianwanc' );
+				fn();
+			}
+		
+		}
+		
+		drawing(0);
+	}
+	
+	
+	/*-----------分割---------------------*/
+//	function changetu()
+//	{
+//		var tuanSingleData = new THREE.JeansSingleData();
+//		tuanSingleData.id ='003';
+//		tuanSingleData.path ='img/tu2.png';
+//		tuanSingleData.sprice = 1;
+//		tuanSingleData.vec =   new THREE.Vector2(700,1300);
+//		moduleInfo.tuFLD = tuanSingleData;
+//		setDrawData(tuanSingleData,6);
+//		startDraw();
+//			
+//	}
+//	
+//	function changebianxian()
+//	{
+//		var bianxianSingleData = new THREE.JeansSingleData();
+//		bianxianSingleData.id ='001';
+//		bianxianSingleData.path ='img/bianxian2.png';
+//		bianxianSingleData.sprice = 1;
+//		bianxianSingleData.vec = new THREE.Vector2(0,0);
+//		moduleInfo.bianxian = bianxianSingleData;
+//		setDrawData(bianxianSingleData,2);
+//		startDraw();
+//	}
+//	
+//	function changePodong()
+//	{
+//		var podongSingleData = new THREE.JeansSingleData();
+//		podongSingleData.id ='001';
+//		podongSingleData.path ='img/podong2.png';
+//		podongSingleData.sprice = 1;
+//		podongSingleData.vec = new THREE.Vector2(0,0);
+//		moduleInfo.podong = podongSingleData;
+//		setDrawData(podongSingleData,1);
+//		startDraw();
+//	}
+//	
+//	
+//	function  changeColor()
+//	{
+//		var buliaoSingleData = new THREE.JeansSingleData();
+//		buliaoSingleData.id ='001';
+//		buliaoSingleData.path ='img/img6.png';
+//		buliaoSingleData.sprice = 1;
+//		buliaoSingleData.vec = new THREE.Vector2(0,0);
+//		moduleInfo.buliao = buliaoSingleData;
+//		setDrawData(buliaoSingleData,0);
+//		startDraw();
+//	}
+	
+	/**
+	 * 用来替换贴图
+	 * @param {Object} color
+	 * @param {Object} type 0:颜色 1：破洞 2：边线 3：正面左上 4：正面左下 5：正面右上 6：正面右下 7 反面左上 8反面左下 9 反面右上 10反面右下
+	 */
+	function setDrawData(pic,type)
+	{
+		if(pic == null)
+		{
+			data[type] = null;
+			vec[type]  =null;
+			imgArray[type] = null;
+		}
+		else
+		{
+			data[type] = pic.path;
+			vec[type]  = pic.vec;
+			imgArray[type] = null;
+		}
+	}
+	
+	//首次进入进行数据处理
+	function initData()		
+	{
+		setDrawData(moduleInfo.buliao,0);
+		setDrawData(moduleInfo.podong,1);
+		setDrawData(moduleInfo.bianxian,2);
+		setDrawData(moduleInfo.tuFRU,3);
+		setDrawData(moduleInfo.tuFRD,4);
+		setDrawData(moduleInfo.tuFLU,5);
+		setDrawData(moduleInfo.tuFLD,6);
+		setDrawData(moduleInfo.tuDRU,7);
+		setDrawData(moduleInfo.tuDLU,8);
+		setDrawData(moduleInfo.tuDRD,9);
+		setDrawData(moduleInfo.tuDLD,10);
+	}
+		
+	var moduleInfo; //保存当前牛仔裤信息
+	var module;//牛仔裤模型
+	var niukoObj;//纽扣模型
+	var buliaoObj;//贴图模型
+
+	//相机
+	var scene = new THREE.Scene();
+	var camera = new THREE.PerspectiveCamera( 25, window.innerWidth / window.innerHeight, 0.1, 1000); 
+
+	//场景
+	var renderer = new THREE.WebGLRenderer({antialias: true, precision: 'highp' });
+	renderer.setPixelRatio(window.devicePixelRatio);
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+
+	renderer.setSize( width/2, height/2);
+	renderer.setClearColor( new THREE.Color('white'), 1); 
+	renderer.shadowMapEnabled = true;
+	renderer.shadowMapType=THREE.PCFSoftShadowMap;
+
+	 document.getElementById('drag_canvas').appendChild(renderer.domElement);
+
+
+	window.addEventListener('resize', function(){
+	var width = window.innerWidth/2;
+	var height = window.innerHeight/2;
+
+
+	renderer.setSize( width, height);
+	camera.aspect = width / height; 
+	camera.updateProjectionMatrix();
+
+	})
+	
+	//裤子高度
+	var controls = new THREE.OrbitControls(camera, renderer.domElement);
+	controls.target = new THREE.Vector3(0,5,0);
+	controls.minDistance =30;
+	controls.maxDistance = 100;
+	//角度
+	controls.minPolarAngle = 1.5;//-0.5
+	controls.maxPolarAngle = 1.5;
+
+	 controls.addEventListener('change', function() {
+     
+        if(0.5 < controls.getAzimuthalAngle () ||controls.getAzimuthalAngle () < -0.5)
+        {
+        	var kouzi = document.getElementById('kouzi')
+        	kouzi.style.display = "none";
+        	 
+        }
+        else
+        {
+        	
+        	var kouzi = document.getElementById('kouzi')
+        	kouzi.style.display = "block";
+        	onCameraChage();
+        	
+        }
+    });
+
+	controls.update();
+	
+
+	scene.add( new THREE.AmbientLight( 'white', 0.95 ) );
+	var directionalLight = new THREE.DirectionalLight( 0xeeeeee );
+	directionalLight.position.x = Math.random() - 0.5;
+	directionalLight.position.y = Math.random();
+	directionalLight.position.z = Math.random() - 0.5;
+	directionalLight.position.set(0, 400, 0).normalize(); //x,y,z. light source is coming from same angle as camera position
+	scene.add( directionalLight );
+
+
+
+	createJeansData();
+	startLoadJeans(moduleInfo);
+
+	///摄像机改变处理
+	var screenVec;
+	function onCameraChage()
+	{
+		if(niukoObj != null)
+		{
+		
+			screenVec =objToScreenPosition(niukoObj,camera);
+			var kouzi = document.getElementById('kouzi')
+			kouzi.style.left = (screenVec.x) + "px"
+			kouzi.style.top = (screenVec.y)+ "px"
+		}
+	}
+	
+	var  loadNum;
+
+	///加载模型
+	/* var partsImg = ""; */
+	function loadModule(modulePath)
+	{
+		var loader = new THREE.ObjectLoader(); 
+	    loader.load(modulePath,
+		    function(obj)
+		    {
+				
+		    	module = obj;
+		    	module.scale.x =module.scale.y = module.scale.z = 8;
+		        getModuleInfo();
+		        initData();
+		     
+		        startDraw(); 
+				scene.add(module);
+				document.getElementById('canvas_bg').style.display = "none";
+		
+		
+		    },
+	 
+			function ( xhr ) {
+		
+				var loadNum = Math.floor((xhr.loaded / xhr.total * 100)); 
+				document.getElementById('loading').style.width = loadNum + "%"; 
+			    document.getElementById('loading').innerHTML =  loadNum + "%"; 
+			},
+			// onError callback
+			function ( err ) {
+				console.error( 'An error happened' );
+			}
+
+	    );
+	}
+
+
+	//新建测试
+	function createJeansData()
+	{
+		moduleInfo = new THREE.JeansData();
+		moduleInfo.id ='1';
+		moduleInfo.moduleName = [[${locationVO?.url}+${locationVO?.model}]];
+		moduleInfo.moduleSprice = 100;
+		moduleInfo.moduleType = 1001;
+		
+		var buliaoSingleData = new THREE.JeansSingleData();
+		buliaoSingleData.id ='001';
+		buliaoSingleData.path =[[${locationVO?.url}+${locationVO?.color}]];
+		buliaoSingleData.sprice = 1;
+		buliaoSingleData.vec =   new THREE.Vector2(0,0);
+		moduleInfo.buliao = buliaoSingleData;
+		
+		var bianxianSingleData = new THREE.JeansSingleData();
+		bianxianSingleData.id ='003';
+		bianxianSingleData.path =[[${locationVO?.url}+${locationVO?.thread}]];;
+		bianxianSingleData.sprice = 1;
+		bianxianSingleData.vec =   new THREE.Vector2(0,0);
+		moduleInfo.bianxian = bianxianSingleData;	
+		 partsImg = [[${locationVO?.url}+${locationVO?.cover}]];;
+		   console.error('---11-==='+partsImg);
+				
+	}
+
+///开始根据数据生成模型
+function startLoadJeans(jeansData)
+{
+ 	loadModule(jeansData.moduleName);
+}
+
+
+///根据数据计算价格
+function refreshSprice(jeansData)
+{
+	var sprice = 0;
+	sprice += jeansData.moduleSprice;
+	sprice += jeansData.niuko.sprice;
+	sprice += jeansData.buliao.sprice;
+	sprice += jeansData.bianxian.sprice;
+	sprice += jeansData.podong.sprice;
+	sprice += jeansData.kodai.sprice;
+	
+	return  sprice;	
+}
+
+
+
+
+	///替换模型颜色
+function changeModuleTexture(texturePath)
+{
+//	var loader = new THREE.TextureLoader();
+//      loader.load( 'models/'+texturePath, function (texture) 
+//      {
+//      	buliaoObj.children[0].material.map = texture;
+//      });
+
+	
+}
+
+///获取模型的数据
+function  getModuleInfo()
+{
+		for(var i = 0 ;i < module.children.length;i++)
+		{
+	//		console.error( '========'+module.children[i].name);
+			switch(module.children[i].name)
+			{
+				case 'word':
+				 	niukoObj = module.children[i];
+                    niukoObj.visible = false;
+				 	break;
+				case 'under':
+					buliaoObj =  module.children[i];
+					break;
+								
+			}
+		}
+}
+
+
+///替换纽扣
+function  changeKozi(koziPath)
+{
+	
+	   var loader = new THREE.ObjectLoader(); 
+       loader.load('models/'+koziPath,function(obj)
+   		 {
+    		var newKozi = obj;
+			var oldkoziPosition = getModulePosition(niukoObj);
+			module.remove(niukoObj);
+	
+			setModulePosition(newKozi,oldkoziPosition);
+			module.add(newKozi);
+			niukoObj = newKozi;
+   	 	}); 
+	
+}
+
+///得到子模型位置和角度
+function getModulePosition(moduleChidren)	
+{
+	var moduelPositon = new THREE.ModuleDat();
+	
+	moduelPositon.x = moduleChidren.position.x;
+	moduelPositon.y = moduleChidren.position.y;
+	moduelPositon.z = moduleChidren.position.z;
+	
+	moduelPositon.scalex = moduleChidren.scale.x;
+	moduelPositon.scaley = moduleChidren.scale.y;
+	moduelPositon.scalez = moduleChidren.scale.z;
+	
+	moduelPositon.quertion = moduleChidren.rotation;
+	return moduelPositon;
+}
+
+
+///设置子模型的位置和角度
+function setModulePosition(modulechidren,moduleposition)
+{
+	modulechidren.position.x = moduleposition.x;
+	modulechidren.position.y = moduleposition.y;
+	modulechidren.position.z = moduleposition.z;
+	
+	modulechidren.scale.x = moduleposition.scalex;
+	modulechidren.scale.y = moduleposition.scaley;
+	modulechidren.scale.z = moduleposition.scalez;
+	
+	modulechidren.rotation = moduleposition.quertion;
+}
+
+function objToScreenPosition (obj, camera) {
+	 projector = new THREE.Projector();
+	 positionVec = new THREE.Vector3(obj.position.x,obj.position.y,obj.position.z);
+	 world_vector = obj.parent.localToWorld(positionVec);  
+	 vector = world_vector.project(camera);
+
+	 halfWidth = window.innerWidth / 2,
+
+　 	 halfHeight = window.innerHeight / 2;  
+
+	return {  
+
+　　		x: Math.round(vector.x * halfWidth + halfWidth),  
+
+　　	 	y: Math.round(-vector.y * halfHeight + halfHeight)
+
+		}; 
+}
+
+
+var update = function()
+{
+	
+
+};
+
+var render = function()
+{
+	renderer.render(scene, camera);
+};
+
+
+var GameLoop = function()
+{
+	requestAnimationFrame (GameLoop);
+
+	update();
+	render();
+
+};
+
+GameLoop();
+
+
+function sub(){
+	var partsId=[[${locationVO?.partsId}]]
+	//alert("*****x***"+imgX+"**y*****"+imgY)	
+	$.ajax({
+        cache: true,
+        type: "POST",
+        url: "/system/location/saveLocation",
+        data: {
+          
+           "fixeX": imgX,
+           "fixeY": imgY,
+           "partsId":partsId,
+           
+        },
+        async: false,
+        error: function (request) {
+           
+           alert("系统出现问题");
+        },
+        success: function (data) {
+        	console.log(data);
+        	console.info("data===="+data.msg);
+            if (data.code == 0) {
+            	alert("保存成功")
+            	// window.location.reload();
+                
+            }
+            else {
+            	alert(data.msg);
+            	
+            	
+            }
+        }
+    });
+	
+}
+
+</script>
+</body>
+</html>

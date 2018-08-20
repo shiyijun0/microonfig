@@ -1,0 +1,20 @@
+body{
+
+}
+p{
+	text-indent: 2em;
+	font-size: .8rem;
+	line-height: 1.5rem;
+	color: #9ba4b3;
+}
+
+h1{
+	font-size: 1rem;
+	color: #11294f;
+	margin-bottom: .5rem;
+}
+.integral_con{
+	width: 90%;
+	margin: 0 auto;
+	padding-top: 4rem;
+}

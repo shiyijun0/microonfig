@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>错误页面</title>
+<style>
+#mes {
+    width: 100%;
+    height: 400px;
+    background: black;
+    color: #fff;
+    font-size:40px;
+    line-height:400px;
+    text-align:center;
+}
+</style>
+<script>
+window.onload = function(){
+    var oBox = document.getElementById('box');
+    var oDate = new Date();//获取当前时间;
+    oDate.setFullYear(2016,11,31);//自动进位；
+    oDate.setHours(0,0,0,0);
+
+    function countDown(){
+        //未来时间戳减去现在时间的时间戳;
+        var ms = oDate.getTime() - new Date().getTime();
+
+        //毫秒转换成秒
+        var oSec = parseInt(ms/1000);
+
+        //秒转换成天
+        var oDay = parseInt(oSec/86400);
+
+        //不到一天剩下的秒数;
+        oSec%=86400;
+
+        //转换成小时
+        var oHour = parseInt(oSec/3600);
+
+        //不到一小时剩下的秒数;
+        oSec%=3600;
+
+        //转换成分钟
+        var oMin = parseInt(oSec/60);
+
+        //不到一分钟剩下的秒数;
+        oSec%=60;
+
+        oBox.innerHTML ="倒计时"+oSec+'秒,自动关闭';
+    }    
+    countDown();
+    setInterval(countDown,1000);
+}
+</script>
+
+<script  type="text/javascript"> 
+var i = 3; 
+var intervalid; 
+intervalid = setInterval("fun()", 1000); 
+function fun() { 
+if (i == 0) { 
+//window.location.href = "../index.html";
+ window.parent.location.reload();
+clearInterval(intervalid); 
+} 
+document.getElementById("mes").innerHTML = i; 
+i--; 
+} 
+</script> 
+
+<!-- <script type="text/javascript">
+var timer1=window.setTimeout(function(){
+	//window.history.go(-1);  //返回上一页
+	//window.history.back();  //返回上一页
+	//如果要强行刷新的话就是：window.history.back();location.reload();
+	 window.parent.location.reload();
+	//window.location.go(-1); //刷新上一页
+
+	
+},3000);  //timer1->1 当前是第一个定时器
+//window.clearInterval(timer1)
+</script> -->
+
+</head>
+
+<body>
+<h2 style="color:red"> 该设计师推荐款没有限量限时限价信息 ，请新增 </h2>
+<div>将在 <span id="mes">3</span> 秒钟后自动关闭！</div> 
+<!-- <div id="box">距离2016年12月31日还有:xx天xx时xx分xx秒</div> -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+.my_account{
+	padding-top: 4rem;
+}
+.my_account_container{
+	padding: 0 1rem;
+}
+.my_account_img{
+	width: 100%;
+	height: 11rem;
+	background:url(../images/acc.png) center no-repeat;
+	background-size: 100%;
+	position: relative;
+	margin-bottom: .5rem;
+}
+.my_account_img .balance{
+	position: absolute;
+	left: 1rem;
+	bottom: 1rem;
+	font-size: 1rem;
+	color: #fff;
+
+}
+.my_account_img .balance span{
+	font-size: 1.4rem;
+	font-weight: bold;
+	margin: 0 .3rem;
+	line-height: 2.5rem;
+
+}
+.my_account_img .pay{
+	position: absolute;
+	right: 1rem;
+	bottom: 1rem;
+	background-color: #ffd200;
+	color: #11294f;
+	line-height: 2.5rem;
+	padding: 0 1rem;
+	border-radius: .4rem;
+	font-size: 1rem;
+	font-weight: bold;
+}
+.my_account_box{
+	background-color: #eceef1;
+	margin-bottom: .5rem;
+
+	border-radius: .3rem;
+}
+.my_account_box a{
+	display: block;
+	display: flex;
+}
+.my_account_box  p{
+	flex: 1;
+	line-height: 6rem;
+}
+.my_account_box .account_fl{
+	padding-left: 1rem;
+	color: #11294f;
+	font-weight: 500;
+}
+.account_fr{
+	text-align: right;
+	background: url(../images/right.png) center right no-repeat;
+	background-size: .8rem;
+	margin-right: 1rem;
+}
+.account_fr span{
+	padding-right: 1.5rem;
+	display: inline-block;
+	color: #707f95;
+}

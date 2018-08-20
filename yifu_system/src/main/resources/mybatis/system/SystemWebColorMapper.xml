@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemWebColorMapper">
+
+	<resultMap type="SysWebColor" id="SysWebColorResult">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<!-- <id column="depth" property="depth" jdbcType="INTEGER" /> -->
+		<result column="depth" property="depth" jdbcType="INTEGER" />
+		
+		<result column="part1" property="part1" jdbcType="INTEGER" />
+		<result column="part2" property="part2" jdbcType="INTEGER" />
+		<result column="part3" property="part3" jdbcType="INTEGER" />
+		<result column="part4" property="part4" jdbcType="INTEGER" />
+		<result column="part5" property="part5" jdbcType="INTEGER" />
+		<result column="part6" property="part6" jdbcType="INTEGER" />
+		<result column="part7" property="part7" jdbcType="INTEGER" />
+		<result column="part8" property="part8" jdbcType="INTEGER" />
+		
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="cover" property="cover" jdbcType="VARCHAR" />
+    <result column="cover_title" property="coverTitle" jdbcType="VARCHAR" />
+    <result column="cover_back" property="coverBack" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="is_default" property="isDefault" jdbcType="INTEGER" />
+    <result column="fixe_x" property="fixeX" jdbcType="VARCHAR" />
+    <result column="fixe_y" property="fixeY" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="label" property="label" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysWebColorResult">
+		select * from sys_web_color
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND name = #{searchValue}
+			</if>
+			
+		</where>
+	</select>
+
+	
+	<select id="selectWebColorAll" resultMap="SysWebColorResult">
+		SELECT * FROM sys_web_color
+	</select>
+
+	<select id="selectwebColorByColor"  parameterType="SysWebColor" resultMap="SysWebColorResult">
+		SELECT * FROM sys_web_color
+		<where>
+				1=1
+		<if test="label != null ">
+			AND label = #{label}
+		</if>
+		</where>
+	</select>
+
+	<select id="selectWebColorById" parameterType="Long" resultMap="SysWebColorResult">
+		select *
+		from sys_web_color u
+		where u.id = #{id}
+	</select>
+	
+	
+	
+	<delete id="deleteWebColorById" parameterType="Long">
+ 		delete from sys_web_color where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteWebColor" parameterType="String">
+ 		delete from sys_web_color where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateWebColor" parameterType="SysWebColor">
+ 		update sys_web_color
+ 		<set>
+ 		<if test="depth != null ">depth = #{depth},</if>
+ 			<if test="name != null and name != ''">name = #{name},</if>
+ 			<if test="price != null">price = #{price},</if>
+ 			<if test="cover != null and cover != ''">cover = #{cover},</if>
+ 			<if test="coverTitle != null and coverTitle != ''">cover_title = #{coverTitle},</if>
+ 			<if test="coverBack != null and coverBack != ''">cover_back = #{coverBack},</if>
+ 			<if test="status != null ">status = #{status},</if>
+ 			<if test="isDefault != null and isDefault != ''">is_default = #{isDefault},</if>
+ 			<if test="fixeX !=null and fixeX != ''">fixe_x = #{fixeX},</if>		
+ 			<if test="fixeY != null and fixeY != ''">fixe_y = #{fixeY},</if>
+			<if test="label != null">label = #{label},</if>
+ 			
+ 			<if test="part1 != null">part1 = #{part1},</if>	
+ 			<if test="part2 != null">part2 = #{part2},</if>	
+ 			<if test="part3 != null">part3 = #{part3},</if>	
+ 			<if test="part4 != null">part4 = #{part4},</if>	
+ 			<if test="part5 != null">part5 = #{part5},</if>	
+ 			<if test="part6 != null">part6 = #{part6},</if>	
+ 			<if test="part7 != null">part7 = #{part7},</if>	
+ 			<if test="part8 != null">part8 = #{part8},</if>		
+ 			update_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertWebColor" parameterType="SysWebColor" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_web_color(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="name != null and name != ''">name,</if>
+ 			<if test="depth != null ">depth,</if>
+ 			<if test="price != null">price,</if>
+ 			<if test="cover != null and cover != ''">cover,</if>
+ 			<if test="coverTitle != null and coverTitle != ''">cover_title,</if>
+ 			<if test="coverBack != null and coverBack != ''">cover_back,</if>
+ 			<if test="status != null ">status,</if>
+ 			<if test="isDefault != null and isDefault != ''">is_default,</if>
+ 			<if test="fixeX !=null and fixeX != ''">fixe_x,</if>		
+ 			<if test="fixeY != null and fixeY != ''">fixe_y,</if>
+		    <if test="label != null ">label,</if>
+
+ 			<if test="part1 != null">part1,</if>	
+ 			<if test="part2 != null">part2,</if>	
+ 			<if test="part3 != null">part3,</if>	
+ 			<if test="part4 != null">part4,</if>	
+ 			<if test="part5 != null">part5,</if>	
+ 			<if test="part6 != null">part6,</if>	
+ 			<if test="part7 != null">part7,</if>	
+ 			<if test="part8 != null">part8,</if>			
+ 			ctime ,update_time 
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="name != null and name != ''">#{name},</if>
+ 			<if test="depth != null ">#{depth},</if>
+ 			<if test="price != null">#{price},</if>
+ 			<if test="cover != null and cover != ''">#{cover},</if>
+ 			<if test="coverTitle != null and coverTitle != ''">#{coverTitle},</if>
+ 			<if test="coverBack != null and coverBack != ''">#{coverBack},</if>
+ 			<if test="status != null ">#{status},</if>
+ 			<if test="isDefault != null and isDefault != ''">#{isDefault},</if>
+ 			<if test="fixeX !=null and fixeX != ''">#{fixeX},</if>		
+ 			<if test="fixeY != null and fixeY != ''">#{fixeY},</if>
+		    <if test="label != null ">#{label},</if>
+ 			
+ 			<if test="part1 != null">#{part1},</if>	
+ 			<if test="part2 != null">#{part2},</if>	
+ 			<if test="part3 != null">#{part3},</if>	
+ 			<if test="part4 != null">#{part4},</if>	
+ 			<if test="part5 != null">#{part5},</if>	
+ 			<if test="part6 != null">#{part6},</if>	
+ 			<if test="part7 != null">#{part7},</if>	
+ 			<if test="part8 != null">#{part8},</if>	
+ 			sysdate(),sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

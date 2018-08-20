@@ -1,0 +1,18 @@
+<!DOCTYPE html>  
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+    <head>  
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+        <title>微信登录</title>  
+        <script src="/js/jquery.min.js"></script>
+		<script src="/ajax/libs/layer/layer.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				var wxurl = $("#wxurl").val();
+				window.location.href=wxurl;
+			});
+		</script>
+    </head>  
+    <body>  
+         <input type="hidden" name="wxurl" id="wxurl" th:value="${wxurl}"/> 
+    </body>  
+</html>  

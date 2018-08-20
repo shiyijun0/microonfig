@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>我的账户</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/replenish.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script th:inline="javascript">
+		var reqLeftUrl = [[${session.reqLeftUrl}]];
+		$(function(){
+			if(reqLeftUrl!="" && reqLeftUrl != null){
+				$("#returnLeft").attr("href",reqLeftUrl);
+			}
+		});
+	</script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)" id="returnLeft"><span></span></a>
+    我的账户
+</header>
+</div>
+
+<div class="my_account">
+	<div class="my_account_container">
+		<div class="my_account_img">
+			<p class="balance">余额<span>0</span>元</p>
+			<a href="/custom/replenish" class="pay">立即充值</a>
+		</div>
+		<div class="my_account_box">
+			<a href="/custom/volume">
+			<p class="account_fl">优惠卷</p>
+			<p class="account_fr"  ><span th:text="|${couponCount}张|">10张</span></p>
+			</a>
+		</div>	
+		<div class="my_account_box">
+			<a href="/custom/red_packet">
+			<p class="account_fl">红包收入</p>
+			<p class="account_fr"><span>0元</span></p>
+			</a>
+		</div>	
+	</div>	
+</div>
+
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+	$(function() {
+		$(".replenish_tit ul li").click(function() {
+			$(".replenish_tit ul li p").removeClass('active')
+			$(this).find('p').addClass('active')
+			/* Act on the event */
+		});	
+	});
+</script>
+</body>
+</html>

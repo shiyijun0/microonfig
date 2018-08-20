@@ -1,0 +1,116 @@
+.logistics_information{
+    color: #11294f;
+    background-color: #eceef1;
+    font-size: 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: .2rem;
+}
+.logistics{
+    padding-top: 2
+}
+.logistics_list{
+    background-color: #f8f9f9;
+}
+.logistics_container{
+    padding: 4rem 1rem;
+}
+.logistics_tit{
+    padding-top: .8rem;
+    padding-bottom: 1rem;
+    padding-left: 1.2rem;
+    color: #707f95;
+    font-size: .9rem;
+}
+.logistics_tit span{
+    color: #11294f;
+}
+.logistics_list{
+    display: flex;
+
+}
+.logistics_list_l{
+    /*width: 3rem;*/
+    padding-right: 1rem;
+    padding-left: 1.2rem;
+}
+.logistics_list_l .list_line{
+    width: 2px ;
+    height: 100%;
+    background-color: #11294f;
+    position: relative;
+
+}
+.list_line span{
+    position: absolute;
+    left: -.7rem;
+    top: 0;
+    display: block;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-left: .5px;
+    border-radius: 100%;
+    background-color: #707f95;
+    /*			line-height: .6rem;*/
+    text-align: center;
+    color: #fff;
+    line-height: 1.4rem;
+    font-size: .8rem;
+}
+.logistics_list_sm .list_line span{
+    position: absolute;
+    left: -.3rem;
+    top: .4rem;
+    display: block;
+    width: .6rem;
+    height: .6rem;
+    margin-left: .5px;
+    border-radius: 100%;
+    background-color: #707f95;
+
+}
+
+.logistics_list_r{
+    flex: 1;
+    line-height: 1.3rem;
+    font-size: .8rem;
+    color: #707f95;
+    margin-bottom: 1rem;
+}
+.logistics_list_r .big{
+    font-size: .9rem;
+}
+/*选中样式变化*/
+.logistics_list:nth-child(1) .list_line span{
+    background-color: #11294f;
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: center;
+}
+.logistics_list .list_line span.bg{
+    background-image: url(static/point.png);
+}
+.logistics_list:nth-child(1) .logistics_list_r{
+    color: #11294f;
+}
+.logistics_list_border .logistics_list_r{
+    color: #707f95;
+}
+.logistics_list:last-child .logistics_list_l .list_line span{
+    left: -.7rem;
+    top: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+}
+.logistics_list:nth-last-child(2) .logistics_list_l .list_line span{
+    left: -.7rem;
+    top: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+}
+.logistics_list:last-child .logistics_list_l .list_line{
+    background-color: transparent;
+}
+.logistics_list_border .logistics_list_l .list_line{
+    border-right: 2px solid #000;
+    box-sizing: border-box;
+}

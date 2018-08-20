@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+         <div class="btn-group hidden-xs" id="tableToolbar" role="group">
+			 <form class="form-inline">
+				 <div class="form-group">
+					 <label for="exampleInputName2">支付方式</label>
+					 <select name="payType" class="form-control" id="payType">
+						 <option value="">--全部--</option>
+						 <option value="1">微信支付</option>
+						 <option value="2">支付宝支付</option>
+					 </select>
+				 </div>
+				 <div class="form-group">
+					 <label for="exampleInputEmail2">状态：</label>
+					 <select name="payStatus" class="form-control" id="payStatus" data-sortable="true">
+						 <option value="">--全部--</option>
+						 <option value="0">失败</option>
+						 <option value="1">已支付(待生产)</option>
+						 <option value="2">已支付(已生产)</option>
+						 <option value="3">待支付</option>
+						 <option value="4">已发货</option>
+						 <option value="5">完成</option>
+					 </select>
+				 </div>
+			 </form>
+			 <!--<div class="columns pull-right search-input"><input class="form-control" type="text" placeholder="输入需查询的订单号"></div>
+			<div class="columns pull-right search-button"><button class="btn btn-primary" type="button" name="refresh" ><i class="glyphicon glyphicon-search icon-search"></i>搜索订单号</button></div>
+			<div class="columns pull-right search-select">
+			<label class="col-sm-3 control-label ">状态：</label>
+			 <select name="payStatus" class="form-control" id="payStatus" data-sortable="true">
+		          <option value="">--全部--</option>
+		          <option value="0">失败</option>
+		           <option value="1">已支付(待生产)</option>
+		           <option value="2">已支付(已生产)</option>
+		           <option value="3">待支付</option>
+		           <option value="4">已发货</option>
+		           <option value="5">完成</option>
+		         </select>
+			</div>
+			
+			<div class="columns pull-right search-select">
+			<label class="col-sm-3 control-label ">支付方式：</label>
+			 <select name="payType" class="form-control" id="payType">
+		          <option value="">--全部--</option>
+		           <option value="1">微信支付</option>
+		           <option value="2">支付宝支付</option>
+		           
+		         </select>
+			</div> -->
+			
+			<!-- <div class="columns pull-right search-button"><button class="btn btn-primary" type="button" name="refresh"  th:onclick="'javascript:moneyasc()'"><i class="glyphicon glyphicon-search fa fa-hourglass-2">价格排序</i></button></div>
+        <div class="columns pull-right search-button"><button class="btn btn-primary" type="button" name="refresh" th:onclick="'javascript:timeasc()'" ><i class="glyphicon glyphicon-search fa fa-clock-o"></i>创建时间排序</button></div> -->
+        </div>
+        
+		<table class="bootstrap-table" data-mobile-responsive="true" id="table" data-sortable="true"> 
+		<!-- data-sort-name="create_time" data-sort-order="asc" -->
+		</table>
+	</div>
+	
+<br>
+<br>
+<table id="table"></table>
+	
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/jwk/system/order/order.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemBackgroundMapper">
+
+	<resultMap type="Background" id="BackgroundResult">
+		<id     property="backgroundId"       column="id"        />
+		<result property="question"     column="question"      />
+		<result property="url"   column="url"  />
+		<result property="sex"   column="sex"  />
+		<result property="ctime"   column="ctime"  />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="BackgroundResult">
+		select * from sys_recommend_bg
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND question = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectBackgroundById" parameterType="Long" resultMap="BackgroundResult">
+		select *
+		from sys_recommend_bg u
+		where u.id = #{backgroundId}
+	</select>
+
+
+
+	<delete id="deleteBackgroundById" parameterType="Long">
+		delete from sys_recommend_bg where id = #{backgroundId}
+	</delete>
+
+	<delete id="batchDeleteBackground" parameterType="String">
+		delete from sys_recommend_bg where id in
+		<foreach collection="array" item="backgroundId" open="(" separator="," close=")">
+			#{backgroundId}
+		</foreach>
+	</delete>
+
+	<update id="updateBackground" parameterType="Background">
+		update sys_recommend_bg
+		<set>
+			<if test="question != null and question != ''">question = #{question},</if>
+			<if test="url != null and url != ''">url = #{url},</if>
+			<if test="sex != null and sex != ''">sex=#{sex} ,</if>
+		</set>
+		where 1=1
+		<if test="backgroundId != null">and  id = #{backgroundId}</if>
+	</update>
+
+	<insert id="insertBackground" parameterType="Background" useGeneratedKeys="true" keyProperty="backgroundId">
+		insert into sys_recommend_bg(
+		<if test="question != null and question != ''">question,</if>
+		<if test="url != null and url != ''">url ,</if>
+		<if test="sex != null and sex != ''">sex ,</if>
+		ctime
+		)values(
+		<if test="question != null and question != ''">#{question},</if>
+		<if test="url != null and url != ''">#{url},</if>
+		<if test="sex != null and sex != ''">#{sex},</if>
+		sysdate()
+		)
+	</insert>
+
+</mapper> 

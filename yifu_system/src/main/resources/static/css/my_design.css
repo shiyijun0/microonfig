@@ -1,0 +1,46 @@
+.my_design{
+	padding-top: 4rem;
+	padding-bottom: 4rem;
+}
+.my_design_container{
+	padding: 0 1rem;
+}
+.my_design_box_fl img{
+	width: 100%;
+}
+.my_design_box{
+	display: flex;
+}
+.my_design_box_fl,.my_design_box_fr{
+	background-color: #f9fafa;
+	flex: 1;
+	border-radius: 5px;
+}
+.my_design_box_fl{
+
+}
+.my_design_box_fr{
+	padding-left: 1rem;
+	padding-top: .5rem;
+	margin-left: 2px;
+}
+.my_design_box_fr p{
+	font-size: .5rem;
+	color: #707f95;
+}
+.my_design_tit{
+	line-height: 2.5rem;
+	background-color: #eceef1;
+	padding-left: 1rem;
+	color: #707f95;
+}
+.my_design_tit span{
+	float: right;
+	padding-right: 1rem;
+	font-size: 1.5rem;
+	font-family: "宋体"
+}
+.my_design_box{
+	margin-top:.2rem;
+	margin-bottom: .2rem;
+}

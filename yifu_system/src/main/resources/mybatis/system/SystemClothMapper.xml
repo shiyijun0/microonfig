@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemClothMapper">
+
+	<resultMap type="SysBl" id="SysBlResult">
+		<id     property="id"       column="id"        />
+		<result property="cover"      column="cover"       />
+		<result property="chartLet"     column="chart_let"      />
+		<result property="blImg"     column="bl_img"      />
+		<result property="leftPocket"     column="left_pocket"    />
+		<result property="rightPocket"     column="rightPocket"    />
+		<result property="name"     column="name"      />
+		<result property="des"     column="des"    />
+		<result property="sex"     column="sex"    />
+		<result property="price"   column="price"  />
+		<result property="number"   column="number"  />
+		<result property="fNumber"     column="f_number"      />
+		<result property="shrinkX"   column="shrink_x"  />
+		<result property="shrinkY"       column="shrink_y"         />
+		<result property="status"     column="status"    />
+		
+		<result property="updateTime"   column="update_time"  />
+		<result property="ctime"       column="ctime"         />
+	</resultMap> 
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysBlResult">
+		select * from sys_bl
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND name = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	
+	<select id="selectSysBlAll" resultMap="SysBlResult">
+		SELECT * FROM sys_bl
+	</select>
+	
+	<select id="selectSysBlById" parameterType="Long" resultMap="SysBlResult">
+		select *
+		from sys_bl u
+		where u.id = #{id}
+	</select>
+	
+	<delete id="deleteSysBlById" parameterType="Long">
+ 		delete from sys_bl where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteSysBl" parameterType="String">
+ 		delete from sys_bl where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateSysBl" parameterType="SysBl">
+ 		update sys_bl
+ 		<set>
+ 			<if test="name != null and name != ''">name = #{name},</if>
+ 			<if test="price != null and price != ''">price = #{price},</if>
+ 			<if test="status !=null">status = #{status},</if>
+ 			<if test="des != null and des != ''">des = #{des},</if>
+ 			
+ 			<if test="number != null and number != ''">number = #{number},</if>
+ 			<if test="fNumber != null and fNumber != ''">f_number = #{fNumber},</if>
+ 			<if test="sex !=null and sex != ''">sex = #{sex},</if>
+ 			<if test="shrinkX != null and shrinkX != ''">shrink_x = #{shrinkX},</if>
+ 			<if test="shrinkY != null and shrinkY != ''">shrink_y = #{shrinkY},</if>
+ 			<if test="cover != null and cover != ''">cover = #{cover},</if>
+ 			<if test="chartLet != null and chartLet != ''">chart_let = #{chartLet},</if>
+ 			<if test="blImg != null and blImg != ''">bl_img = #{blImg},</if>
+ 			<if test="leftPocket != null and leftPocket != ''">left_pocket = #{leftPocket},</if>
+ 			<if test="rightPocket != null and rightPocket != ''">right_pocket = #{rightPocket},</if>
+ 			update_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertSysBl" parameterType="SysBl" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_bl(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="name != null and name != ''">name,</if>
+ 			<if test="price != null and price != ''">price,</if>
+ 			<if test="status !=null and status != ''">status,</if>
+ 			<if test="des != null and des != ''">des,</if>
+ 			
+ 			<if test="number != null and number != ''">number,</if>
+ 			<if test="fNumber != null and fNumber != ''">f_number,</if>
+ 			<if test="sex !=null and sex != ''">sex,</if>
+ 			<if test="shrinkX != null and shrinkX != ''">shrink_x,</if>
+ 			<if test="shrinkY != null and shrinkY != ''">shrink_y,</if>
+ 			<if test="cover != null and cover != ''">cover,</if>
+ 			<if test="chartLet != null and chartLet != ''">chart_let,</if>
+ 			<if test="blImg != null and blImg != ''">bl_img,</if>
+ 			<if test="leftPocket != null and leftPocket != ''">left_pocket,</if>
+ 			<if test="rightPocket != null and rightPocket != ''">right_pocket,</if>
+ 			update_time,ctime
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="name != null and name != ''">#{name},</if>
+ 			<if test="price != null and price != ''">#{price},</if>
+ 			<if test="status !=null and status != ''">#{status},</if>
+ 			<if test="des != null and des != ''">#{des},</if>
+ 			
+ 			<if test="number != null and number != ''">#{number},</if>
+ 			<if test="fNumber != null and fNumber != ''">#{fNumber},</if>
+ 			<if test="sex !=null and sex != ''">#{sex},</if>
+ 			<if test="shrinkX != null and shrinkX != ''">#{shrinkX},</if>
+ 			<if test="shrinkY != null and shrinkY != ''">#{shrinkY},</if>
+ 			<if test="cover != null and cover != ''">#{cover},</if>
+ 			<if test="chartLet != null and chartLet != ''">#{chartLet},</if>
+ 			<if test="blImg != null and blImg != ''">#{blImg},</if>
+ 			<if test="leftPocket != null and leftPocket != ''">#{leftPocket},</if>
+ 			<if test="rightPocket != null and rightPocket != ''">#{rightPocket},</if>
+ 			sysdate(),sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

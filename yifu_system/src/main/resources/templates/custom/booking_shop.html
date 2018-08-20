@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>商品详情</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/booking_shop.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+    <script src="/jwk/js/ry-ui.js"></script>
+	<script src="/js/sendCode.js"></script>
+	<script src="/js/common-login.js"></script>
+	<script type="text/javascript">
+        var indexType = 0;
+	</script>
+	<style type="text/css">
+		.login_bg {
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    background-color: #fff;
+		    opacity: .7;
+		    z-index: 2;
+		}
+		.add_shopping_cart{
+		    position: fixed;
+		    top: 30%;
+		    width: 74%;
+		    margin: 0 12%;
+		    background-color: rgba(203, 214, 228,.9);
+		    border-radius: 15px;
+		    box-shadow: 0 0 20px #999;
+		    color: #11294f;
+		    padding: 1rem 0;
+		    z-index: 9;
+		    font-size: .9rem;
+		    display:none;
+		}
+		.add_size_tit,.add_color_tit{
+			color: #11294f;
+			margin-bottom: .5rem;
+			padding: 0 1rem;
+		}
+		.add_size_list,.add_color_list{
+			overflow: hidden;
+			width: 100%;
+			padding: 0 .5rem;
+			box-sizing: border-box;
+		}
+		.add_size_list a,.add_color_list a{
+			float: left;
+			display: block;
+			width: 20%;	
+			line-height: 2.5rem;
+			text-align: center;
+			margin-bottom: .5rem;
+			
+		}
+		.add_size_list a span,.add_color_list a span{
+			display: block;
+			margin: 0 .5rem;
+			background-color: #707f95;
+			color: #fff;
+			border-radius: .5rem;
+		}
+		.add_size_list a.active span,.add_color_list a.active span{
+			background-color: #11294f;
+		
+		}
+		.add_color_list a{
+			width: 33.333333333%;
+		}
+		.add_submit{
+			text-align: center;
+		}
+		.add_submit input{
+		    margin-top: 0;
+		    background-color: #11294f;
+		    color: #fff;
+		    padding: .5rem 2rem;
+		    border: none;
+		    border-radius: 8px;
+		    margin-bottom: .5rem;
+		}
+		.add_close_x{
+			position: absolute;
+			right: 0;
+			top: 0;
+			padding: 0 1rem;
+			font-size: 2.5rem;
+			color: #304567;
+		}
+	</style>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back">
+<header class="header">
+    <a href="/custom/booking_index"><span></span></a>
+    <a href="javascript:void(0)"><span class="back_right"></span></a>
+ 
+</header>
+</div>
+
+<!-- 弹出框 -->
+<div class="login_bg"></div>
+<div class="add_shopping_cart">
+	<div class="add_close_x">×</div>
+	<div class="add_size_tit">尺码选择 (已选<span id="selectSize">31</span>码) </div>
+	<div class="add_size_list add_list">
+		<a href="javascript:void(0)" th:each="webSize,sizeStat:${webSizesList}" th:class="${sizeStat.count==1}?'active'">
+			<span th:text="${webSize?.size}" th:id="${webSize?.id}">24</span>
+		</a>
+	</div>
+	<div class="add_color_tit">颜色选择 (已选<span id="selectColor">深蓝色</span>) </div>
+	<div class="add_color_list add_list">
+		<a href="javascript:void(0)" th:each="webColor,colorStat:${webColorList}" th:class="${colorStat.count==1}?'active'">
+			<span th:text="${webColor?.name}" th:id="${webColor?.id}">浅蓝色</span>
+		</a>
+	</div>
+	<div class="add_submit"><input type="submit" value="确定" th:onclick="'javascript:saveCart(\''+${preinfo?.id}+'\',\''+${session.user?.id}+'\')'"></div>
+</div>
+
+<!-- 登录信息 -->
+<th:block th:replace="custom/include"/>
+
+<!-- 左边栏 -->
+<th:block th:replace="custom/left"/>
+
+<div class="booking">
+	<th:block th:each="info:${preinfo?.deatilImgList}">
+		<img th:src="@{${qiniuUrl} + ${info}}" alt="商品详细图">
+	</th:block>
+</div>
+<div class="booking_fix">
+	<a href="#" th:onclick="'javascript:isLogin(\''+${preinfo?.id}+'\',\''+${session.user?.id}+'\')'">加入购物车</a>
+	<a href="#" th:onclick="'javascript:gobuy(\''+${preinfo?.id}+'\',\''+${session.user?.id}+'\')'">购买</a>
+</div>
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+    
+    var sizeVal = $(".add_size_list .active").find("span").text();
+	var colorVal = $(".add_color_list .active").find("span").text();
+	$("#selectSize").text(sizeVal);
+	$("#selectColor").text(colorVal);
+	
+	//尺码选择
+	$(".add_size_list a").click(function() {
+		$(this).parent().find("a").removeClass('active');
+		$(this).addClass('active');
+		var val = $(this).find("span").text();
+		$("#selectSize").text(val);
+	});
+	//颜色选择
+	$(".add_color_list a").click(function() {
+		$(this).parent().find("a").removeClass('active');
+		$(this).addClass('active');
+		var val = $(this).find("span").text();
+		$("#selectColor").text(val);
+	});
+	
+ 	// 弹出选项框
+	$(".openshop").click(function() {
+		$(".add_shopping_cart,.login_bg").fadeIn();
+		// $("body").css('overflow', 'hidden');
+		
+	});
+	//关闭选择尺码，颜色
+	$(".add_submit input,.add_close_x").click(function() {
+		$(".add_shopping_cart,.login_bg").fadeOut();
+	});
+
+	//选择尺码，颜色
+	$(".add_list a").click(function() {
+		$(this).parent().find('a').removeClass('active')
+		$(this).addClass('active')
+		var listTx = $(this).find("span").text();
+		$(this).parent().prev().find('span').text(listTx)
+		/* Act on the event */
+	});
+  });
+</script>
+
+<script type="text/javascript">
+    //购买时判断是否已经登录
+   function gobuy(presellId,userId){
+    	$.ajax({
+            cache: true,
+            type: "POST",
+            url: "/custom/islogin",
+            data:{},
+            dataType: "json",
+            error: function (request) {
+                $.modalMsg("系统出问题了");
+            },
+            success: function (data) {
+            	if(data.msg=="未登录"){
+            		$(".login_switch").fadeOut();
+                    $(".login").fadeIn();
+            	}else{
+            		 var requrl = window.location.href;
+            		//去订单页
+            		window.location.href="/custom/goOrder?jeansId="+presellId+"&orderType=1&requrl="+requrl;
+            	}
+            }
+    	});
+    }
+    
+    //加入购物车时判断是否已经登录
+   function isLogin(presellId,userId){
+    	$.ajax({
+            cache: true,
+            type: "POST",
+            url: "/custom/islogin",
+            data:{},
+            dataType: "json",
+            error: function (request) {
+                $.modalMsg("系统出问题了");
+            },
+            success: function (data) {
+            	if(data.msg=="未登录"){
+            		$(".login_switch").fadeOut();
+                    $(".login").fadeIn();
+            	}else{
+            		//弹出选择尺码颜色框
+            		$(".add_shopping_cart,.login_bg").fadeIn();
+            	}
+            }
+    	});
+    }
+    
+    function saveCart(presellId){
+    	if(presellId=="" || presellId == null){
+    		$.modalMsg("获取不到商品id");
+    		return;
+    	}
+    	 var sizeVal = $(".add_size_list .active").find("span").text();
+    	 var sizeId = $(".add_size_list .active").find("span").attr("id");
+    	 var colorVal = $(".add_color_list .active").find("span").text();
+    	 var colorId = $(".add_color_list .active").find("span").attr("id");
+    	 if(sizeVal == "" || sizeVal == null){
+    		 $.modalMsg("请选择尺码");
+    		 return;
+    	 }
+    	 if(sizeId == "" || sizeId == null){
+    		 $.modalMsg("获取不到尺码Id");
+    		 return;
+    	 }
+    	 if(colorVal == "" || colorVal == null){
+    		 $.modalMsg("请选择颜色");
+    		 return;
+    	 }
+    	 if(colorId == "" || colorId == null){
+    		 $.modalMsg("获取不到颜色Id");
+    		 return;
+    	 }
+    	$.ajax({
+            cache: true,
+            type: "POST",
+            url: "/custom/saveCart",
+            data:{
+            	color:colorVal,
+            	size:sizeVal,
+            	jeansId:presellId,
+            	colorId:colorId,
+            	sizeId:sizeId,
+            	num:1,
+            	flag:false
+            },
+            dataType: "json",
+            error: function (request) {
+                $.modalMsg("系统出问题了");
+            },
+            success: function (data) {
+            	if(data.code==0){
+            		$.modalMsg("加入购物车成功");
+            	}else{
+            		$.modalMsg(data.msg);
+            	}
+            }
+    	});
+    }
+</script>
+</body>
+</html>

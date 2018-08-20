@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-location-add"  method="post">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">素库名称：</label>
+				<div class="col-sm-8">				
+			<select name="webJeansId" id="webJeansId" >
+       <!-- <option th:value="${webJeans?.id}"  th:each="webJeans:${webJeansList}" th:text="${webJeans?.name}" th:id="${webJeans?.id}" >选项1</option>-->
+    
+      </select>
+				</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">图片名称：</label>
+				<div class="col-sm-8">				
+			<select name="webPartsId" id="webPartsId" >
+       <!-- <option th:value="${webParts?.id}"  th:each="webParts:${webPartsList}" th:text="${webParts?.name}" th:id="${webParts?.id}" >选项2</option>-->
+    
+      </select>
+				</div>
+			</div>
+			
+			
+			
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">开始设置</button>
+					<!-- <button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button> -->
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/jwk/system/web/location/add.js">
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	
+	
+</body>
+
+<script type="text/javascript">
+
+    $(function() {// 初始化内容
+        var e = $('select[name="webJeansId"]');
+
+      /*  $.ajax({
+            cache : true,
+            type : "POST",
+            dataType: "json",
+            url : "/system/location/jeansList",
+            contentType: false,
+            processData: false,
+            data : { } ,
+            async : false,
+            error : function(request) {
+                $.modalAlert("系统错误", "error");
+            },
+            success : function(data) {
+                if (data) {
+                    $.each(data, function(i, v) {
+                        e.append('<option value="' + v.id + '">' + v.name + '</option>');
+                    });
+
+
+                }
+                // alert(e.val());
+                // loadInfo(e.val());
+                var jeansId=e.val();
+                var e1 = $('select[name="webPartsId"]');
+                e1.empty();
+                var formData = new FormData();
+                formData.append("jeansId", jeansId);
+                // var data = { jeansId: jeansId };
+                $.ajax({
+                    cache : true,
+                    type : "POST",
+                    dataType: "json",
+                    url : "/system/location/partsList",
+                    contentType: false,
+                    processData: false,
+                    data : formData ,
+                    async : false,
+                    error : function(request) {
+                        $.modalAlert("系统错误", "error");
+                    },
+                    success : function(data) {
+                        if (data) {
+                            $.each(data, function(i, v) {
+                                e1.append('<option value="' + v.id + '">' + v.name + '</option>');
+                            });
+
+                        }
+
+                    }
+                });///
+            }
+        });*/
+
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "/system/location/jeansList",
+            data: {
+            },
+            async: false,
+            error: function (request) {
+                $.modalMsg("系统出问题了");
+            },
+            success: function (data) {
+                if (data) {
+                    $.each(data, function(i, v) {
+                        e.append('<option value="' + v.id + '" >' + v.name + '</option>');
+                    });
+                   // alert(e.find("option:selected").val())
+                   // loadInfo(e.find("option:selected").val());
+
+                    var e1 = $('select[name="webPartsId"]');
+                    e1.empty();
+                    var jeansId=e.find("option:selected").val();
+                   // var label=e.find("option:selected").attr("id");
+                    $.ajax({
+                        cache: true,
+                        type: "POST",
+                        url: "/system/location/partsList",
+                        data: {
+                            "jeansId": jeansId
+
+                        },
+                        async: false,
+                        error: function (request) {
+                            $.modalMsg("系统出问题了");
+                        },
+                        success: function (data) {
+                            if (data) {
+                                $.each(data, function(i, v) {
+                                    e1.append('<option value="' + v.id + '">' + v.name + '</option>');
+                                });
+                                // loadInfo(e.val());
+                            }
+
+                        }
+                    });////
+                }
+
+            }
+        });
+
+
+        e.change(function() {
+           // alert(e.find("option:selected").val());
+            loadInfo(e.find("option:selected").val());
+
+        });
+
+        var loadInfo = function(jeansId) {
+            var e = $('select[name="webPartsId"]');
+            e.empty();
+            var jeansId=jeansId;
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/system/location/partsList",
+                data: {
+                    "jeansId": jeansId
+                },
+                async: false,
+                error: function (request) {
+                    $.modalMsg("系统出问题了");
+                },
+                success: function (data) {
+                    if (data) {
+                        $.each(data, function(i, v) {
+                            e.append('<option value="' + v.id + '">' + v.name + '</option>');
+                        });
+                       // loadInfo(e.val());
+                    }
+
+                }
+            });
+
+        }
+
+    });
+
+
+
+</script>
+</html>
+

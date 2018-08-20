@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>物流详情</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/logistics.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+	<script src="/jwk/js/ry-ui.js"></script>
+
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"><span></span></a>
+    物流详情
+</header>
+</div>
+<div class="logistics_container">
+	<div class="logistics_information">
+		<p>承运来源：<label th:text="${confirmOrder?.typeName}">顺丰速运</label></p>
+		<p>订单编号 <label th:text="${confirmOrder?.id}">20170808JWK008</label></p>
+		<!--<p>官方电话：95888</p>-->
+	</div>
+	<div class="logistics">
+		<div class="logistics_tit">本数据由&ensp;<span  th:text="${confirmOrder?.typeName}"></span>&ensp;提供</div>
+		<div class="logistics_list_border">
+			<div class="logistics_list">
+				<div class="logistics_list_l">
+					<div class="list_line"><span>收</span></div></div>
+					<div class="logistics_list_r">
+						<p class="big" th:text="${confirmOrder?.addr}">【收货地址】福建省厦门市思明区莲前街道护安路75号102（梅花大厦）</p>
+					</div>
+			</div>
+		</div>	
+		<div id="resText">
+			<div class="logistics_list">
+				<div class="logistics_list_l">
+					<div class="list_line"><span></span></div></div>
+					<div class="logistics_list_r">
+						<p class="big"></p>
+						<p ></p>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div id="resText"></div>
+</div>
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script th:inline="javascript">
+	var url=[[${confirmOrder?.url}]]
+    var postid=[[${confirmOrder?.postid}]]
+    var wtype=[[${confirmOrder?.type}]]
+    var temp=[[${confirmOrder?.temp}]]
+   //var jSONObject=[[${confirmOrder?.jSONObject}]]
+    var vOObject=[[${vOObject}]]
+var deliveryTime=[[${confirmOrder?.deliveryTime}]];
+
+	if(vOObject!=null) {
+        if (vOObject.message == "ok") {
+            $('#resText').empty();   //清空resText里面的所有内容
+            var html = '';
+            $.each(vOObject.data, function (index, val) {
+                console.log(val.context.indexOf("已签收"))
+                if (val.context.indexOf("已签收") != -1||val.context.indexOf("代签收") != -1) {
+                    html += '<div class="logistics_list"><div class="logistics_list_l"><div class="list_line"><span class="bg"></span></div></div><div class="logistics_list_r"><p class="big">' + val.context + '</p><p>' + val.time + '</p></div></div>';
+                } else if (val.context.indexOf("派件中") != -1||val.context.indexOf("派件") != -1) {
+                    html += '<div class="logistics_list"><div class="logistics_list_l"><div class="list_line"><span></span></div></div><div class="logistics_list_r"><p class="big">' + val.context + '</p><p>' + val.time + '</p></div></div>';
+                } else {
+                    html += '<div class="logistics_list logistics_list_sm"><div class="logistics_list_l"><div class="list_line"><span></span></div></div><div class="logistics_list_r"><p class="big">' + val.context + '</p><p>' + val.time + '</p></div></div>';
+                }
+
+            });
+            $("#resText").append(html);
+            $("#resText").append('<div class="logistics_list"><div class="logistics_list_l"><div class="list_line"><span></span></div></div><div class="logistics_list_r"><p class="big">' + '已发货' + '</p><p>' + deliveryTime + '</p></div></div>')
+        }
+
+	}
+
+	/*$(function() {
+
+        $.ajax({
+            cache: true,
+            type: "post",
+            url: "http://www.kuaidi100.com/query",
+            data: {
+
+                "type":wtype,
+                "postid":postid,
+				"temp":temp
+
+            },
+            async: false,
+            error: function (request) {
+
+                alert("系统出现问题");
+            },
+            success: function (data) {
+               alert(1)
+            }
+        });*/
+
+
+		// $.ajax({
+         //     type: "post",
+        //
+         //     //url:   "http://www.kuaidi100.com/query?type="type+"&postid="+postid+"&temp="+temp;
+         //     url: "http://www.kuaidi100.com/query?type=yuantong&postid=200528056708",
+         //     // url:"http://www.kuaidi100.com/query",
+         //     // data: {
+         //     //         "type":wtype,
+        // 		// 	 "postid":postid,
+        //     //         "temp":temp
+         //     //
+         //     // },
+         //     dataType: "json",
+         //     success: function(data){
+		// 	    alert(data);
+         //                 $('#resText').empty();   //清空resText里面的所有内容
+         //                 var html = '';
+         //                 $.each(data.data, function(index, val) {
+         //                 	 console.log(val.context.indexOf("已签收"))
+         //                 	 if(val.context.indexOf("已签收")!=-1){
+         //                 	 	html += '<div class="logistics_list"><div class="logistics_list_l"><div class="list_line"><span class="bg"></span></div></div><div class="logistics_list_r"><p class="big">' + val.context + '</p><p>' + val.time + '</p></div></div>';
+         //                 	 }else if (val.context.indexOf("派件中")!=-1){
+         //                 	 	html += '<div class="logistics_list"><div class="logistics_list_l"><div class="list_line"><span></span></div></div><div class="logistics_list_r"><p class="big">' + val.context + '</p><p>' + val.time + '</p></div></div>';
+         //                 	 }else{
+         //                 	 	html += '<div class="logistics_list logistics_list_sm"><div class="logistics_list_l"><div class="list_line"><span></span></div></div><div class="logistics_list_r"><p class="big">' + val.context + '</p><p>' + val.time + '</p></div></div>';
+         //                 	 }
+        //
+         //                 });
+         //                 $("#resText").append(html);
+         //                 $("#resText").append('<div class="logistics_list"><div class="logistics_list_l"><div class="list_line"><span></span></div></div><div class="logistics_list_r"><p class="big">' + '已发货' + '</p><p>' + '2016-11-20 14:06:52' + '</p></div></div>')
+         //              }
+        //
+         // });
+		
+		
+		
+	//});
+</script>
+</body>
+</html>

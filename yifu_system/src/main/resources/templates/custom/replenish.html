@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>定制牛仔</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"><span></span></a>
+    充值
+</header>
+</div>
+<div class="add_container">
+	<div class="replenish">
+		<div class="replenish_img">
+			<p>余额<span>12000</span>元</p>
+		</div>
+		<div class="replenish_tit">
+			<div class="replenish_tit_t">充值金额</div>
+			<ul>
+				<li>
+					<p><span class="big"><i>1000</i>元</span><br>得1100元</p>
+				</li>
+				<li>
+					<p class="active"><span class="big"><i>1000</i>元</span><br>得1100元</p>
+				</li>
+				<li>
+					<p><span class="big"><i>1000</i>元</span><br>得1100元</p>
+				</li>
+				<li>
+					<p><span class="big"><i>1000</i>元</span><br>得1100元</p>
+				</li>
+			</ul>
+		</div>
+		<div class="replenish_tit">
+			<div class="replenish_tit_t">选择支付方式</div>
+			<label class="add_box add_box_initial replenish_box first">支付宝支付 <input type="radio" name="a" class="add_box_radio"></label>
+			<label class="add_box add_box_initial replenish_box two">微信支付 <input type="radio" name="a" class="add_box_radio"></label>
+			<label class="add_box add_box_initial replenish_box three">银联支付 <input type="radio" name="a" class="add_box_radio"></label>
+		</div>
+	</div>
+	<input type="submit" value="立即充值" class="add_submit">
+</div>
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+	$(function() {
+		$(".add_submit").click(function(){
+			var rePrice = $(".replenish_tit .active").find("i").text();
+			console.log(rePrice)
+		})
+		
+		$(".replenish_tit ul li").click(function() {
+			$(".replenish_tit ul li p").removeClass('active')
+			$(this).find('p').addClass('active')
+			/* Act on the event */
+		});	
+	});
+</script>
+</body>
+</html>

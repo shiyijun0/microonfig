@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-fq-add"  method="post">
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">支付状态：</label>
+				<input name="orderId" type="hidden" th:value="${sysOrder?.id}"   />
+				<div class="col-sm-8" th:switch="${sysOrder?.payStatus}">
+					<p th:case="0">	<label style="display: none"><input name="payStatus" type="radio" value="0"  checked="checked" />失败 </label>
+                                   <label><input name="payStatus" type="radio" value="1"   />已支付(待生产)</label>
+                                   <label><input name="payStatus" type="radio" value="2"   />已支付（已生产）</label>
+                                   <label ><input name="payStatus" type="radio" value="3"   />待支付</label>
+                                   <label><input name="payStatus" type="radio" value="4"   />已发货</label>
+                                   <label><input name="payStatus" type="radio" value="5"   />完成</label>
+             </p>
+            
+            
+            <p th:case="1">	<label style="display: none"><input name="payStatus" type="radio" value="0"   />失败 </label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="1"  checked="checked" />已支付(待生产)</label>
+                                   <label><input name="payStatus" type="radio" value="2"   />已支付（已生产）</label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="3"   />待支付</label>
+                                   <label><input name="payStatus" type="radio" value="4"   />已发货</label>
+                                   <label><input name="payStatus" type="radio" value="5"   />完成</label>
+             </p>
+            
+            	
+            	<p th:case="2">	<label style="display: none"><input name="payStatus" type="radio" value="0"   />失败 </label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="1"   />已支付(待生产)</label>
+                                   <label><input name="payStatus" type="radio" value="2" checked="checked"  />已支付（已生产）</label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="3"   />待支付</label>
+                                   <label><input name="payStatus" type="radio" value="4"   />已发货</label>
+                                   <label><input name="payStatus" type="radio" value="5"   />完成</label>
+             </p>
+             
+             <p th:case="3">	<label style="display: none"><input name="payStatus" type="radio" value="0"  />失败 </label>
+                                   <label><input name="payStatus" type="radio" value="1"   />已支付(待生产)</label>
+                                   <label><input name="payStatus" type="radio" value="2"   />已支付（已生产）</label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="3"  checked="checked"  />待支付</label>
+                                   <label><input name="payStatus" type="radio" value="4"   />已发货</label>
+                                   <label><input name="payStatus" type="radio" value="5"   />完成</label>
+             </p>
+             
+             
+             <p th:case="4">	<label style="display: none"><input name="payStatus" type="radio" value="0"   />失败 </label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="1"   />已支付(待生产)</label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="2"   />已支付（已生产）</label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="3"   />待支付</label>
+                                   <label><input name="payStatus" type="radio" value="4"  checked="checked" />已发货</label>
+                                   <label><input name="payStatus" type="radio" value="5"   />完成</label>
+             </p>
+             
+             <p th:case="5">	<label style="display: none"><input name="payStatus" type="radio" value="0"   />失败 </label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="1"   />已支付(待生产)</label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="2"   />已支付（已生产）</label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="3"   />待支付</label>
+                                   <label style="display: none"><input name="payStatus" type="radio" value="4"   />已发货</label>
+                                   <label><input name="payStatus" type="radio" value="5"  checked="checked" />完成</label>
+             </p>
+            	
+            	 <p th:case="*">	<label >该交易失败 </label> 
+                                   
+             </p>
+            	
+            	
+				</div>
+			</div>
+				
+			
+			<!-- <div class="form-group">
+				<label class="col-sm-3 control-label">描述：</label>
+				<div class="col-sm-8">
+					<input id="des" name="des" class="form-control" type="text">
+				</div>
+			</div>	 -->	
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="button" class="btn btn-primary" id="stid">提交</button>
+					<button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/jwk/system/goodfq/add.js">
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	
+	<script th:inline="javascript">
+	
+	
+	//var bt=document.getElementById("stid");
+	$("#stid").click(function () {
+		if(confirm("真的要更改支付状态吗?")){
+			   //alert("点击了确认按钮");
+			   var payStatus = $("input[name='payStatus']:checked").val();
+				var id=[[${sysOrder?.id}]]
+				var orderId=[[${sysOrder?.orderId}]]
+			   
+			   $.ajax({
+			        cache: true,
+			        type: "POST",
+			        url: "/system/details/payStatus",
+			        data: {
+
+			            "payStatus": payStatus,
+			            "id":id,
+			            "orderId":orderId
+			           
+			        },
+			        async: false,
+			        error: function (request) {
+			            $.modalMsg("系统出问题了");
+			        },
+			        success: function (data) {
+			            if (data.code == 0) {                      
+			              
+			                var status = data.status;
+			               var id=data.id;
+			               if(status==4){//已发货
+                              // layer_close();
+			            	   var url = "/system/details/deliveryInfo/"+id;
+			            	   // layer_show("添加物流信息", url, '800', '550');
+                               window.open(url,'_self');
+			            	    
+			               }else{
+			            	   parent.layer.msg("修改成功,正在刷新数据请稍后……",{icon:1,time: 500,shade: [0.1,'#fff']},function(){
+			   					window.parent.location.reload();
+			               })
+			               } 
+			               // window.location.href = "/custom/order.html?orderId=" + orderId + "&userId=" + userId;
+			            }
+			          
+			            else {
+			            	
+			            }
+			        }
+			    });
+			   
+			  
+			  }else{
+				   alert("点击了取消按钮");
+			  }
+
+		
+	})
+	  
+
+	
+	
+	
+	</script>
+	
+</body>
+</html>
+

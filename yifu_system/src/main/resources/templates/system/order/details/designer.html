@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Blueprint: Vertical Timeline" />
+<meta name="keywords" content="timeline, vertical, layout, style, component, web development, template, responsive" />
+<meta name="author" content="Codrops" />
+<link rel="shortcut icon" href="../favicon.ico">
+<link rel="stylesheet" type="text/css" href="/css/default.css" />
+<link rel="stylesheet" type="text/css" href="/css/component.css" />
+<script src="/js/modernizr.custom.js"></script>
+
+
+<body class="white-bg">
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">   <!-- th:action="@{/system/order/upload}" -->
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-order-check"  method="post" >
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">订单明细编号：</label>
+				<div class="col-sm-8">
+					<p th:text="${webOrderGoods?.orderId}"> </p>
+					<!-- <input class="form-control" type="hidden" name="orderId" id="orderId" th:value="${sysOrder?.orderId}"> -->
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">下单用户：</label>
+				<div class="col-sm-8">
+					<p><label style="color: red">昵称： </label><label th:text="${registerUser?.nickname}"></label> </p>
+					<p><label style="color: red">手机号： </label><label th:text="${registerUser?.mobile}"></label> </p>
+					<p><label style="color: red">总价： </label><label th:text="${'￥'+webOrderGoods?.price}"></label> </p>
+
+					<!-- <p><label style="color: red">数量： </label><label th:text="${sysOrder?.num}"></label> </p> -->
+					<p th:if="${not #lists.isEmpty(registerUser?.kuaidi)}"><label style="color: red" >快递公司： </label><label th:text="${registerUser?.kuaidi}"></label> </p>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">定制商品信息：</label>
+				<div class="col-sm-8">
+					<p><label style="color: red">商品名称： </label><label th:text="${webDesigner?.name}"></label> </p>
+					<p><label style="color: red">商品编码： </label><label th:text="${webDesigner?.code}"></label> </p>
+					<p><label style="color: red">商品描述： </label><label th:text="${webDesigner?.remark}"></label> </p>
+				</div>
+			</div>
+			<div class="form-group" th:if="${not #lists.isEmpty(webSizes)}">
+				<label class="col-sm-3 control-label">选中尺码：</label>
+				<div class="col-sm-8">
+				<p><label style="color: red">尺码大小： </label><label th:text="${webSizes?.size}"></label> </p>
+					<p><label style="color: red">尺码描述： </label><label th:text="${webSizes?.des}"></label> </p>
+				</div>
+			</div>
+			
+			<div class="form-group" th:if="${not #lists.isEmpty(webButton)}">
+				<label class="col-sm-3 control-label">选中纽扣：</label>
+				<div class="col-sm-8">
+				<p><label style="color: red">名称： </label><label th:text="${webButton?.name}"></label> </p>
+					<p><label style="color: red">编码： </label><label th:text="${webButton?.type}"></label> </p>
+					<p><label style="color: red">价格： </label><label th:text="${webButton?.price}"></label> </p>
+					<p><label style="color: red">图片： </label><img th:src="@{${qiniuUrl+webButton?.cover}}" width="142" height="122" alt="图片" id="fileimg"/> </p>
+					<p><label style="color: red">贴图： </label><img th:src="@{${qiniuUrl+webButton?.coverTitle}}" width="142" height="122" alt="贴图" id="fileimg"/> </p>
+					<!-- <p><label style="color: red">纽扣描述： </label><label th:text="${buLiao?.des}"></label> </p> -->
+				</div>
+			</div>
+			
+			
+			
+			<div class="form-group"  th:if="${not #lists.isEmpty(webColor)}">
+				<label class="col-sm-3 control-label">选中颜色：</label>
+				<div class="col-sm-8">
+				<p><label style="color: red">名称： </label><label th:text="${webColor?.name}"></label> </p>
+					<p><label style="color: red">价格： </label><label th:text="${webButton?.price}"></label> </p>
+					<p><label style="color: red">图片： </label><img th:src="@{${qiniuUrl+webColor?.cover}}" width="142" height="122" alt="图片" id="fileimg"/> </p>
+					<p><label style="color: red">贴图： </label><img th:src="@{${qiniuUrl+webColor?.coverTitle}}" width="142" height="122" alt="贴图" id="fileimg"/> </p>
+					<p><label style="color: red">背景图片： </label><img th:src="@{${qiniuUrl+webColor?.coverBack}}" width="142" height="122" alt="背景图片" id="fileimg"/> </p>
+					<!-- <p><label style="color: red">纽扣描述： </label><label th:text="${buLiao?.des}"></label> </p> -->
+				</div>
+			</div>
+
+			
+			<div class="form-group"  th:if="${not #lists.isEmpty(webThread)}">
+				<label class="col-sm-3 control-label">选中边线：</label>
+				<div class="col-sm-8">
+				<p><label style="color: red">名称： </label><label th:text="${webThread?.name}"></label> </p>
+					<p><label style="color: red">编码： </label><label th:text="${webThread?.type}"></label> </p>
+					<p><label style="color: red">价格： </label><label th:text="${webThread?.price}"></label> </p>
+					<p><label style="color: red">图片： </label><img th:src="@{${qiniuUrl+webThread?.cover}}" width="142" height="122" alt="图片" id="fileimg"/> </p>
+					<p><label style="color: red">贴图： </label><img th:src="@{${qiniuUrl+webThread?.coverTitle}}" width="142" height="122" alt="贴图" id="fileimg"/> </p>
+					<!-- <p><label style="color: red">纽扣描述： </label><label th:text="${buLiao?.des}"></label> </p> -->
+				</div>
+			</div>
+			
+			
+			<div class="form-group" th:if="${not #lists.isEmpty(webWash)}">
+				<label class="col-sm-3 control-label">选中破洞：</label>
+				<div class="col-sm-8">
+				<p><label style="color: red">名称： </label><label th:text="${webWash?.name}"></label> </p>
+					<p><label style="color: red">编码： </label><label th:text="${webWash?.type}"></label> </p>
+					<p><label style="color: red">价格： </label><label th:text="${webWash?.price}"></label> </p>
+					<p><label style="color: red">图片： </label><img th:src="@{${qiniuUrl+webWash?.cover}}" width="142" height="122" alt="图片" id="fileimg"/> </p>
+					<p><label style="color: red">贴图： </label><img th:src="@{${qiniuUrl+webWash?.coverTitle}}" width="142" height="122" alt="贴图" id="fileimg"/> </p>
+					<!-- <p><label style="color: red">纽扣描述： </label><label th:text="${buLiao?.des}"></label> </p> -->
+				</div>
+			</div>
+			
+			
+			<div class="form-group" th:if="${not #lists.isEmpty(webPartsList)}">
+				<label class="col-sm-3 control-label">选中配件区域位置：</label>
+				<div class="col-sm-8">			
+					<table>
+		<tr><td style="color: red">配件名称&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件区域&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件编码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件价格&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件贴图&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件图片</td></tr>
+		<tr th:each="patternAll:${webPartsList}">
+			<td th:text="${patternAll?.name}"/>
+			<td th:text="${patternAll?.region}+'区'"/> 
+			<td th:text="${patternAll?.code}"/>
+			<td th:text="${'￥'+patternAll?.price}+'元'"/>
+			<!-- <td th:text="${qiniuUrl+patternAll?.coverTitle}"/>
+			<td th:text="${qiniuUrl+patternAll?.cover}"/> -->
+			<!-- <td th:text="${'X:'+patternAll?.areaLimit.X+'&nbsp;&nbsp;Y:'+patternAll?.areaLimit.Y+'&nbsp;&nbsp;Z:'+patternAll?.areaLimit.Z}"/> -->
+			<td><img th:src="@{${qiniuUrl+patternAll?.coverTitle}}" width="42" height="22" alt="图片" id="prepic"/></td>
+			<td><img th:src="@{${qiniuUrl+patternAll?.cover}}" width="42" height="22" alt="图片" id="prepic"/></td>
+		</tr>
+	</table>
+				</div>
+			</div>
+			
+			<!-- <div class="form-group">
+				<label class="col-sm-3 control-label">效果图：</label>
+				<div class="col-sm-8">
+				<label th:each="patternAll:${patternAllList}"><img th:src="@{${patternAll?.icopicurl}}" width="142" height="122" alt="图片" id="prepic"/> </label>
+				</div>
+			</div> -->
+			<!--<div class="form-group" th:if="${not #lists.isEmpty(companyList)}" style="display: none">
+				<label class="col-sm-3 control-label">物流信息：</label>
+				<div class="col-sm-8">
+					<table>
+						<tr><td style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="color: red">周几&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点和跟踪进度</td></tr>
+						<tr th:each="company:${companyList}">
+							<td th:text="${company?.time}+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'"/>
+							<td th:text="${company?.week}"/>
+							<td th:text="${company?.context}"/>
+
+
+						</tr>
+					</table>
+				</div>
+			</div>
+-->
+
+			<!--时间抽-->
+			<div class="container" th:if="${not #lists.isEmpty(companyList)}">
+				<header class="clearfix">
+
+				</header>
+				<div class="main">
+
+					<ul class="cbp_tmtimeline">
+						<li th:each="company:${companyList}">
+							<time class="cbp_tmtime" datetime="2013-04-10 18:30"><span th:text="${company?.year}">4/10/13</span> <span th:text="${company?.hour}">18:30</span></time>
+							<div class="cbp_tmicon cbp_tmicon-phone"></div>
+							<div class="cbp_tmlabel">
+								<p th:text="${company?.context}">gi</p>
+							</div>
+						</li>
+						<!--<li>
+							<time class="cbp_tmtime" datetime="2013-04-11T12:04"><span>4/11/13</span> <span>12:04</span></time>
+							<div class="cbp_tmicon cbp_tmicon-screen"></div>
+							<div class="cbp_tmlabel">
+
+								<p>Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach kombu courgette lettuce. Celery coriander bitterleaf epazote radicchio shallot winter purslane collard greens spring onion squash lentil. Artichoke salad bamboo shoot black-eyed pea brussels sprout garlic kohlrabi.</p>
+							</div>
+						</li>
+						<li>
+							<time class="cbp_tmtime" datetime="2013-04-13 05:36"><span>4/13/13</span> <span>05:36</span></time>
+							<div class="cbp_tmicon cbp_tmicon-mail"></div>
+							<div class="cbp_tmlabel">
+								<p>Parsnip lotus root celery yarrow seakale tomato collard greens tigernut epazote ricebean melon tomatillo soybean chicory broccoli beet greens peanut salad. Lotus root burdock bell pepper chickweed shallot groundnut pea sprouts welsh onion wattle seed pea salsify turnip scallion peanut arugula bamboo shoot onion swiss chard. Avocado tomato peanut soko amaranth grape fennel chickweed mung bean soybean endive squash beet greens carrot chicory green bean. Tigernut dandelion sea lettuce garlic daikon courgette celery maize parsley komatsuna black-eyed pea bell pepper aubergine cauliflower zucchini. Quandong pea chickweed tomatillo quandong cauliflower spinach water spinach.</p>
+							</div>
+						</li>
+						<li>
+							<time class="cbp_tmtime" datetime="2013-04-15 13:15"><span>4/15/13</span> <span>13:15</span></time>
+							<div class="cbp_tmicon cbp_tmicon-phone"></div>
+							<div class="cbp_tmlabel">
+
+								<p>Peanut gourd nori welsh onion rock melon mustard jícama. Desert raisin amaranth kombu aubergine kale seakale brussels sprout pea. Black-eyed pea celtuce bamboo shoot salad kohlrabi leek squash prairie turnip catsear rock melon chard taro broccoli turnip greens. Fennel quandong potato watercress ricebean swiss chard garbanzo. Endive daikon brussels sprout lotus root silver beet epazote melon shallot.</p>
+							</div>
+						</li>
+						<li>
+							<time class="cbp_tmtime" datetime="2013-04-16 21:30"><span>4/16/13</span> <span>21:30</span></time>
+							<div class="cbp_tmicon cbp_tmicon-earth"></div>
+							<div class="cbp_tmlabel">
+								<h2>Courgette daikon</h2>
+								<p>Parsley amaranth tigernut silver beet maize fennel spinach. Ricebean black-eyed pea maize scallion green bean spinach cabbage jícama bell pepper carrot onion corn plantain garbanzo. Sierra leone bologi komatsuna celery peanut swiss chard silver beet squash dandelion maize chicory burdock tatsoi dulse radish wakame beetroot.</p>
+							</div>
+						</li>
+						<li>
+							<time class="cbp_tmtime" datetime="2013-04-17 12:11"><span>4/17/13</span> <span>12:11</span></time>
+							<div class="cbp_tmicon cbp_tmicon-screen"></div>
+							<div class="cbp_tmlabel">
+								<h2>Greens radish arugula</h2>
+								<p>Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach kombu courgette lettuce. Celery coriander bitterleaf epazote radicchio shallot winter purslane collard greens spring onion squash lentil. Artichoke salad bamboo shoot black-eyed pea brussels sprout garlic kohlrabi.</p>
+							</div>
+						</li>
+						<li>
+							<time class="cbp_tmtime" datetime="2013-04-18 09:56"><span>4/18/13</span> <span>09:56</span></time>
+							<div class="cbp_tmicon cbp_tmicon-phone"></div>
+							<div class="cbp_tmlabel">
+								<h2>Sprout garlic kohlrabi</h2>
+								<p>Parsnip lotus root celery yarrow seakale tomato collard greens tigernut epazote ricebean melon tomatillo soybean chicory broccoli beet greens peanut salad. Lotus root burdock bell pepper chickweed shallot groundnut pea sprouts welsh onion wattle seed pea salsify turnip scallion peanut arugula bamboo shoot onion swiss chard. Avocado tomato peanut soko amaranth grape fennel chickweed mung bean soybean endive squash beet greens carrot chicory green bean. Tigernut dandelion sea lettuce garlic daikon courgette celery maize parsley komatsuna black-eyed pea bell pepper aubergine cauliflower zucchini. Quandong pea chickweed tomatillo quandong cauliflower spinach water spinach.</p>
+							</div>
+						</li>-->
+					</ul>
+				</div>
+			</div>
+
+
+			
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<!-- <button type="button" class="btn btn-primary"  onclick="submitForm()">保存</button> -->
+					<!-- <button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button> -->
+					<button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	<script type="text/javascript">
+	/* function submitForm(){
+		$("#form-order-check").submit()
+		window.history.back(-1);
+		//window.parent.location.reload();
+	} */
+	</script>
+</body>
+</html>
+

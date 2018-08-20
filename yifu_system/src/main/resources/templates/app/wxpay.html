@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>微信支付</title>
+<script src="/js/jquery.min.js"></script>
+<script src="/ajax/libs/layer/layer.min.js"></script>
+</head>
+<script type="text/javascript">
+    $(function () {
+          onBridgeReady();
+    });
+    function onBridgeReady() {
+        WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId": "${resData.appid}",     //公众号名称，由商户传入
+                    "timeStamp": "${timeStamp}",         //时间戳，自1970年以来的秒数
+                    "nonceStr": "${resData.nonce_str}", //随机串
+                    "package": "${wXPayPkg}",
+                    "signType": "MD5",//微信签名方式：
+                    "paySign": "${sign}" //微信签名
+                },
+                function (res) {
+                    var s = "";
+                    for (var k in res) {
+                        s += res[k];
+                    }
+                    ;
+                  //  $("#xx").html(s);
+                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                        // TODO 正确提示
+                         var record_id = $("#jeans_id").val();
+                       $("#xx").html("支付成功！!"+"ID:=="+record_id);
+                    } else {
+                    	layer.msg("支付失败");
+                    	$("#xx").html("支付失败！");
+                    	//window.location.href="";
+                    }
+                }
+        );
+    }
+    if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        } else if (document.attachEvent) {
+            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+    } else {
+        onBridgeReady();
+    }
+    
+    function isEmpty(value){
+    	if(value == null || value == "" || value == "undefined" || value == undefined || value == "null"){
+    		return true;
+    	}
+    	else{
+    		value = (value+"").replace(/\s/g,'');
+    		if(value == ""){
+    			return true;
+    		}
+    		return false;
+    	}
+    }
+</script>
+<body>
+	<span id="xx" style="color: red;font-size:30px;"></span>
+	<input type="hidden" id="jeans_id" name="jeans_id" value="${obj.jeans_id }">
+</body>
+</html>

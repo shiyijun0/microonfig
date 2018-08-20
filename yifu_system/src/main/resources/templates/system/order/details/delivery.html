@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-delivery-add"  method="post">
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">订单号：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="orderId"  th:value="${sysOrder?.orderId}" readonly="readonly"/>
+				</div>
+			</div>
+				
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">输入物流公司：</label>
+				<div class="col-sm-8">
+					<!--<input id="company" name="company" class="form-control" type="text">-->
+					<select name="company" id="company" >
+						<option value="1">顺丰</option>
+						<option value="2">申通</option>
+						<option value="3">圆通</option>
+						<option value="4">韵达</option>
+						<option value="5">中通</option>
+						<option value="6">百世汇通</option>
+						<option value="7">天天快递</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">输入快递单号：</label>
+				<div class="col-sm-8">
+					<input id="des" name="expressNumber" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/jwk/system/order/details/delivery.js">
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+	
+	
+</body>
+</html>
+

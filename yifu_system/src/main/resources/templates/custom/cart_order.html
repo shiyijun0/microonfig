@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>订单确认</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+	<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+	<link href="/js/fileinput.min.css" rel="stylesheet">
+	
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+    <script src="/jwk/js/ry-ui.js"></script>
+	<style type="text/css">
+		.order_p_big{white-space: nowrap;overflow:hidden;text-overflow:ellipsis;}
+		.order_add p {width: 95%;!important}
+		.order_box_img{text-align: center;}
+	</style>
+</head>
+<body>
+<!-- 弹出框 -->
+ <div class="login" style="position: fixed; display: none;">
+	<div class="login_tit">
+	
+		<span class="tit_cen">系统提示</span>
+	</div>
+	<div class="login_ph">
+		<span class="sys_confim">尺码不允许为空</span>
+		<div class="login_next"><span>确定</span></div>
+	</div>
+</div>
+
+	<!-- 头部 -->
+	<div class="back back_bg">
+		<header class="header">
+			<!-- <a href="javascript:history.go(-1)"><span></span></a> 确认订单 -->
+			<a href="/custom/shopping_cart"><span></span></a> 确认订单
+		</header>
+	</div>
+	<div class="add_container">
+		<form>
+			<!-- 购买数量 -->
+			<!-- <div class="order_box order_count pd10">
+				购买数量
+				<div class="count_fr">
+					<span class="order_count_add">+</span> <input type="number"
+						class="order_count_val" value="1"> <span
+						class="order_count_rem">&minus;</span>
+				</div>
+			</div> -->
+			<th:block th:if="${confirmOrderVO?.mobile!=null}">
+				<div class="order_box order_add pd10"
+					th:each="confirmOrderVO:${confirmOrderVOList}">
+					<!-- <a href="/custom/address" > -->
+					<a href="#" th:onclick="'javascript:toAddress(\''+${confirmOrderVO?.jeansId}+'\',\''+${confirmOrderVO?.addrId}+'\',\''+${cartId}+'\')'" >
+	
+						<p class="order_p_big">
+							名字：<span th:text="${confirmOrderVO?.name}" id="i_name">周旗</span>&emsp;电话：<span
+								th:text="${confirmOrderVO?.mobile}" id="i_ipone">180****8888</span>
+						</p>
+						<p>
+							详细地址 <span th:text="${confirmOrderVO?.addr}" id="i_addr">福建省厦门市思明区莲前街道护安路75号102（梅花大厦）</span>
+						</p>
+					</a>
+				</div>
+			</th:block>
+			<div class="order_box order_freight_price">
+				<div class="order_freight_price pd10">
+					快递 (运费 RMB 10.00) <span class="order_box_img"></span>
+		</div>
+		<div class="order_freight_price_show pd10 order_box_up">
+			配送方式<br>快递 (运费 RMB 10.00)
+
+		</div>
+	</div>
+	<!--<div class="order_box order_receipt pd10">
+		发票
+	</div>-->
+			<div class="order_box" th:if="${not #lists.isEmpty(couponUserList)}">
+				<div class="order_volume_tit pd10">优惠 <span class="order_box_img"  id="zhekou"></span></div>
+				<!--<label id="zhekou"></label>-->
+				<div class="a_packet pd10 order_box_up" th:each="couponUser:${couponUserList}">
+
+					<input type="radio" th:value="${couponUser?.id}" th:id="${couponUser?.rank}" th:text="${couponUser?.rank}" onclick="demo()"  name="coupon">
+					<span class="yh_menu"></span>
+					<label></label>
+
+				</div>
+			</div>
+
+
+	<div class="order_box order_price pd10">
+		<div class="order_price_fl">
+			<p>小计：￥<span id="price_rem" th:text="${confirmOrderVO?.price}" >1760.99</span> <span class="price_fr">共 <span id="counts" th:text="${confirmOrderVO?.count}">1</span>件商品</span></p>
+			<p id="price_yf">运费：￥10.00</p>
+			<p class="price_one" th:id="${confirmOrderVO?.price}">实付款：￥<span class="all_price" th:text="${(confirmOrderVO?.price==null?0:confirmOrderVO?.price)+10}" id="priceCount">1690.99</span></p>
+		</div>
+	</div>
+	<div>
+		<input type="hidden" id="discount" value="1">
+		<input type="button" value="提交订单" class="add_submit" id="id_submit">
+	</div>
+	</form>
+</div>
+
+<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+  function toAddress(jeansId,addrId,cartId){
+	  window.location.href="/custom/address?jeansId="+jeansId+"&addrId="+addrId+"&cartId="+cartId+"&cartOrder=1";
+  }
+</script>
+<script th:inline="javascript">
+	$(function() {
+
+		$(".login_next").click(function(){
+			$(".login").fadeOut();
+		})
+
+		function allPrice(){
+			var allPrice = parseFloat($(".price_one").attr("id")) * parseFloat($(".order_count_val").val())
+			$("#price_rem").text(allPrice)
+			$(".all_price").text(allPrice +10)
+			$("#counts").text(parseFloat($(".order_count_val").val()))
+		}
+
+
+
+		$(".a_packet label").click(function(){
+			$(".a_packet .yh_menu").removeClass("active");
+			$(this).find(".yh_menu").addClass('active')
+			
+		})
+		
+		$(".a_discount label").click(function(){
+			$(".a_discount .yh_menu").removeClass("active");
+			$(this).find(".yh_menu").addClass('active')
+			
+		})
+		
+		$(".order_count_rem").click(function(event) {
+			var priceOne = $(".order_count_val").val();	
+			if (priceOne <= 0) {	
+				$(".order_count_val").val(0);
+			}else{
+				var priceOne = parseFloat(priceOne) - 1;
+				$(".order_count_val").val(priceOne);
+			}
+			allPrice()
+		});
+		$(".order_count_add").click(function(event) {
+			var priceOne = $(".order_count_val").val();
+			if (priceOne >= 99) {
+				var priceOne = $(".order_count_val").val();
+				$(".order_count_val").val(99);
+			}else{
+				var priceOne = parseFloat(priceOne) + 1;
+				$(".order_count_val").val(priceOne);
+			}
+			allPrice()
+		});
+		//收缩
+		$(".order_box").click(function() {
+			$(this).find(".order_box_up").not('.order_volume_show').slideToggle();
+		});
+		
+/* 		$("#login_close").click(function(){
+			$(".login").fadeOut;
+		}) */
+		$("#id_submit").click(function(){
+		    var allPrice=$(".all_price").text()
+		    var name=$("#i_name").text();
+			var phone=$("#i_ipone").text();
+			var addr=$("#i_addr").text();			
+			var jeansId = [[${confirmOrderVO?.jeansId}]];
+			var jeansName = [[${confirmOrderVO?.jeansName}]];
+			var addrId = [[${confirmOrderVO?.addrId}]];
+			var cartId = [[${cartId}]];
+
+            //优惠券
+            var couponId=$("input[name='coupon']:checked").val();
+
+			if(jeansId == "" || jeansId == null){
+				$.modalMsg("找不到牛仔id");
+				return;
+			}
+			if(cartId == "" || cartId == null){
+				$.modalMsg("提交失败");
+				return;
+			}
+			if(addrId==null){
+				$(".login").fadeIn();
+				$(".sys_confim").html("您尚未添加默认地址，请添加默认地址！")
+				$(".login_next").bind("click",function(){
+					var orSize = $(".order_size_show .active").find("label").html();
+					var orColor = $(".order_color_show .active").find("span").attr("id");
+					window.location.href="/custom/toaddr?jeansId="+jeansId+"&cartId="+cartId+"&orderType=true&cartOrder=1";
+				});
+				return;
+			}else{
+				$("#sure").unbind();
+			}
+			var userId = [[${session.user.id}]];
+					
+			var mprice=	Math.round(allPrice);
+		
+			var counts = $("#counts").text();
+			if(counts == "" || counts == null){
+				$.modalMsg("获取不到下单数量");
+				return;
+			}
+			if(addrId == "" || addrId == null){
+				$.modalMsg("请选择收货地址");
+				return;
+			}
+			
+	    $.ajax({
+            cache: true,
+            type: "POST",
+            dataType: "json",
+            url: "/custom/cartConfirmOrder",
+            data: {
+                "userId": userId,
+                "addrId": addrId,
+                "jeansId": jeansId,
+                "num": counts,
+                "money": mprice,
+                "cartId": cartId,
+				"couponId":couponId
+            },
+            async: false,
+            error: function (request) {
+                $.modalMsg("系统出问题了");
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                	//window.location.href="/custom/pay_menu?userId="+data.userId+"&orderId="+data.orderId+"&price="+data.price+"&addrId="+data.addrId+"&num="+data.num+"&jeansId="+jeansId+"&orderType=1";
+                	$.ajax({
+                        cache: true,
+                        type: "POST",
+                        url: "/custom/pay_menu",
+                        data: {
+                            "userId": data.userId,
+                            "price": data.price,
+                            "num": data.num,
+                            "addrId": data.addrId,
+                            "jeansId": jeansId,
+                            "orderId": data.orderId
+                        },
+                        async: false,
+                        error: function (request) {
+                            $.modalMsg("系统出现问题");
+                        },
+                        success: function (data) {
+                            if (data.code == 0) {
+                                window.location.href="/custom/pay_menu_success";
+                            }
+                            else {
+                                $.modalMsg(data.msg);
+                            }
+                        }
+                    });
+                }
+                else {
+                    $.modalMsg(data.msg);
+                }
+            }
+        });
+		
+		
+		})
+		
+		/* $(".order_box_up a").click(function() {
+			$(this).parent().find("a").removeClass('active');
+			$(this).addClass('active');
+		}); */
+
+		//尺码选择
+		$(".order_size_show a").click(function() {
+			$(this).parent().find("a").removeClass('active');
+			$(this).addClass('active');
+			var val = $(this).find("label").text();
+			$("#selectSize").text(val);
+		});
+		//颜色选择
+		$(".order_color_show a").click(function() {
+			$(this).parent().find("a").removeClass('active');
+			$(this).addClass('active');
+			var val = $(this).find("span").text();
+			$("#selectColor").text(val);
+		});
+
+	});
+</script>
+
+<script th:inline="javascript">
+
+
+    function demo() {
+
+        var coupon = $("input[name='coupon']:checked").val();
+        var zhekou1 = $("input[name='coupon']:checked").attr("id");
+        // alert(zhekou1)
+        $("#zhekou").text(zhekou1)
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "/custom/coupon_user",
+            data: {
+                "id": coupon
+
+            },
+            async: false,
+            error: function (request) {
+                $.modalMsg("系统出现问题");
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                    //有折扣
+                    var discount=data.zhekou;
+                    $("#discount").val(discount);
+                    var price=[[${confirmOrderVO?.price}]];
+                    var contPrice=discount*price;
+                    var priceCount=discount*price+10;
+                   $("#price_rem").text(contPrice);
+                   $("#priceCount").text(priceCount);
+                }
+                else {
+                    $.modalMsg(data.msg);
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>我的购物车</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+    <script src="/jwk/js/ry-ui.js"></script>
+    <script th:inline="javascript">
+		var reqLeftUrl = [[${session.reqLeftUrl}]];
+		$(function(){
+			if(reqLeftUrl!="" && reqLeftUrl != null){
+				$("#returnLeft").attr("href",reqLeftUrl);
+			}
+		});
+	</script>
+	
+    <style type="text/css">
+    	.add_shopping_cart{
+		    position: fixed;
+		    top: 30%;
+		    width: 74%;
+		    margin: 0 12%;
+		    background-color: rgba(203, 214, 228,.9);
+		    border-radius: 15px;
+		    box-shadow: 0 0 20px #999;
+		    color: #11294f;
+		    padding: 1rem 0;
+		    z-index: 9;
+		    font-size: .9rem;
+		    display: none;
+		}
+		
+		.add_close_x{
+			position: absolute;
+			right: 0;
+			top: 0;
+			padding: 0 1rem;
+			font-size: 2.5rem;
+			color: #304567;
+		}
+		.add_shopping_cart_tit{
+			text-align: center;
+			font-size: 1.5rem;
+			margin-bottom: 1rem;
+		}
+		.add_shopping_cart_sub{
+			text-align: center;
+		}
+		.add_shopping_cart_sub a{
+			display: inline-block;
+			line-height: 2.5rem;
+			margin: 0 .5rem;
+		}
+    </style>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"  id="returnLeft"><span></span></a>
+    购物车    
+</header>
+</div>
+
+<!-- 弹出框 -->
+<div class="login_bg"></div>
+<div class="add_shopping_cart">
+	<div class="add_close_x">×</div>	
+	<div class="add_shopping_cart_tit">是否移除购物车</div>
+	<div class="add_shopping_cart_sub">
+		<a href="javascript:void(0)" class="add_submit" id="removeCart">是</a>
+		<a href="javascript:void(0)" class="add_submit" id="go_back">否</a>
+	</div>
+</div>
+
+<input type="hidden" id="remove_cartId"/>
+<div class="add_container">
+	<div class="shopping_cat">
+			<th:block th:each="cart,cartStat:${cartsList}">
+				<label for="order" class="order_list" th:id="'order_list_'+${cart.cartId}" th:attr="cur-cartId=${cart.cartId}">
+					<div class="female">
+						<input type="radio" name="order" id="female-custom" class="cart-radio" th:attr="cur-jeansId=${cart.jeansId}">
+						<span class="female-custom" th:class="${cart?.flag}?'female-custom active':'female-custom'" th:id="${cart.cartId}"></span> 
+					</div>
+					<div class="order_list_img">
+						<img th:src="@{${qiniuUrl} + ${cart.images}}" alt="">
+					</div>
+					<div class="order_list_p">
+						<p th:text="${cart?.jeansName}">修身直筒牛仔裤</p>
+						<p>
+							尺码：<label th:text="${cart?.size}" th:id="${cart.sizeId}">31</label>码
+						 	颜色：<label th:text="${cart.color}" th:id="${cart.colorId}">牛仔蓝</label>
+						</p>
+						<p class="order_list_p_price" th:text="'¥'+${cart.price}">¥1200.00</p>
+					</div>
+				</label>
+				<div th:class="${cart?.flag}?'order_list_count order_count data-ture':'order_list_count order_count'" th:attr="data-price=${cart.price},data-count=${cart.num},cur-jeansId=${cart.jeansId}" th:id="'order_count_'+${cart.cartId}">
+					<span class="order-del" th:attr="cur-del=${cart.cartId}">×</span>
+					<div class="count_fr">
+						<span class="order_count_add" th:attr="cur-jeansId=${cart.jeansId},cur-cardId=${cart.cartId}">+</span>
+						<input type="number" class="order_count_val" th:value="${cart.num}" readonly />
+						<span class="order_count_rem" th:attr="cur-cartId=${cart.cartId}">−</span>
+					</div>
+				</div>
+			</th:block>
+	</div>
+	<div class="shopping_cat_fix">
+		<label for="order" class="order_list_all">
+			<div class="female">
+				<input type="radio" name="order" id="female-custom">
+				<span class="female-custom"></span> 
+			</div>		
+			<div class="order_list_p">
+				<i>不含运费</i>合计：(<i class="data-count">2</i>件)
+			</div>
+			<div class="order_list_p_fr">
+				￥0.00
+			</div>
+		</label>
+		<input type="submit" value="结算" class="add_submit" id="cartGoOrder">
+	</div>
+</div>
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+	$(function() {
+		pricecount();
+		isAll();
+		//关闭弹出框
+		$(".add_close_x,#go_back").click(function() {
+			$(".add_shopping_cart,.login_bg").fadeOut();
+		});
+		
+		//点击商品的单选按钮
+		$(".order_list").click( function () {
+			$(this).find(".female-custom").toggleClass("active");
+			$(this).next().toggleClass('data-ture');
+			$(".order_list_all").find(".female-custom ").removeClass("active");
+			pricecount();
+			var flag = $(this).find(".female-custom").hasClass('active');
+			var jeansId = $(this).find(".cart-radio").attr("cur-jeansId");
+			var cartId = $(this).attr("cur-cartId");
+			isAll();
+			
+			$.ajax({
+	            cache: true,
+	            type: "POST",
+	            url: "/custom/checked",
+	            data:{
+	            	cartId:cartId,
+	            	flag:flag
+	            },
+	            dataType: "json",
+	            error: function (request) {
+	                $.modalMsg("系统出问题了");
+	            },
+	            success: function (data) {
+	            	if(data.code==0){
+	            	}else{
+	            		$.modalMsg(data.msg);
+	            	}
+	            }
+	    	});
+		});
+		
+		//点击全选按钮
+		$(".order_list_all").click(function() {
+
+			$(this).find(".female-custom").toggleClass("active");
+			var allClass = $(this).find(".female-custom").hasClass('active')
+
+			if (allClass) {
+				$(".female-custom").addClass("active");	
+				$(".order_list_count").addClass('data-ture');
+			} else{
+				$(".female-custom").removeClass("active");	
+				$(".order_list_count").removeClass('data-ture');
+			}
+			pricecount();
+			
+			$.ajax({
+	            cache: true,
+	            type: "POST",
+	            url: "/custom/checkedAll",
+	            data:{
+	            	flag:allClass
+	            },
+	            dataType: "json",
+	            error: function (request) {
+	                $.modalMsg("系统出问题了");
+	            },
+	            success: function (data) {
+	            	if(data.code==0){
+	            	}else{
+	            		$.modalMsg(data.msg);
+	            	}
+	            }
+	    	});
+		});
+
+		$(".order_count_val").keyup(function() {
+			var oderVl = $(this).val();
+			if (oderVl<0) {
+				$(this).val(0)
+				$(this).parents(".order_list_count").attr("data-count",0)
+			}else if(oderVl>99){
+				$(this).val(99)
+				$(this).parents(".order_list_count").attr("data-count",99)
+			}
+		});	
+		//减少数量
+		$(".order_count_rem").click(function(event) {
+			var cartId = $(this).attr("cur-cartId");
+			var priceOne = $(this).prev().val();	
+			if(priceOne==1){//判断是否移除购物车
+				$(".add_shopping_cart,.login_bg").fadeIn();
+				$("#remove_cartId").val(cartId);
+			}else{
+				if (priceOne <= 0) {	
+					$(this).prev().val(0);
+					$(this).parents(".order_list_count").attr("data-count",0)
+				}else{
+					var priceOne = parseFloat(priceOne) - 1;
+					$(this).prev().val(priceOne);
+					$(this).parents(".order_list_count").attr("data-count",priceOne)
+				}
+				pricecount();
+				var jeansId = $(this).attr("cur-jeansId");
+				
+				$.ajax({
+		            cache: true,
+		            type: "POST",
+		            url: "/custom/opernum",
+		            data:{
+		            	jeansId:jeansId,
+		            	num:priceOne
+		            },
+		            dataType: "json",
+		            error: function (request) {
+		                $.modalMsg("系统出问题了");
+		            },
+		            success: function (data) {
+		            	if(data.code==0){
+		            	}else{
+		            		$.modalMsg(data.msg);
+		            	}
+		            }
+		    	});
+			}
+			
+		});
+		
+		//增加数量
+		$(".order_count_add").click(function(event) {
+			var priceOne = $(this).next().val();
+			if (priceOne >= 99) {
+				var priceOne = $(this).next().val();
+				$(this).next().val(99);
+				$(this).parents(".order_list_count").attr("data-count",99)
+			}else{
+				var priceOne = parseFloat(priceOne) + 1;
+				$(this).next().val(priceOne);
+				$(this).parents(".order_list_count").attr("data-count",priceOne)
+			}
+			pricecount();
+			var jeansId = $(this).attr("cur-jeansId");
+			var cartId = $(this).attr("cur-cardId");
+			if(cartId == "" || cartId == null){
+				$.modalMsg("获取不到当前购物车id");
+				return;
+			}
+			$.ajax({
+	            cache: true,
+	            type: "POST",
+	            url: "/custom/opernum",
+	            data:{
+	            	jeansId:jeansId,
+	            	cartId:cartId,
+	            	num:priceOne
+	            },
+	            dataType: "json",
+	            error: function (request) {
+	                $.modalMsg("系统出问题了");
+	            },
+	            success: function (data) {
+	            	if(data.code==0){
+	            	}else{
+	            		$.modalMsg(data.msg);
+	            	}
+	            }
+	    	});
+		});
+		
+		//删除
+		$(".order-del").click(function(){
+			var cartId = $(this).attr("cur-del");
+			if(cartId == "" || cartId == null){
+				$.modalMsg("删除失败");
+				return;
+			}
+			$.ajax({
+	            cache: true,
+	            type: "POST",
+	            url: "/custom/delete",
+	            data:{
+	            	cartId:cartId
+	            },
+	            dataType: "json",
+	            error: function (request) {
+	                $.modalMsg("系统出问题了");
+	            },
+	            success: function (data) {
+	            	if(data.code==0){
+	            		$("#order_count_"+cartId).remove();
+	        			$("#order_list_"+cartId).remove();
+	        			pricecount();
+	            	}else{
+	            		$.modalMsg(data.msg);
+	            	}
+	            }
+	    	});
+		});
+		
+		//结算
+		$("#cartGoOrder").click(function(){
+			var ischeckedAll = true;
+			var cartId = "";
+			$(".order_list span").each(function(){
+				if($(this).hasClass('active')){
+					var id = $(this).attr("id");
+					if(id != "" && id != null){
+						if(cartId==""){
+							cartId = id;
+						}else{
+							cartId = cartId+","+id;
+						}
+					}
+				}
+			});
+			if(cartId == "" || cartId == null){
+				$.modalMsg("结算失败");
+				return;
+			}
+			window.location.href="/custom/cartOrder?cartId="+cartId;
+		});
+		
+		//移除购物车
+		$("#removeCart").click(function(){
+			var cartId = $("#remove_cartId").val();
+			if(cartId == "" || cartId == null){
+				return;
+			}
+			$.ajax({
+	            cache: true,
+	            type: "POST",
+	            url: "/custom/delete",
+	            data:{cartId:cartId},
+	            dataType: "json",
+	            error: function (request) {
+	                $.modalMsg("系统出问题了");
+	            },
+	            success: function (data) {
+	            	if(data.code==0){
+	            		$("#order_count_"+cartId).remove();
+	        			$("#order_list_"+cartId).remove();
+	        			pricecount();
+	        			$(".add_shopping_cart,.login_bg").fadeOut();
+	            	}else{
+	            		$.modalMsg(data.msg);
+	            	}
+	            }
+	    	});
+		});
+	});
+	
+	//统计价格
+	function pricecount(){
+		var countPrice =0;
+		var count = 0;
+		$(".data-ture").each(function() {
+			count += parseFloat($(this).attr("data-count"));
+			countPrice += parseInt($(this).attr("data-price"))*parseFloat($(this).attr("data-count"));
+		});
+		$(".order_list_p_fr").html("￥" + countPrice.toFixed(2))
+		$(".data-count").html(count)
+	}
+	
+	//判断是否有全选
+	function isAll(){
+		var ischeckedAll = true;
+		$(".order_list span").each(function(){
+			var is = $(this).hasClass('active');
+			if(is==false){
+				ischeckedAll = false;
+			}
+		});
+		if(ischeckedAll){
+			$(".order_list_all").find(".female-custom").addClass("active");	
+		}else{
+			$(".order_list_all").find(".female-custom").removeClass("active");	
+		}
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+<meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+</head>
+<script type="text/javascript" th:src="@{/js/main.js}"></script> 
+<link rel="icon" type="image/x-icon" href="/images/mldn.ico"/>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<link href="/js/fileinput.min.css" rel="stylesheet">
+<body class="white-bg">
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form enctype="multipart/form-data" class="form-horizontal m" id="form-bl-edit"  method="post">
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">用户：</label>
+				<div class="col-sm-8">
+					<p th:text="${registerUser.mobile}"> </p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">商品信息：</label>
+				<div class="col-sm-8">
+					<p><label style="color: red">商品名称： </label><label th:text="${sysFashion?.goodsName}"></label> </p>
+					<p><label style="color: red">商品价格： </label><label th:text="${sysFashion?.price}"></label> </p>
+					<p><label style="color: red">商品描述： </label><label th:text="${sysFashion?.goodsIntro}"></label> </p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">选中尺码：</label>
+				<div class="col-sm-8">
+				<p><label style="color: red">尺码大小： </label><label th:text="${selectSize?.sizeIdx}"></label> </p>
+					<p><label style="color: red">尺码描述： </label><label th:text="${selectSize?.descipt}"></label> </p>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">选中布料：</label>
+				<div class="col-sm-8">
+				<p><label style="color: red">布料名称： </label><label th:text="${buLiao?.name}"></label> </p>
+					<p><label style="color: red">布料编码： </label><label th:text="${buLiao?.num}"></label> </p>
+					<p><label style="color: red">布料价格： </label><label th:text="${buLiao?.price}"></label> </p>
+					<p><label style="color: red">布料图片： </label><img th:src="@{${buLiao?.attachmentUrl}}" width="142" height="122" alt="图片" id="fileimg"/> </p>
+					<p><label style="color: red">布料贴图： </label><img th:src="@{${buLiao?.iconPicUrl}}" width="142" height="122" alt="贴图" id="fileimg"/> </p>
+					<p><label style="color: red">布料描述： </label><label th:text="${buLiao?.des}"></label> </p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">选中配件：</label>
+				<div class="col-sm-8">
+				<!-- <img th:src="@{${sysBl.rightPocket}}" width="142" height="122" alt="图片" id="rightpic"/>
+					<input class="form-control" type="file" name="file" id="rightPocket"/> -->				
+					<table>
+		<tr><td style="color: red">配件名称&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件区域&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件编码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件价格&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件坐标&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="color: red">配件图片</td></tr>
+		<tr th:each="patternAll:${patternAllList}">
+			<td th:text="${patternAll?.name}"/>
+			<td th:text="${patternAll?.fqId}"/>
+			<td th:text="${patternAll?.num}"/>
+			<td th:text="${patternAll?.price}"/>
+			<td th:text="${'X:'+patternAll?.areaLimit.X+'&nbsp;&nbsp;Y:'+patternAll?.areaLimit.Y+'&nbsp;&nbsp;Z:'+patternAll?.areaLimit.Z}"/>
+			<td><img th:src="@{${patternAll?.attachmenturl}}" width="42" height="22" alt="图片" id="prepic"/></td>
+		</tr>
+	</table>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">效果图：</label>
+				<div class="col-sm-8">
+				<label th:each="patternAll:${patternAllList}"><img th:src="@{${patternAll?.icopicurl}}" width="142" height="122" alt="图片" id="prepic"/> </label>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary" style="display: none">提交</button>
+					<!-- <button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button> -->
+					<button onclick="javascript:history.back(-1);" class="btn btn-danger" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	 <script src="/ajax/libs/jquery-ztree/3.5/js/ajaxfileupload.js" type="text/javascript"></script>
+	
+	
+	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/zh.js}"></script> 
+	<script type="text/javascript" th:src="@{/js/fileutil.js}"></script> 
+</body>
+</html>
+

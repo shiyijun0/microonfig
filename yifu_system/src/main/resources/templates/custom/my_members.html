@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>我的会员</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"><span></span></a>
+    我的会员    
+</header>
+</div>
+<div class="add_container">
+	<div class="my_members">
+		<div class="my_members_img">
+			<div class="members_tit">
+				<p class="membier_tit_top"><span>1200</span>&ensp;积分</p>		
+				<p class="membier_tit_cen">蓝钻会员：享受8折扣优惠</p>
+				<a href="a_integral.html" class="mem_txt">会员规则</a>		
+			</div>		
+		</div>
+		<div class="my_members_box_tit">
+			积分变动记录
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+		<div class="my_members_box">
+			<p class="rem_fl">
+				<span class="mem_sup">完成定制</span><br>
+				<span class="mem_sub">2018-1.10</span></p>
+			<p class="rem_fr">积分+100</p>		
+		</div>
+
+
+
+
+
+
+	</div>
+</div>
+
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+	$(function() {
+		
+		$(".order_count_rem").click(function(event) {
+			var priceOne = $(".order_count_val").val();	
+			if (priceOne <= 0) {	
+				$(".order_count_val").val(0);
+			}else{
+				var priceOne = parseFloat(priceOne) - 1;
+				$(".order_count_val").val(priceOne);
+			}
+		});
+		$(".order_count_add").click(function(event) {
+			var priceOne = $(".order_count_val").val();
+			if (priceOne >= 99) {
+				var priceOne = $(".order_count_val").val();
+				$(".order_count_val").val(99);
+			}else{
+				var priceOne = parseFloat(priceOne) + 1;
+				$(".order_count_val").val(priceOne);
+			}
+		});
+		$(".order_box").click(function() {
+			$(this).find(".order_box_up").slideToggle();
+		});
+		// siaze
+		// $(".order_size_show a").click(function() {
+		// 	$(".order_size_show a").not(this).addClass('active');			
+		// });
+		// //color
+		// $(".order_color_show a").click(function() {
+		// 	$(".order_color_show a").not(this).addClass('active');			
+		// });
+
+	});
+</script>
+</body>
+</html>

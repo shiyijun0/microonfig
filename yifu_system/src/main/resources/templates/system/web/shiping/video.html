@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+		 <form class="form-horizontal" id="upload" method="post" action="/uploadflv/upload.do" enctype="multipart/form-data">
+                <div class="form-group" align="center">
+                    <div class="col-md-4 col-sm-4  col-xs-4 col-lg-4">文件上传
+                        <input type="file" class="form-control" name="file" id="file"><br>
+                        <input type="submit" value="上传">
+                    </div>
+                </div>
+            </form>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/jwk/system/web/designer/designer.js"></script>
+</body>
+</html>

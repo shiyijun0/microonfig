@@ -1,0 +1,19 @@
+<!DOCTYPE html>  
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+    <head>  
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+        <title>微信网页支付</title>  
+        <script src="/js/jquery.min.js"></script>
+		<script src="/ajax/libs/layer/layer.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				var url = $("#mweb_url").val();
+				window.location.href=url;
+			});
+		</script>
+    </head>  
+    <body>  
+         <input type="hidden" name="result" id="result" th:value="${result}"/> 
+         <input type="hidden" name="mweb_url" id="mweb_url" th:value="${mweb_url}"/> 
+    </body>  
+</html>  

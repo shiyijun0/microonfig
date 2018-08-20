@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemWebOrderGoodsMapper">
+
+	<resultMap type="SysWebOrderGoods" id="SysWebOrderGoodsResult">
+		 <id column="id" property="id" jdbcType="INTEGER" />
+		 <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="colors_id" property="colorsId" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="sizes_id" property="sizesId" jdbcType="VARCHAR" />
+    <result column="buttons_id" property="buttonsId" jdbcType="VARCHAR" />
+    <result column="wash_id" property="washId" jdbcType="VARCHAR" />
+    <result column="threads_id" property="threadsId" jdbcType="VARCHAR" />
+    <result column="parts_id" property="partsId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="word_price" property="wordPrice" jdbcType="VARCHAR" />
+    <result column="word_color" property="wordColor" jdbcType="VARCHAR" />
+    <result column="word_content" property="wordContent" jdbcType="VARCHAR" />
+    <result column="word_font" property="wordFont" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="jeans_id" property="jeansId" jdbcType="INTEGER" />
+    <result column="order_type" property="orderType" />
+    <result column="num" property="num" />
+   
+    	
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysWebOrderGoodsResult">
+		select * from sys_web_order_goods
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND order_id = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	<select id="selectWebOrderGoodsAll" resultMap="SysWebOrderGoodsResult">
+		SELECT * FROM sys_web_order_goods
+	</select>  
+	
+	<select id="selectWebOrderGoodsById" parameterType="Long" resultMap="SysWebOrderGoodsResult">
+		select *
+		from sys_web_order_goods u
+		where u.id = #{id}
+	</select>
+	
+	<select id="selectWebOrderGoodsByOrderId" parameterType="String" resultMap="SysWebOrderGoodsResult">
+		select *
+		from sys_web_order_goods u
+		where u.order_id = #{orderId}
+	</select>
+	
+	
+	
+	<delete id="deleteWebOrderGoodsById" parameterType="Long">
+ 		delete from sys_web_order_goods where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="deleteWebOrderGoodsByOrderId" parameterType="Long">
+ 		delete from sys_web_order_goods where order_id = #{orderId}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteWebOrderGoods" parameterType="String">
+ 		delete from sys_web_order_goods where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateWebOrderGoods" parameterType="SysWebOrderGoods">
+ 		update sys_web_order_goods
+ 		<set>
+ 			<if test="status != null ">status = #{status},</if>
+ 			<if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+ 			<if test="userId != null">user_id = #{userId},</if>
+ 			<if test="colorsId != null and colorsId != ''">colors_id = #{colorsId},</if>
+ 			<if test="buttonsId != null and buttonsId != ''">buttons_id = #{buttonsId},</if>
+ 			<if test="washId != null and washId != ''">wash_id = #{washId},</if>
+ 			<if test="wordPrice != null and wordPrice != ''">word_price = #{wordPrice},</if>
+ 			<if test="wordColor != null and wordColor != ''">word_color = #{wordColor},</if>
+ 			<if test="sizesId !=null and sizesId != ''">sizes_id = #{sizesId},</if>	
+ 			<if test="threadsId !=null and threadsId != ''">threads_id = #{threadsId},</if>
+ 			
+ 			<if test="partsId != null and partsId != '' ">parts_id = #{partsId},</if>
+ 			
+ 			<if test="wordContent != null and wordContent != ''">word_content = #{wordContent},</if>
+ 			<if test="wordFont != null and wordFont != ''">word_font = #{wordFont},</if>
+ 			<if test="type != null ">type = #{type},</if>
+ 			<if test="remark != null and remark != ''">remark = #{remark},</if>
+ 			<if test="jeansId != null and jeansId != ''">jeans_id = #{jeansId},</if>
+ 			<if test="price != null ">price = #{price},</if>	
+ 			<if test="orderType != null and orderType !=0 ">order_type = #{orderType},</if>	
+ 			<if test="num != null and num !=0 ">num = #{num},</if>	
+ 			update_time = sysdate(),ctime=sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertWebOrderGoods" parameterType="SysWebOrderGoods" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_web_order_goods(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="orderId != null and orderId != ''">order_id,</if>
+ 			<if test="status != null ">status,</if>
+ 			<if test="userId != null">user_id,</if>
+ 			<if test="colorsId != null and colorsId != ''">colors_id,</if>
+ 			<if test="buttonsId != null and buttonsId != ''">buttons_id,</if>
+ 			<if test="washId != null and washId != ''">wash_id,</if>
+ 			<if test="wordPrice != null and wordPrice != ''">word_price,</if>
+ 			<if test="wordColor != null and wordColor != ''">word_color,</if>
+ 			<if test="sizesId !=null and sizesId != ''">sizes_id,</if>	
+ 			<if test="threadsId !=null and threadsId != ''">threads_id,</if>
+ 			<if test="price != null ">price,</if>	
+ 			<if test="partsId != null and partsId != '' ">parts_id,</if>
+ 			
+ 			<if test="wordContent != null and wordContent != ''">word_content,</if>
+ 			<if test="wordFont != null and wordFont != ''">word_font,</if>
+ 			<if test="type != null ">type,</if>
+ 			<if test="remark != null and remark != ''">remark,</if>
+ 			<if test="jeansId != null and jeansId != ''">jeans_id,</if>		
+ 			<if test="orderType != null and orderType != 0 ">order_type,</if>		
+ 			<if test="num != null and num != 0 ">num,</if>		
+ 			update_time,ctime 
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="orderId != null and orderId != ''">#{orderId},</if>
+ 			<if test="status != null ">#{status},</if>
+ 			<if test="userId != null">#{userId},</if>
+ 			<if test="colorsId != null and colorsId != ''">#{colorsId},</if>
+ 			<if test="buttonsId != null and buttonsId != ''">#{buttonsId},</if>
+ 			<if test="washId != null and washId != ''">#{washId},</if>
+ 			<if test="wordPrice != null and wordPrice != ''">#{wordPrice},</if>
+ 			<if test="wordColor != null and wordColor != ''">#{wordColor},</if>
+ 			<if test="sizesId !=null and sizesId != ''">#{sizesId},</if>	
+ 			<if test="threadsId !=null and threadsId != ''">#{threadsId},</if>
+ 			<if test="price != null ">#{price},</if>	
+ 			<if test="partsId != null and partsId != '' ">#{partsId},</if>
+ 			
+ 			<if test="wordContent != null and wordContent != ''">#{wordContent},</if>
+ 			<if test="wordFont != null and wordFont != ''">#{wordFont},</if>
+ 			<if test="type != null ">#{type},</if>
+ 			<if test="remark != null and remark != ''">#{remark},</if>
+ 			<if test="jeansId != null and jeansId != ''">#{jeansId},</if>	
+ 			<if test="orderType != null and orderType != 0">#{orderType},</if>	
+ 			<if test="num != null and num != 0">#{num},</if>	
+ 			sysdate(),sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

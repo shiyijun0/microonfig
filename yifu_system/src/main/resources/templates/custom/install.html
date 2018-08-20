@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, content=user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<title>定制牛仔</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/install.css">
+	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/swiper.min.js"></script>
+	<script src="/ajax/libs/layer/layer.min.js"></script>
+	<script src="/jwk/js/common.js"></script>
+	<script src="/jwk/js/ry-ui.js"></script>
+	<script th:inline="javascript">
+		var reqLeftUrl = [[${session.reqLeftUrl}]];
+		$(function(){
+			if(reqLeftUrl!="" && reqLeftUrl != null){
+				$("#returnLeft").attr("href",reqLeftUrl);
+			}
+		});
+	</script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="back back_bg">
+<header class="header">
+    <a href="javascript:history.back(-1)"  id="returnLeft"><span></span></a>
+    设置
+</header>
+</div>
+<div class="install_pt">
+	<a href="/custom/a_about_we" class="add_box">关于定制</a>
+	<a href="/custom/a_about_we" class="add_box">关于牛仔</a>
+	<a href="" class="add_box">账户安全</a>
+	<a href="/custom/address?cartOrder=2" class="add_box">地址管理</a>
+	<a href="/custom/a_about_we" class="add_box">关于我们</a>
+	<input type="button" value="退出登录" class="add_submit" onclick="logout()">
+</div>
+
+<script type="text/javascript" src="/js/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script type="text/javascript">
+	$(".add_submit").click(function() {
+		$(".install_popup").fadeIn()
+		
+	});
+	$(".login,.quit").click(function() {
+		$(".install_popup").fadeOut()
+	});
+
+	function logout(){
+        layer.confirm('您确定要退出登陆吗？', {
+            btn: ['确定','取消'], //按钮
+            icon: 3,
+            title: "系统提示",
+            btnclass: ['btn btn-danger']
+        }, function(){
+            window.location.href="/custom/logout";
+        });
+	}
+
+</script>
+</body>
+</html>

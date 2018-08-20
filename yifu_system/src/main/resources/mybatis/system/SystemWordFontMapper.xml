@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemWordFontMapper">
+
+	<resultMap type="WordFont" id="WordFontResult">
+		<id     property="fontId"       column="id"        />
+		<result property="fontName"     column="font"      />
+		<result property="fontPrice"   column="fontprice"  />
+		<result property="createTime"   column="ctime"  />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="WordFontResult">
+		select * from sys_word_font
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND font = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectWordFontById" parameterType="Long" resultMap="WordFontResult">
+		select *
+		from sys_word_font u
+		where u.id = #{fontId}
+	</select>
+
+
+
+	<delete id="deleteWordFontById" parameterType="Long">
+		delete from sys_word_font where id = #{fontId}
+	</delete>
+
+	<delete id="batchDeleteWordFont" parameterType="String">
+		delete from sys_word_font where id in
+		<foreach collection="array" item="fontId" open="(" separator="," close=")">
+			#{fontId}
+		</foreach>
+	</delete>
+
+	<update id="updateWordFont" parameterType="WordFont">
+		update sys_word_font
+		<set>
+			<if test="fontName != null and fontName != ''">font = #{fontName},</if>
+			<if test="fontPrice != null and fontPrice != ''">fontprice = #{fontPrice},</if>
+		</set>
+		where 1=1
+		<if test="fontId != null">and  id = #{fontId}</if>
+	</update>
+
+	<insert id="insertWordFont" parameterType="WordFont" useGeneratedKeys="true" keyProperty="fontId">
+		insert into sys_word_font(
+		<if test="fontId != null and fontId != 0">id,</if>
+		<if test="fontName != null and fontName != ''">font,</if>
+		<if test="fontPrice != null and fontPrice != ''" >fontprice,</if>
+		ctime
+		)values(
+		<if test="fontId != null and fontId != 0">#{fontId},</if>
+		<if test="fontName != null and fontName != ''">#{fontName},</if>
+		<if test="fontPrice != null and fontPrice != ''" >#{fontPrice},</if>
+		sysdate()
+		)
+	</insert>
+
+</mapper> 

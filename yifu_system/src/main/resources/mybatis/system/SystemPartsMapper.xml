@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SystemPartsMapper">
+
+	<resultMap type="SysPj" id="SysPjResult">
+		<id     property="id"       column="id"        />
+		<result property="cover"      column="cover"       />
+		<result property="chartlet"     column="chartlet"      />
+		<result property="name"     column="name"      />
+		<result property="des"     column="des"    />
+		<result property="sex"     column="sex"    />
+		<result property="number"   column="number"  />
+		<result property="fId"     column="f_id"      />
+		<result property="price"   column="price"  />
+		<result property="inventory"       column="inventory"         />
+		<result property="type"     column="type"      />
+		<result property="limited"       column="limited"         />
+		<result property="rotate"     column="rotate"      />
+		<result property="roMax"       column="ro_max"         />		
+		<result property="roMin"     column="ro_min"    />				
+		<result property="fixed"   column="fixed"  />
+		<result property="fixeX"     column="fixe_x"    />
+		<result property="fixeY"     column="fixe_y"    />
+		<result property="fixeZ"     column="fixe_z"    />
+		<result property="status"     column="status"    />
+		<result property="updateTime"   column="update_time"  />
+		<result property="ctime"       column="ctime"         />
+	</resultMap>
+	
+	<select id="pageInfoQuery" parameterType="PageUtilEntity" resultMap="SysPjResult">
+		select * from sys_pj
+		<where>
+			<if test="searchValue != null and searchValue != ''">
+				AND name = #{searchValue}
+			</if>
+		</where>
+	</select>
+
+	
+	
+	<select id="selectSysPjAll" resultMap="SysPjResult">
+		SELECT * FROM sys_pj
+	</select>
+	
+	<select id="selectSysPjById" parameterType="Long" resultMap="SysPjResult">
+		select *
+		from sys_pj u
+		where u.id = #{id}
+	</select>
+	
+	<delete id="deleteSysPjById" parameterType="Long">
+ 		delete from sys_pj where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="batchDeleteSysPj" parameterType="String">
+ 		delete from sys_pj where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateSysPj" parameterType="SysPj">
+ 		update sys_pj
+ 		<set>
+ 			<if test="name != null and name != ''">name = #{name},</if>
+ 			<if test="price != null and price != ''">price = #{price},</if>
+ 			<if test="status !=null">status = #{status},</if>
+ 			<if test="des != null and des != ''">des = #{des},</if>
+ 			<if test="inventory != null and inventory != ''">inventory = #{inventory},</if>
+ 			<if test="limited != null and limited != ''">limited = #{limited},</if>
+ 			
+ 			<if test="number != null and number != ''">number = #{number},</if>
+ 			<if test="sex != null and sex != ''">sex = #{sex},</if>
+ 			<if test="fId !=null">f_id = #{fId},</if>
+ 			<if test="type != null and type != ''">type = #{type},</if>
+ 			<if test="rotate != null and rotate != ''">rotate = #{rotate},</if>
+ 			<if test="fixed != null and fixed != ''">fixed = #{fixed},</if>
+ 			
+ 			<if test="cover != null and cover != ''">cover = #{cover},</if>
+ 			<if test="chartlet != null and chartlet != ''">chartlet = #{chartlet},</if>
+ 			
+ 			<if test="fixeY !=null and fixeY != ''">fixe_y = #{fixeY},</if>
+ 			<if test="fixeX !=null and fixeX != ''">fixe_x = #{fixeX},</if>
+ 			<if test="fixeZ !=null and fixeZ != ''">fixe_z = #{fixeZ},</if>
+ 			update_time = sysdate()
+ 		</set>
+ 		where 1=1
+ 		<if test="id != null">and id = #{id}</if>
+	</update>
+ 	
+ 	<insert id="insertSysPj" parameterType="SysPj" useGeneratedKeys="true" keyProperty="id">
+ 		insert into sys_pj(
+ 			<if test="id != null and id != ''">id,</if>
+ 			<if test="name != null and name != ''">name,</if>
+ 			<if test="price != null and price != ''">price,</if>
+ 			<if test="status !=null and status != ''">status,</if>
+ 			<if test="des != null and des != ''">des,</if>
+ 			<if test="inventory !=null and inventory != ''">inventory,</if>
+ 			<if test="limited != null and des != ''">limited,</if>
+ 			
+ 			<if test="number != null and number != ''">number,</if>
+ 			<if test="sex != null and sex != ''">sex,</if>
+ 			<if test="fId != null and fId != ''">f_id,</if>
+ 			<if test="type !=null and type != ''">type,</if>
+ 			<if test="rotate != null and rotate != ''">rotate,</if>
+ 			<if test="fixed !=null and fixed != ''">fixed,</if>
+ 			<if test="cover != null and cover != ''">cover,</if>
+ 			<if test="chartlet != null and chartlet != ''">chartlet,</if>
+ 			
+ 			<if test="fixeY !=null and fixeY != ''">fixe_y,</if>
+ 			<if test="fixeX !=null and fixeX != ''">fixe_x,</if>
+ 			<if test="fixeZ !=null and fixeZ != ''">fixe_z,</if>
+ 			ctime,update_time
+ 		)values(
+ 			<if test="id != null and id != ''">#{id},</if>
+ 			<if test="name != null and name != ''">#{name},</if>
+ 			<if test="price != null and price != ''">#{price},</if>
+ 			<if test="status !=null and status != ''">#{status},</if>
+ 			<if test="des != null and des != ''">#{des},</if>
+ 			<if test="inventory !=null and inventory != ''">#{inventory},</if>
+ 			<if test="limited != null and des != ''">#{limited},</if>
+ 			
+ 			<if test="number != null and number != ''">#{number},</if>
+ 			<if test="sex != null and sex != ''">#{sex},</if>
+ 			<if test="fId != null and fId != ''">#{fId},</if>
+ 			<if test="type !=null and type != ''">#{type},</if>
+ 			<if test="rotate != null and rotate != ''">#{rotate},</if>
+ 			<if test="fixed !=null and fixed != ''">#{fixed},</if>
+ 			<if test="cover != null and cover != ''">#{cover},</if>
+ 			<if test="chartlet !=null and chartlet != ''">#{chartlet},</if>
+ 			
+ 			<if test="fixeY !=null and fixeY != ''">#{fixeY},</if>
+ 			<if test="fixeX !=null and fixeX != ''">#{fixeX},</if>
+ 			<if test="fixeZ !=null and fixeZ != ''">#{fixeZ},</if>
+ 			sysdate(),sysdate()
+ 		)
+	</insert>
+	
+</mapper> 

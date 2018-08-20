@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet">
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-registeruser-edit">
+			<input id="id" name="id" type="hidden" th:value="${registerUser.id}"/>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">头像：</label>
+				<div class="col-sm-8">
+					<img th:src="${registerUser.portraiturl}" height="60%" width="60%"  onerror="this.style.display='none'" >
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">用户昵称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="nickname" id="nickname" th:value="${registerUser.nickname}" disabled="disabled"/>
+
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">手机号：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="mobile" id="mobile" th:value="${registerUser.mobile}" disabled="disabled">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">账号类型：</label>
+				<div class="col-sm-8">
+					<select class="form-control" id="type" disabled="disabled">
+						<option value="1" th:selected="${registerUser.type == 1 }">普通用户</option>
+						<option value="2" th:selected="${registerUser.type == 2 }">设计师</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">生日：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="birthday" id="birthday" th:value="${registerUser.birthday}" disabled="disabled">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">是否可用：</label>
+				<div class="col-sm-8">
+					<div class="onoffswitch">
+						<input type="checkbox" th:checked="${registerUser.status == 1 ? true : false}" class="onoffswitch-checkbox" id="status" name="status">
+						<label class="onoffswitch-label" for="status">
+							<span class="onoffswitch-inner"></span>
+							<span class="onoffswitch-switch"></span>
+						</label>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<button th:onclick="'javascript:layer_close()'" class="btn btn-danger" type="button">关闭</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script src="/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+	<script type="text/javascript" src="/jwk/system/registeruser/edit.js">
+	</script>
+</body>
+</html>
